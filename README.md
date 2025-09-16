@@ -114,15 +114,13 @@ This system is designed to help **students, startups, and developers** deploy th
 
 ---
 
-# 📘 README.md (Metadata)
-
-```json
+```
 {
   "name": "Aeloria",
   "theme": "Cloud & DevOps",
   "description": "A self-service cloud platform that allows users to deploy full-stack projects and websites directly from GitHub to the World Wide Web with automated CI/CD, testing, and continuous feature updates.",
   "features": [
-    "Deploy frontend (React, Angular, Vue) and full-stack apps (Flask, Django, Node.js, Spring Boot) from GitHub.",
+    "Deploy frontend (HTML, CSS, JavaScript) and full-stack apps (Flask, Django) from GitHub.",
     "Automated CI/CD pipelines with GitHub Actions ensuring seamless deployments.",
     "Staging environment with unit and integration testing before production release.",
     "Continuous deployment — when users push new code/features, live site auto-updates without downtime.",
@@ -130,32 +128,29 @@ This system is designed to help **students, startups, and developers** deploy th
     "Error monitoring and deployment logs for debugging."
   ],
   "prompts": {
-    "feature_1": "Integrate GitHub OAuth login and repository selection in React frontend.",
-    "feature_2": "Configure GitHub Actions pipelines to run tests, build Docker images, and deploy automatically.",
-    "feature_3": "Implement staging environment with rollback logic in case of errors.",
-    "feature_4": "Deploy static projects to Vercel/Netlify and backend projects to Render/Fly.io.",
-    "feature_5": "Use MongoDB Atlas or PostgreSQL (Supabase/Railway) for database support.",
-    "feature_6": "Provide a real-time log monitoring dashboard in frontend using WebSockets."
+    "feature_1": "Integrate GitHub OAuth login and repository selection in the frontend using JavaScript.",
+    "feature_2": "Configure GitHub Actions pipelines to run tests, build Docker images, and deploy automatically to cloud providers.",
+    "feature_3": "Implement a staging environment with rollback logic in case of errors before pushing live.",
+    "feature_4": "Deploy static HTML/CSS/JS projects to Vercel/Netlify and Flask backend apps to Render/Fly.io.",
+    "feature_5": "Use PostgreSQL (Supabase/Railway) or MongoDB Atlas for database support.",
+    "feature_6": "Provide a real-time log monitoring dashboard in frontend using WebSockets connected to Flask backend."
   },
   "structure": {
-    "frontend": "React.js/Next.js, TailwindCSS",
-    "backend": "Flask (Python) or Node.js (Express)",
+    "frontend": "HTML, CSS, JavaScript (Vanilla JS, Bootstrap or Tailwind optional)",
+    "backend": "Flask (Python), SQLAlchemy for ORM",
     "devops": "GitHub Actions for CI/CD, Docker, Kubernetes for scaling",
-    "cloud": "Vercel/Netlify (static), Render/Fly.io/Heroku (backend), Firebase/Supabase (storage)",
-    "database": "MongoDB Atlas (NoSQL) or PostgreSQL (SQL)",
-    "authentication": "OAuth 2.0 (GitHub Login), JWT sessions",
+    "cloud": "Vercel/Netlify (static sites), Render/Fly.io/Heroku (Flask apps), Firebase/Supabase (storage)",
+    "database": "PostgreSQL (SQL) or MongoDB Atlas (NoSQL)",
+    "authentication": "OAuth 2.0 (GitHub Login), Flask-JWT-Extended for session tokens",
     "deployment": "Automated builds and deployments via GitHub Actions",
-    "error_handling": "Pre-deployment testing, rollback strategy, error logs dashboard"
+    "error_handling": "Pre-deployment testing with Pytest, rollback strategy, error logs dashboard using Flask-SocketIO"
   },
   "recommended_libraries": [
-    "React.js, Next.js, TailwindCSS",
-    "Flask, Express.js, Docker, GitHub Actions",
-    "MongoDB Atlas SDK, PostgreSQL client libraries",
-    "WebSockets for log streaming, Kubernetes (optional)"
+    "Flask, Flask-JWT-Extended, Flask-SocketIO",
+    "SQLAlchemy (ORM), Alembic (migrations)",
+    "Pytest (testing), Requests (API calls)",
+    "Gunicorn (production WSGI server), Docker",
+    "WebSockets with Flask-SocketIO for live logs"
   ]
 }
 ```
-
----
-
-
