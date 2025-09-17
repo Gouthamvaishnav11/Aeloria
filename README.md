@@ -6,7 +6,7 @@
 
 ## 1. **Introduction**
 
-Aeloria is a cloud platform that allows users to deploy **full-stack applications and static frontend websites** directly from GitHub to the **World Wide Web**. The platform supports **automated builds, testing, and deployments** using modern **DevOps pipelines**.
+Aeloria is a cloud platform that allows users to deploy **full-stack applications and static frontend websites** directly from GitHub to the **World Wide Web**. The platform supports **automated builds, testing, and deployments**.
 
 This system is designed to help **students, startups, and developers** deploy their projects without complex configurations, while ensuring **scalability, automation, and reliability**.
 
@@ -16,7 +16,7 @@ This system is designed to help **students, startups, and developers** deploy th
 
 * Provide a **self-service cloud deployment** solution.
 * Allow users to deploy **static frontend projects (React, Angular, Vue, HTML/CSS)** and **full-stack apps (Flask, Node.js, Django, Spring Boot, etc.)**.
-* Integrate **GitHub-based CI/CD pipelines** for **automated testing and deployment**.
+* Integrate **GitHub-based** for **automated testing and deployment**.
 * Ensure **continuous updates** – whenever users push new features or bug fixes, the live website auto-updates.
 * Provide **error-free testing environments** before production deployment.
 * Minimize infrastructure cost by using **free cloud tiers** (Heroku, Railway, Render, Vercel, Netlify, or Fly.io).
@@ -49,13 +49,8 @@ This system is designed to help **students, startups, and developers** deploy th
    * **Databases:** MongoDB Atlas (free tier), PostgreSQL (Supabase, Railway).
    * **Object Storage (optional):** Cloudflare R2, Firebase Storage (free).
 
-4. **DevOps & Automation:**
 
-   * GitHub Actions or GitLab CI for **CI/CD pipelines**.
-   * Auto-trigger on **push events**.
-   * Run unit tests → Build Docker image → Deploy to cloud.
-
-5. **Testing Layer:**
+4. **Testing Layer:**
 
    * Each commit is **tested in a staging environment** before pushing to production.
    * Unit & integration tests run automatically.
@@ -74,8 +69,7 @@ This system is designed to help **students, startups, and developers** deploy th
 1. **User Registration/Login** → OAuth with GitHub.
 2. **Connect Repository** → User selects GitHub repo.
 3. **Configure Deployment** → Select frontend/backend, runtime (Node, Python, Java).
-4. **CI/CD Setup** → GitHub Actions auto-generated pipeline.
-5. **Testing** → Runs automated tests.
+4. **Testing** → Runs automated tests.
 6. **Deployment** → If tests pass, app deployed to staging → then production.
 7. **Continuous Updates** → On future code pushes, pipeline auto-rebuilds and updates site.
 
@@ -83,9 +77,8 @@ This system is designed to help **students, startups, and developers** deploy th
 
 ## 5. **Technologies Used**
 
-* **Frontend:** React.js / Next.js, TailwindCSS
+* **Frontend:** html ,css ,js
 * **Backend:** Flask (Python) / Node.js
-* **DevOps:** GitHub Actions, Docker, Kubernetes (optional)
 * **Cloud Providers (Free tiers):**
 
   * Vercel/Netlify (static sites)
