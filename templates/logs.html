@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deployment Logs - Aeloria</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Custom animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(99, 102, 241, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(99, 102, 241, 0);
+            }
+        }
+        
+        @keyframes blink {
+            0% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+        
+        .animate-fadeIn {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+        
+        .animate-slideIn {
+            animation: slideIn 0.5s ease-out forwards;
+        }
+        
+        .animate-pulse-slow {
+            animation: pulse 3s infinite;
+        }
+        
+        .animate-blink {
+            animation: blink 1.5s infinite;
+        }
+        
+        /* Background styles */
+        body {
+            background: #0a0a14;
+            color: #e2e8f0;
+            overflow-x: hidden;
+        }
+        
+        /* Glassmorphism */
+        .glass {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .glass-light {
+            background: rgba(15, 23, 42, 0.5);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        
+        /* Card styles */
+        .log-card {
+            transition: all 0.3s ease;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .log-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px -10px rgba(99, 102, 241, 0.3);
+            border-color: rgba(99, 102, 241, 0.3);
+        }
+        
+        /* Button styles */
+        .btn-primary {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.4);
+        }
+        
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+            z-index: -1;
+        }
+        
+        .btn-primary:hover::before {
+            transform: translateX(0);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid rgba(99, 102, 241, 0.5);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-outline:hover {
+            background: rgba(99, 102, 241, 0.1);
+            border-color: #6366f1;
+            transform: translateY(-2px);
+        }
+        
+        /* Status badge */
+        .status-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+        }
+        
+        .status-success {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+        }
+        
+        .status-pending {
+            background: rgba(245, 158, 11, 0.2);
+            color: #f59e0b;
+        }
+        
+        .status-error {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+        
+        .status-running {
+            background: rgba(99, 102, 241, 0.2);
+            color: #6366f1;
+        }
+        
+        /* Log viewer */
+        .log-viewer {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 0.5rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            line-height: 1.5;
+            padding: 1rem;
+            max-height: 500px;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: #4f46e5 #1e293b;
+        }
+        
+        .log-viewer::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .log-viewer::-webkit-scrollbar-track {
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 4px;
+        }
+        
+        .log-viewer::-webkit-scrollbar-thumb {
+            background: #4f46e5;
+            border-radius: 4px;
+        }
+        
+        .log-line {
+            margin-bottom: 0.25rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            transition: background-color 0.2s ease;
+        }
+        
+        .log-line:hover {
+            background: rgba(99, 102, 241, 0.1);
+        }
+        
+        .log-line.info {
+            color: #93c5fd;
+        }
+        
+        .log-line.success {
+            color: #86efac;
+        }
+        
+        .log-line.warning {
+            color: #fde68a;
+        }
+        
+        .log-line.error {
+            color: #fca5a5;
+        }
+        
+        .log-line.debug {
+            color: #c084fc;
+        }
+        
+        .log-line.highlight {
+            background: rgba(99, 102, 241, 0.2);
+            border-left: 3px solid #6366f1;
+        }
+        
+        /* Filter chip */
+        .filter-chip {
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .filter-chip:hover {
+            background: rgba(99, 102, 241, 0.1);
+        }
+        
+        .filter-chip.active {
+            background: rgba(99, 102, 241, 0.2);
+            border-color: #6366f1;
+            color: #c7d2fe;
+        }
+        
+        /* Toggle switch */
+        .toggle-switch {
+            position: relative;
+            width: 48px;
+            height: 24px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .toggle-switch.active {
+            background: rgba(99, 102, 241, 0.5);
+        }
+        
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            background: white;
+            border-radius: 50%;
+            top: 3px;
+            left: 3px;
+            transition: transform 0.3s ease;
+        }
+        
+        .toggle-switch.active::after {
+            transform: translateX(24px);
+        }
+        
+        /* Search input */
+        .search-input {
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .search-input:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+            outline: none;
+        }
+        
+        /* Loading spinner */
+        .loading-spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #6366f1;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        
+        /* Floating elements */
+        .floating-element {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(40px);
+            opacity: 0.3;
+            z-index: -1;
+        }
+        
+        /* Log level indicator */
+        .log-level-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+        
+        .log-level-indicator.info {
+            background: #93c5fd;
+        }
+        
+        .log-level-indicator.success {
+            background: #86efac;
+        }
+        
+        .log-level-indicator.warning {
+            background: #fde68a;
+        }
+        
+        .log-level-indicator.error {
+            background: #fca5a5;
+        }
+        
+        .log-level-indicator.debug {
+            background: #c084fc;
+        }
+        
+        /* Stats card */
+        .stats-card {
+            background: rgba(15, 23, 42, 0.5);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .stats-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.2);
+            border-color: rgba(99, 102, 241, 0.2);
+        }
+    </style>
+</head>
+<body class="font-sans">
+    <!-- Floating background elements -->
+    <div class="floating-element w-64 h-64 bg-indigo-500 top-20 left-10"></div>
+    <div class="floating-element w-96 h-96 bg-purple-500 bottom-20 right-10"></div>
+    
+    <!-- Header -->
+    <header class="glass p-6">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-10">
+                <a href="deployment-status.html" class="flex items-center">
+                    <i class="fas fa-arrow-left text-indigo-400 mr-3"></i>
+                    <span class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-purple-500">Aeloria</span>
+                </a>
+                <div>
+                    <h1 class="text-2xl font-bold">Deployment Logs</h1>
+                    <div class="flex items-center space-x-4 text-slate-400 text-sm">
+                        <span>E-commerce Platform</span>
+                        <span>•</span>
+                        <span>Deployment ID: dep-12345678</span>
+                        <span>•</span>
+                        <span class="status-badge status-running">
+                            <span class="loading-spinner mr-2"></span>
+                            Running
+                        </span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-4">
+                <button id="pauseBtn" class="text-slate-300 hover:text-indigo-300 transition" title="Pause/Resume">
+                    <i class="fas fa-pause"></i>
+                </button>
+                <button id="clearBtn" class="text-slate-300 hover:text-indigo-300 transition" title="Clear Logs">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+                <button id="downloadBtn" class="text-slate-300 hover:text-indigo-300 transition" title="Download Logs">
+                    <i class="fas fa-download"></i>
+                </button>
+                <button id="settingsBtn" class="text-slate-300 hover:text-indigo-300 transition" title="Settings">
+                    <i class="fas fa-cog"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+            <!-- Left Column - Log Viewer -->
+            <div class="lg:col-span-3">
+                <!-- Controls -->
+                <div class="log-card p-6 rounded-xl mb-6">
+                    <div class="flex flex-wrap gap-4 items-center justify-between">
+                        <!-- Search -->
+                        <div class="relative flex-1 min-w-[250px]">
+                            <input type="text" id="searchInput" placeholder="Search logs..." class="search-input w-full pl-10 pr-4 py-2 rounded-lg focus:outline-none">
+                            <i class="fas fa-search absolute left-3 top-3 text-slate-400"></i>
+                        </div>
+                        
+                        <!-- Filter Chips -->
+                        <div class="flex flex-wrap gap-2">
+                            <div class="filter-chip active" data-level="all">
+                                <i class="fas fa-list mr-1"></i> All
+                            </div>
+                            <div class="filter-chip" data-level="info">
+                                <i class="fas fa-info-circle mr-1"></i> Info
+                            </div>
+                            <div class="filter-chip" data-level="success">
+                                <i class="fas fa-check-circle mr-1"></i> Success
+                            </div>
+                            <div class="filter-chip" data-level="warning">
+                                <i class="fas fa-exclamation-triangle mr-1"></i> Warning
+                            </div>
+                            <div class="filter-chip" data-level="error">
+                                <i class="fas fa-times-circle mr-1"></i> Error
+                            </div>
+                            <div class="filter-chip" data-level="debug">
+                                <i class="fas fa-bug mr-1"></i> Debug
+                            </div>
+                        </div>
+                        
+                        <!-- Auto-scroll Toggle -->
+                        <div class="flex items-center space-x-2">
+                            <span class="text-slate-400 text-sm">Auto-scroll</span>
+                            <div id="autoScrollToggle" class="toggle-switch active"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Log Viewer -->
+                <div class="log-card p-6 rounded-xl">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-xl font-bold">Real-time Logs</h2>
+                        <div class="flex items-center space-x-4 text-sm">
+                            <span class="text-slate-400">
+                                <span id="logCount">0</span> logs
+                            </span>
+                            <span class="text-slate-400">
+                                Last updated: <span id="lastUpdated">Just now</span>
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div id="logViewer" class="log-viewer">
+                        <!-- Logs will be added here dynamically -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right Column - Stats and Info -->
+            <div>
+                <!-- Log Statistics -->
+                <div class="log-card p-6 rounded-xl mb-6">
+                    <h2 class="text-xl font-bold mb-4">Log Statistics</h2>
+                    <div class="space-y-4">
+                        <div class="stats-card">
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center">
+                                    <div class="log-level-indicator info"></div>
+                                    <span>Info</span>
+                                </div>
+                                <span id="infoCount" class="font-bold">0</span>
+                            </div>
+                        </div>
+                        <div class="stats-card">
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center">
+                                    <div class="log-level-indicator success"></div>
+                                    <span>Success</span>
+                                </div>
+                                <span id="successCount" class="font-bold">0</span>
+                            </div>
+                        </div>
+                        <div class="stats-card">
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center">
+                                    <div class="log-level-indicator warning"></div>
+                                    <span>Warning</span>
+                                </div>
+                                <span id="warningCount" class="font-bold">0</span>
+                            </div>
+                        </div>
+                        <div class="stats-card">
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center">
+                                    <div class="log-level-indicator error"></div>
+                                    <span>Error</span>
+                                </div>
+                                <span id="errorCount" class="font-bold">0</span>
+                            </div>
+                        </div>
+                        <div class="stats-card">
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center">
+                                    <div class="log-level-indicator debug"></div>
+                                    <span>Debug</span>
+                                </div>
+                                <span id="debugCount" class="font-bold">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Recent Errors -->
+                <div class="log-card p-6 rounded-xl mb-6">
+                    <h2 class="text-xl font-bold mb-4">Recent Errors</h2>
+                    <div id="recentErrors" class="space-y-3">
+                        <p class="text-slate-400 text-sm">No errors yet</p>
+                    </div>
+                </div>
+                
+                <!-- Log Settings -->
+                <div class="log-card p-6 rounded-xl">
+                    <h2 class="text-xl font-bold mb-4">Log Settings</h2>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center">
+                            <span>Log Level</span>
+                            <select id="logLevelSelect" class="glass-light px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                <option value="debug">Debug</option>
+                                <option value="info" selected>Info</option>
+                                <option value="warning">Warning</option>
+                                <option value="error">Error</option>
+                            </select>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span>Max Log Lines</span>
+                            <select id="maxLinesSelect" class="glass-light px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                <option value="100">100</option>
+                                <option value="500" selected>500</option>
+                                <option value="1000">1000</option>
+                                <option value="5000">5000</option>
+                            </select>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span>Timestamp Format</span>
+                            <select id="timestampFormatSelect" class="glass-light px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                <option value="relative" selected>Relative</option>
+                                <option value="absolute">Absolute</option>
+                                <option value="iso">ISO</option>
+                            </select>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span>Highlight Search Matches</span>
+                            <div id="highlightToggle" class="toggle-switch active"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <script>
+        // Log data structure
+        const logs = [];
+        let isPaused = false;
+        let autoScroll = true;
+        let logInterval;
+        let currentFilter = 'all';
+        let searchTerm = '';
+        let highlightMatches = true;
+        
+        // DOM elements
+        const logViewer = document.getElementById('logViewer');
+        const logCount = document.getElementById('logCount');
+        const lastUpdated = document.getElementById('lastUpdated');
+        const pauseBtn = document.getElementById('pauseBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const autoScrollToggle = document.getElementById('autoScrollToggle');
+        const searchInput = document.getElementById('searchInput');
+        const filterChips = document.querySelectorAll('.filter-chip');
+        const infoCount = document.getElementById('infoCount');
+        const successCount = document.getElementById('successCount');
+        const warningCount = document.getElementById('warningCount');
+        const errorCount = document.getElementById('errorCount');
+        const debugCount = document.getElementById('debugCount');
+        const recentErrors = document.getElementById('recentErrors');
+        const logLevelSelect = document.getElementById('logLevelSelect');
+        const maxLinesSelect = document.getElementById('maxLinesSelect');
+        const timestampFormatSelect = document.getElementById('timestampFormatSelect');
+        const highlightToggle = document.getElementById('highlightToggle');
+        
+        // Sample log messages
+        const sampleLogs = [
+            { level: 'info', message: 'Starting deployment process' },
+            { level: 'info', message: 'Cloning repository from GitHub' },
+            { level: 'info', message: 'Repository cloned successfully' },
+            { level: 'info', message: 'Installing dependencies' },
+            { level: 'info', message: 'Running npm install' },
+            { level: 'success', message: 'Dependencies installed successfully' },
+            { level: 'info', message: 'Building application' },
+            { level: 'info', message: 'Running build command' },
+            { level: 'info', message: 'Compiling source files' },
+            { level: 'info', message: 'Optimizing build' },
+            { level: 'success', message: 'Build completed successfully' },
+            { level: 'info', message: 'Running tests' },
+            { level: 'info', message: 'Executing unit tests' },
+            { level: 'success', message: 'Unit tests passed (42/42)' },
+            { level: 'info', message: 'Executing integration tests' },
+            { level: 'success', message: 'Integration test 1 passed' },
+            { level: 'success', message: 'Integration test 2 passed' },
+            { level: 'warning', message: 'Integration test 3 took longer than expected' },
+            { level: 'success', message: 'Integration test 3 passed' },
+            { level: 'info', message: 'All tests passed' },
+            { level: 'info', message: 'Preparing deployment package' },
+            { level: 'info', message: 'Creating deployment bundle' },
+            { level: 'success', message: 'Deployment package created' },
+            { level: 'info', message: 'Uploading to staging environment' },
+            { level: 'info', message: 'Connecting to deployment server' },
+            { level: 'info', message: 'Uploading files (1/100)' },
+            { level: 'info', message: 'Uploading files (25/100)' },
+            { level: 'info', message: 'Uploading files (50/100)' },
+            { level: 'info', message: 'Uploading files (75/100)' },
+            { level: 'info', message: 'Uploading files (100/100)' },
+            { level: 'success', message: 'All files uploaded successfully' },
+            { level: 'info', message: 'Deploying application' },
+            { level: 'info', message: 'Stopping existing processes' },
+            { level: 'info', message: 'Starting new processes' },
+            { level: 'info', message: 'Configuring environment variables' },
+            { level: 'info', message: 'Running database migrations' },
+            { level: 'success', message: 'Database migrations completed' },
+            { level: 'info', message: 'Running health checks' },
+            { level: 'info', message: 'Checking application status' },
+            { level: 'success', message: 'Application is running' },
+            { level: 'info', message: 'Checking API endpoints' },
+            { level: 'success', message: 'All endpoints responding correctly' },
+            { level: 'success', message: 'Deployment completed successfully' },
+            { level: 'info', message: 'Deployment process finished' },
+            { level: 'debug', message: 'Total deployment time: 3m 45s' },
+            { level: 'debug', message: 'Memory usage: 245MB' },
+            { level: 'debug', message: 'CPU usage: 12%' }
+        ];
+        
+        // Initialize
+        function init() {
+            // Start generating logs
+            generateLogs();
+            
+            // Set up event listeners
+            pauseBtn.addEventListener('click', togglePause);
+            clearBtn.addEventListener('click', clearLogs);
+            downloadBtn.addEventListener('click', downloadLogs);
+            autoScrollToggle.addEventListener('click', () => {
+                autoScroll = !autoScroll;
+                autoScrollToggle.classList.toggle('active');
+            });
+            
+            searchInput.addEventListener('input', (e) => {
+                searchTerm = e.target.value.toLowerCase();
+                renderLogs();
+            });
+            
+            filterChips.forEach(chip => {
+                chip.addEventListener('click', () => {
+                    filterChips.forEach(c => c.classList.remove('active'));
+                    chip.classList.add('active');
+                    currentFilter = chip.dataset.level;
+                    renderLogs();
+                });
+            });
+            
+            highlightToggle.addEventListener('click', () => {
+                highlightMatches = !highlightMatches;
+                highlightToggle.classList.toggle('active');
+                renderLogs();
+            });
+            
+            logLevelSelect.addEventListener('change', () => {
+                // In a real app, this would change the log level
+                console.log('Log level changed to:', logLevelSelect.value);
+            });
+            
+            maxLinesSelect.addEventListener('change', () => {
+                // In a real app, this would change the max number of lines
+                console.log('Max lines changed to:', maxLinesSelect.value);
+            });
+            
+            timestampFormatSelect.addEventListener('change', () => {
+                renderLogs();
+            });
+        }
+        
+        // Generate logs
+        function generateLogs() {
+            let index = 0;
+            
+            logInterval = setInterval(() => {
+                if (isPaused || index >= sampleLogs.length) {
+                    if (index >= sampleLogs.length) {
+                        clearInterval(logInterval);
+                    }
+                    return;
+                }
+                
+                const log = sampleLogs[index];
+                addLog(log.level, log.message);
+                index++;
+            }, 1000);
+        }
+        
+        // Add a log
+        function addLog(level, message) {
+            const timestamp = new Date();
+            const log = {
+                id: Date.now(),
+                level,
+                message,
+                timestamp
+            };
+            
+            logs.push(log);
+            
+            // Update stats
+            updateStats();
+            
+            // Render logs
+            renderLogs();
+            
+            // Update last updated time
+            lastUpdated.textContent = 'Just now';
+        }
+        
+        // Update statistics
+        function updateStats() {
+            const stats = {
+                info: 0,
+                success: 0,
+                warning: 0,
+                error: 0,
+                debug: 0
+            };
+            
+            logs.forEach(log => {
+                stats[log.level]++;
+            });
+            
+            infoCount.textContent = stats.info;
+            successCount.textContent = stats.success;
+            warningCount.textContent = stats.warning;
+            errorCount.textContent = stats.error;
+            debugCount.textContent = stats.debug;
+            logCount.textContent = logs.length;
+            
+            // Update recent errors
+            const errorLogs = logs.filter(log => log.level === 'error').slice(-3);
+            if (errorLogs.length > 0) {
+                recentErrors.innerHTML = errorLogs.map(log => `
+                    <div class="text-sm p-2 rounded bg-red-900 bg-opacity-20 border border-red-800">
+                        <div class="font-medium text-red-300">${formatTimestamp(log.timestamp)}</div>
+                        <div class="text-slate-300">${log.message}</div>
+                    </div>
+                `).join('');
+            } else {
+                recentErrors.innerHTML = '<p class="text-slate-400 text-sm">No errors yet</p>';
+            }
+        }
+        
+        // Render logs
+        function renderLogs() {
+            const filteredLogs = logs.filter(log => {
+                const matchesFilter = currentFilter === 'all' || log.level === currentFilter;
+                const matchesSearch = searchTerm === '' || 
+                    log.message.toLowerCase().includes(searchTerm) ||
+                    log.level.toLowerCase().includes(searchTerm);
+                return matchesFilter && matchesSearch;
+            });
+            
+            logViewer.innerHTML = filteredLogs.map(log => {
+                const timestamp = formatTimestamp(log.timestamp);
+                const highlightedMessage = highlightMatches && searchTerm
+                    ? highlightText(log.message, searchTerm)
+                    : log.message;
+                
+                const isHighlighted = searchTerm && 
+                    (log.message.toLowerCase().includes(searchTerm) || 
+                     log.level.toLowerCase().includes(searchTerm));
+                
+                return `
+                    <div class="log-line ${log.level} ${isHighlighted ? 'highlight' : ''}">
+                        <span class="text-slate-500">[${timestamp}]</span>
+                        <span class="log-level-indicator ${log.level}"></span>
+                        <span>[${log.level.toUpperCase()}]</span>
+                        <span>${highlightedMessage}</span>
+                    </div>
+                `;
+            }).join('');
+            
+            // Auto-scroll to bottom
+            if (autoScroll) {
+                logViewer.scrollTop = logViewer.scrollHeight;
+            }
+        }
+        
+        // Format timestamp
+        function formatTimestamp(timestamp) {
+            const format = timestampFormatSelect.value;
+            const now = new Date();
+            const diff = now - timestamp;
+            
+            if (format === 'relative') {
+                if (diff < 60000) return 'just now';
+                if (diff < 3600000) return `${Math.floor(diff / 60000)}s ago`;
+                if (diff < 86400000) return `${Math.floor(diff / 3600000)}m ago`;
+                return `${Math.floor(diff / 86400000)}d ago`;
+            } else if (format === 'absolute') {
+                return timestamp.toLocaleTimeString();
+            } else {
+                return timestamp.toISOString();
+            }
+        }
+        
+        // Highlight text
+        function highlightText(text, term) {
+            if (!term) return text;
+            const regex = new RegExp(`(${term})`, 'gi');
+            return text.replace(regex, '<mark class="bg-yellow-500 bg-opacity-30">$1</mark>');
+        }
+        
+        // Toggle pause
+        function togglePause() {
+            isPaused = !isPaused;
+            pauseBtn.innerHTML = isPaused ? '<i class="fas fa-play"></i>' : '<i class="fas fa-pause"></i>';
+            pauseBtn.title = isPaused ? 'Resume' : 'Pause';
+        }
+        
+        // Clear logs
+        function clearLogs() {
+            if (confirm('Are you sure you want to clear all logs?')) {
+                logs.length = 0;
+                renderLogs();
+                updateStats();
+            }
+        }
+        
+        // Download logs
+        function downloadLogs() {
+            const logText = logs.map(log => {
+                const timestamp = formatTimestamp(log.timestamp);
+                return `[${timestamp}] [${log.level.toUpperCase()}] ${log.message}`;
+            }).join('\n');
+            
+            const blob = new Blob([logText], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `deployment-logs-${new Date().toISOString().slice(0, 19).replace(/:/g, '-')}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+        
+        // Initialize the app
+        init();
+    </script>
+</body>
+</html>

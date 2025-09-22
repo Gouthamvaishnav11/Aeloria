@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deployment Status - Aeloria</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Custom animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(99, 102, 241, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(99, 102, 241, 0);
+            }
+        }
+        
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        
+        .animate-fadeIn {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+        
+        .animate-slideIn {
+            animation: slideIn 0.5s ease-out forwards;
+        }
+        
+        .animate-pulse-slow {
+            animation: pulse 3s infinite;
+        }
+        
+        .animate-spin-slow {
+            animation: spin 20s linear infinite;
+        }
+        
+        /* Background styles */
+        body {
+            background: #0a0a14;
+            color: #e2e8f0;
+            overflow-x: hidden;
+        }
+        
+        /* Glassmorphism */
+        .glass {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .glass-light {
+            background: rgba(15, 23, 42, 0.5);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        
+        /* Card styles */
+        .status-card {
+            transition: all 0.3s ease;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .status-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px -10px rgba(99, 102, 241, 0.3);
+            border-color: rgba(99, 102, 241, 0.3);
+        }
+        
+        /* Button styles */
+        .btn-primary {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.4);
+        }
+        
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+            z-index: -1;
+        }
+        
+        .btn-primary:hover::before {
+            transform: translateX(0);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid rgba(99, 102, 241, 0.5);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-outline:hover {
+            background: rgba(99, 102, 241, 0.1);
+            border-color: #6366f1;
+            transform: translateY(-2px);
+        }
+        
+        /* Status badge */
+        .status-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+        }
+        
+        .status-success {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+        }
+        
+        .status-pending {
+            background: rgba(245, 158, 11, 0.2);
+            color: #f59e0b;
+        }
+        
+        .status-error {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+        
+        .status-running {
+            background: rgba(99, 102, 241, 0.2);
+            color: #6366f1;
+        }
+        
+        /* Progress bar */
+        .progress-bar {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #6366f1, #8b5cf6);
+            border-radius: 4px;
+            transition: width 1s ease;
+        }
+        
+        /* Timeline */
+        .timeline-item {
+            position: relative;
+            padding-left: 30px;
+            padding-bottom: 20px;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 6px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #6366f1;
+            z-index: 1;
+        }
+        
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: 5px;
+            top: 18px;
+            width: 2px;
+            height: calc(100% - 6px);
+            background: rgba(99, 102, 241, 0.3);
+        }
+        
+        .timeline-item:last-child::after {
+            display: none;
+        }
+        
+        .timeline-item.success::before {
+            background: #10b981;
+        }
+        
+        .timeline-item.error::before {
+            background: #ef4444;
+        }
+        
+        .timeline-item.pending::before {
+            background: #f59e0b;
+        }
+        
+        /* Log viewer */
+        .log-viewer {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 0.5rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            line-height: 1.5;
+            padding: 1rem;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .log-line {
+            margin-bottom: 0.25rem;
+        }
+        
+        .log-line.info {
+            color: #93c5fd;
+        }
+        
+        .log-line.success {
+            color: #86efac;
+        }
+        
+        .log-line.warning {
+            color: #fde68a;
+        }
+        
+        .log-line.error {
+            color: #fca5a5;
+        }
+        
+        /* Metric card */
+        .metric-card {
+            background: rgba(15, 23, 42, 0.5);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.2);
+            border-color: rgba(99, 102, 241, 0.2);
+        }
+        
+        /* Resource usage bar */
+        .resource-bar {
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+        
+        .resource-fill {
+            height: 100%;
+            border-radius: 3px;
+        }
+        
+        .cpu-fill {
+            background: linear-gradient(90deg, #6366f1, #8b5cf6);
+        }
+        
+        .memory-fill {
+            background: linear-gradient(90deg, #10b981, #34d399);
+        }
+        
+        .storage-fill {
+            background: linear-gradient(90deg, #f59e0b, #fbbf24);
+        }
+        
+        /* Floating elements */
+        .floating-element {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(40px);
+            opacity: 0.3;
+            z-index: -1;
+        }
+        
+        /* Loading spinner */
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #6366f1;
+            animation: spin 1s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="font-sans">
+    <!-- Floating background elements -->
+    <div class="floating-element w-64 h-64 bg-indigo-500 top-20 left-10"></div>
+    <div class="floating-element w-96 h-96 bg-purple-500 bottom-20 right-10"></div>
+    
+    <!-- Header -->
+    <header class="glass p-6">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-10">
+                <a href="dashboard.html" class="flex items-center">
+                    <i class="fas fa-arrow-left text-indigo-400 mr-3"></i>
+                    <span class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-purple-500">Aeloria</span>
+                </a>
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#" class="text-slate-300 hover:text-indigo-300 transition">Overview</a>
+                    <a href="#" class="text-indigo-400 font-medium">Logs</a>
+                    <a href="#" class="text-slate-300 hover:text-indigo-300 transition">Metrics</a>
+                    <a href="#" class="text-slate-300 hover:text-indigo-300 transition">Settings</a>
+                </nav>
+            </div>
+            
+            <div class="flex items-center space-x-4">
+                <button class="text-slate-300 hover:text-indigo-300 transition">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+                <button class="text-slate-300 hover:text-indigo-300 transition">
+                    <i class="fas fa-download"></i>
+                </button>
+                <button class="text-slate-300 hover:text-indigo-300 transition">
+                    <i class="fas fa-share-alt"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 py-8">
+        <!-- Deployment Header -->
+        <div class="mb-8">
+            <div class="flex flex-col md:flex-row md:items-center justify-between mb-6">
+                <div>
+                    <h1 class="text-3xl font-bold mb-2">E-commerce Platform Deployment</h1>
+                    <div class="flex items-center space-x-4 text-slate-400">
+                        <span>Repository: alex/ecommerce</span>
+                        <span>•</span>
+                        <span>Branch: feature/payment</span>
+                        <span>•</span>
+                        <span>Environment: Staging</span>
+                    </div>
+                </div>
+                <div class="mt-4 md:mt-0">
+                    <span class="status-badge status-running">
+                        <span class="loading-spinner mr-2"></span>
+                        Deploying
+                    </span>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div class="metric-card">
+                    <p class="text-slate-400 text-sm">Started</p>
+                    <p class="font-medium">Today, 10:24 AM</p>
+                </div>
+                <div class="metric-card">
+                    <p class="text-slate-400 text-sm">Duration</p>
+                    <p class="font-medium">2m 34s</p>
+                </div>
+                <div class="metric-card">
+                    <p class="text-slate-400 text-sm">Commit</p>
+                    <p class="font-medium font-mono text-sm">a4f8c2d</p>
+                </div>
+                <div class="metric-card">
+                    <p class="text-slate-400 text-sm">Trigger</p>
+                    <p class="font-medium">Push to branch</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Progress Section -->
+        <div class="status-card p-6 rounded-xl mb-8">
+            <h2 class="text-xl font-bold mb-4">Deployment Progress</h2>
+            <div class="mb-6">
+                <div class="flex justify-between mb-2">
+                    <span class="text-slate-400">Overall Progress</span>
+                    <span class="font-medium">65%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 65%;"></div>
+                </div>
+            </div>
+            
+            <div class="space-y-4">
+                <div>
+                    <div class="flex justify-between mb-1">
+                        <span class="text-slate-400">Building Application</span>
+                        <span class="font-medium">100%</span>
+                    </div>
+                    <div class="progress-bar h-4">
+                        <div class="progress-fill" style="width: 100%;"></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="flex justify-between mb-1">
+                        <span class="text-slate-400">Running Tests</span>
+                        <span class="font-medium">80%</span>
+                    </div>
+                    <div class="progress-bar h-4">
+                        <div class="progress-fill" style="width: 80%;"></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="flex justify-between mb-1">
+                        <span class="text-slate-400">Deploying to Environment</span>
+                        <span class="font-medium">30%</span>
+                    </div>
+                    <div class="progress-bar h-4">
+                        <div class="progress-fill" style="width: 30%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Deployment Timeline -->
+            <div class="lg:col-span-2">
+                <div class="status-card p-6 rounded-xl mb-8">
+                    <h2 class="text-xl font-bold mb-6">Deployment Timeline</h2>
+                    
+                    <div class="timeline-item success">
+                        <div class="font-medium mb-1">Deployment Started</div>
+                        <div class="text-slate-400 text-sm">Today, 10:24:15 AM</div>
+                    </div>
+                    
+                    <div class="timeline-item success">
+                        <div class="font-medium mb-1">Cloning Repository</div>
+                        <div class="text-slate-400 text-sm">Today, 10:24:18 AM</div>
+                    </div>
+                    
+                    <div class="timeline-item success">
+                        <div class="font-medium mb-1">Installing Dependencies</div>
+                        <div class="text-slate-400 text-sm">Today, 10:24:35 AM</div>
+                    </div>
+                    
+                    <div class="timeline-item success">
+                        <div class="font-medium mb-1">Building Application</div>
+                        <div class="text-slate-400 text-sm">Today, 10:25:12 AM</div>
+                    </div>
+                    
+                    <div class="timeline-item success">
+                        <div class="font-medium mb-1">Running Unit Tests</div>
+                        <div class="text-slate-400 text-sm">Today, 10:25:45 AM</div>
+                    </div>
+                    
+                    <div class="timeline-item pending">
+                        <div class="font-medium mb-1">Running Integration Tests</div>
+                        <div class="text-slate-400 text-sm">In progress...</div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="font-medium mb-1">Deploying to Staging</div>
+                        <div class="text-slate-400 text-sm">Pending</div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="font-medium mb-1">Health Checks</div>
+                        <div class="text-slate-400 text-sm">Pending</div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="font-medium mb-1">Deployment Complete</div>
+                        <div class="text-slate-400 text-sm">Pending</div>
+                    </div>
+                </div>
+                
+                <!-- Build Logs -->
+                <div class="status-card p-6 rounded-xl">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-xl font-bold">Build Logs</h2>
+                        <button class="text-indigo-400 hover:text-indigo-300 transition text-sm">
+                            <i class="fas fa-download mr-1"></i> Download Logs
+                        </button>
+                    </div>
+                    
+                    <div class="log-viewer">
+                        <div class="log-line info">[10:24:15] Starting deployment for alex/ecommerce:feature/payment</div>
+                        <div class="log-line info">[10:24:15] Deployment ID: dep-12345678</div>
+                        <div class="log-line info">[10:24:16] Cloning repository...</div>
+                        <div class="log-line success">[10:24:18] Repository cloned successfully</div>
+                        <div class="log-line info">[10:24:18] Installing dependencies...</div>
+                        <div class="log-line info">[10:24:20] npm install</div>
+                        <div class="log-line info">[10:24:35] Dependencies installed successfully</div>
+                        <div class="log-line info">[10:24:35] Building application...</div>
+                        <div class="log-line info">[10:24:36] npm run build</div>
+                        <div class="log-line success">[10:25:12] Build completed successfully</div>
+                        <div class="log-line info">[10:25:12] Running tests...</div>
+                        <div class="log-line info">[10:25:13] npm test</div>
+                        <div class="log-line success">[10:25:25] Unit tests passed (42/42)</div>
+                        <div class="log-line info">[10:25:25] Running integration tests...</div>
+                        <div class="log-line success">[10:25:30] Integration test 1 passed</div>
+                        <div class="log-line success">[10:25:35] Integration test 2 passed</div>
+                        <div class="log-line info">[10:25:40] Running integration test 3...</div>
+                        <div class="log-line info">[10:25:45] Still running...</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right Column -->
+            <div>
+                <!-- Actions -->
+                <div class="status-card p-6 rounded-xl mb-8">
+                    <h2 class="text-xl font-bold mb-4">Actions</h2>
+                    <div class="space-y-3">
+                        <button class="w-full btn-outline text-indigo-300 py-3 rounded-lg font-semibold flex items-center justify-center">
+                            <i class="fas fa-stop-circle mr-2"></i> Cancel Deployment
+                        </button>
+                        <button class="w-full btn-outline text-indigo-300 py-3 rounded-lg font-semibold flex items-center justify-center">
+                            <i class="fas fa-redo mr-2"></i> Restart Deployment
+                        </button>
+                        <button class="w-full btn-outline text-indigo-300 py-3 rounded-lg font-semibold flex items-center justify-center">
+                            <i class="fas fa-history mr-2"></i> View Previous Deployments
+                        </button>
+                        <button class="w-full btn-outline text-indigo-300 py-3 rounded-lg font-semibold flex items-center justify-center">
+                            <i class="fas fa-bug mr-2"></i> Report Issue
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Environment Details -->
+                <div class="status-card p-6 rounded-xl mb-8">
+                    <h2 class="text-xl font-bold mb-4">Environment Details</h2>
+                    <div class="space-y-3">
+                        <div>
+                            <p class="text-slate-400 text-sm">Environment URL</p>
+                            <p class="font-medium text-indigo-400">https://ecommerce-staging.aeloria.app</p>
+                        </div>
+                        <div>
+                            <p class="text-slate-400 text-sm">Region</p>
+                            <p class="font-medium">US East (N. Virginia)</p>
+                        </div>
+                        <div>
+                            <p class="text-slate-400 text-sm">Instance Type</p>
+                            <p class="font-medium">t3.medium</p>
+                        </div>
+                        <div>
+                            <p class="text-slate-400 text-sm">Runtime</p>
+                            <p class="font-medium">Node.js 18.x</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Resource Usage -->
+                <div class="status-card p-6 rounded-xl">
+                    <h2 class="text-xl font-bold mb-4">Resource Usage</h2>
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-slate-400">CPU</span>
+                                <span class="font-medium">45%</span>
+                            </div>
+                            <div class="resource-bar">
+                                <div class="resource-fill cpu-fill" style="width: 45%;"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-slate-400">Memory</span>
+                                <span class="font-medium">62%</span>
+                            </div>
+                            <div class="resource-bar">
+                                <div class="resource-fill memory-fill" style="width: 62%;"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-slate-400">Storage</span>
+                                <span class="font-medium">28%</span>
+                            </div>
+                            <div class="resource-bar">
+                                <div class="resource-fill storage-fill" style="width: 28%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <script>
+        // Simulate progress bar animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const progressBars = document.querySelectorAll('.progress-fill');
+            progressBars.forEach(bar => {
+                const width = bar.style.width;
+                bar.style.width = '0';
+                setTimeout(() => {
+                    bar.style.width = width;
+                }, 500);
+            });
+            
+            // Simulate log updates
+            const logViewer = document.querySelector('.log-viewer');
+            const logMessages = [
+                { type: 'success', message: '[10:25:50] Integration test 3 passed' },
+                { type: 'info', message: '[10:25:50] All integration tests passed (3/3)' },
+                { type: 'info', message: '[10:25:51] Preparing deployment package...' },
+                { type: 'info', message: '[10:25:55] Uploading to staging environment...' },
+                { type: 'success', message: '[10:26:10] Deployment package uploaded successfully' },
+                { type: 'info', message: '[10:26:10] Deploying to staging environment...' },
+                { type: 'success', message: '[10:26:25] Application deployed successfully' },
+                { type: 'info', message: '[10:26:25] Running health checks...' },
+                { type: 'success', message: '[10:26:30] Health checks passed' },
+                { type: 'success', message: '[10:26:30] Deployment completed successfully' }
+            ];
+            
+            let messageIndex = 0;
+            const addLogMessage = () => {
+                if (messageIndex < logMessages.length) {
+                    const message = logMessages[messageIndex];
+                    const logLine = document.createElement('div');
+                    logLine.className = `log-line ${message.type}`;
+                    logLine.textContent = message.message;
+                    logViewer.appendChild(logLine);
+                    logViewer.scrollTop = logViewer.scrollHeight;
+                    messageIndex++;
+                    
+                    // Update progress bars as messages are added
+                    if (messageIndex === 3) {
+                        document.querySelector('.progress-fill:nth-of-type(2)').style.width = '100%';
+                    } else if (messageIndex === 6) {
+                        document.querySelector('.progress-fill:nth-of-type(3)').style.width = '60%';
+                    } else if (messageIndex === 8) {
+                        document.querySelector('.progress-fill:nth-of-type(3)').style.width = '100%';
+                        document.querySelector('.progress-bar:first-child .progress-fill').style.width = '100%';
+                        
+                        // Update status badge
+                        const statusBadge = document.querySelector('.status-badge');
+                        statusBadge.className = 'status-badge status-success';
+                        statusBadge.innerHTML = '<i class="fas fa-check-circle mr-2"></i> Success';
+                    }
+                    
+                    // Continue adding messages
+                    setTimeout(addLogMessage, 2000);
+                }
+            };
+            
+            // Start adding log messages after initial load
+            setTimeout(addLogMessage, 3000);
+        });
+        
+        // Add animation to elements when they come into view
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-slideIn');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+        
+        // Observe status cards
+        const statusCards = document.querySelectorAll('.status-card');
+        statusCards.forEach(card => {
+            observer.observe(card);
+        });
+        
+        // Observe metric cards
+        const metricCards = document.querySelectorAll('.metric-card');
+        metricCards.forEach(card => {
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aeloria Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Custom animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(99, 102, 241, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(99, 102, 241, 0);
+            }
+        }
+        
+        .animate-fadeIn {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+        
+        .animate-slideIn {
+            animation: slideIn 0.5s ease-out forwards;
+        }
+        
+        .animate-pulse-slow {
+            animation: pulse 3s infinite;
+        }
+        
+        /* Background styles */
+        body {
+            background: #0a0a14;
+            color: #e2e8f0;
+            overflow-x: hidden;
+        }
+        
+        /* Glassmorphism */
+        .glass {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .glass-light {
+            background: rgba(15, 23, 42, 0.5);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        
+        /* Sidebar styles */
+        .sidebar-link {
+            position: relative;
+            transition: all 0.3s ease;
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .sidebar-link:hover {
+            background: rgba(99, 102, 241, 0.1);
+            border-left: 3px solid #6366f1;
+        }
+        
+        .sidebar-link.active {
+            background: rgba(99, 102, 241, 0.2);
+            border-left: 3px solid #6366f1;
+        }
+        
+        /* Card styles */
+        .stat-card {
+            transition: all 0.3s ease;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px -10px rgba(99, 102, 241, 0.3);
+            border-color: rgba(99, 102, 241, 0.3);
+        }
+        
+        /* Deployment card */
+        .deployment-card {
+            transition: all 0.3s ease;
+            background: rgba(15, 23, 42, 0.5);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        
+        .deployment-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.2);
+            border-color: rgba(99, 102, 241, 0.2);
+        }
+        
+        /* Button styles */
+        .btn-primary {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.4);
+        }
+        
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+            z-index: -1;
+        }
+        
+        .btn-primary:hover::before {
+            transform: translateX(0);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid rgba(99, 102, 241, 0.5);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-outline:hover {
+            background: rgba(99, 102, 241, 0.1);
+            border-color: #6366f1;
+            transform: translateY(-2px);
+        }
+        
+        /* Status badge */
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .status-success {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+        }
+        
+        .status-pending {
+            background: rgba(245, 158, 11, 0.2);
+            color: #f59e0b;
+        }
+        
+        .status-error {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+        
+        /* Progress bar */
+        .progress-bar {
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #6366f1, #8b5cf6);
+            border-radius: 3px;
+            transition: width 1s ease;
+        }
+        
+        /* Notification badge */
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            width: 18px;
+            height: 18px;
+            background: #ef4444;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+        
+        /* Toggle switch */
+        .toggle-switch {
+            position: relative;
+            width: 48px;
+            height: 24px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .toggle-switch.active {
+            background: rgba(99, 102, 241, 0.5);
+        }
+        
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            background: white;
+            border-radius: 50%;
+            top: 3px;
+            left: 3px;
+            transition: transform 0.3s ease;
+        }
+        
+        .toggle-switch.active::after {
+            transform: translateX(24px);
+        }
+        
+        /* Floating elements */
+        .floating-element {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(40px);
+            opacity: 0.3;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body class="font-sans">
+    <!-- Floating background elements -->
+    <div class="floating-element w-64 h-64 bg-indigo-500 top-20 left-10"></div>
+    <div class="floating-element w-96 h-96 bg-purple-500 bottom-20 right-10"></div>
+    
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <div class="w-64 glass p-6 flex flex-col">
+            <div class="mb-10">
+                <h1 class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-purple-500">Aeloria</h1>
+                <p class="text-slate-400 text-sm mt-1">Deployment Dashboard</p>
+            </div>
+            
+            <nav class="flex-1">
+                <a href="#" class="sidebar-link active flex items-center">
+                    <i class="fas fa-home mr-3 text-indigo-400"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="sidebar-link flex items-center">
+                    <i class="fas fa-rocket mr-3 text-slate-400"></i>
+                    <span>Deployments</span>
+                </a>
+                <a href="#" class="sidebar-link flex items-center">
+                    <i class="fas fa-code-branch mr-3 text-slate-400"></i>
+                    <span>Repositories</span>
+                </a>
+                <a href="#" class="sidebar-link flex items-center">
+                    <i class="fas fa-cog mr-3 text-slate-400"></i>
+                    <span>Settings</span>
+                </a>
+                <a href="#" class="sidebar-link flex items-center">
+                    <i class="fas fa-chart-line mr-3 text-slate-400"></i>
+                    <span>Analytics</span>
+                </a>
+                <a href="#" class="sidebar-link flex items-center">
+                    <i class="fas fa-question-circle mr-3 text-slate-400"></i>
+                    <span>Help & Support</span>
+                </a>
+            </nav>
+            
+            <div class="mt-auto">
+                <div class="flex items-center p-3 rounded-lg glass-light">
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" class="w-10 h-10 rounded-full mr-3">
+                    <div>
+                        <p class="font-medium">Alex Johnson</p>
+                        <p class="text-slate-400 text-sm">Developer</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- Header -->
+            <header class="glass p-6 flex justify-between items-center">
+                <div>
+                    <h2 class="text-2xl font-bold">Dashboard</h2>
+                    <p class="text-slate-400">Welcome back, Alex!</p>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <!-- Search -->
+                    <div class="relative">
+                        <input type="text" placeholder="Search..." class="glass-light pl-10 pr-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 w-64">
+                        <i class="fas fa-search absolute left-3 top-3 text-slate-400"></i>
+                    </div>
+                    
+                    <!-- Notifications -->
+                    <button class="relative p-2 rounded-lg hover:bg-slate-800 transition">
+                        <i class="fas fa-bell text-slate-300"></i>
+                        <span class="notification-badge">3</span>
+                    </button>
+                    
+                    <!-- Theme Toggle -->
+                    <div class="toggle-switch active" onclick="this.classList.toggle('active')"></div>
+                </div>
+            </header>
+            
+            <!-- Main Content Area -->
+            <main class="flex-1 overflow-y-auto p-6">
+                <!-- Stats Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <!-- Total Deployments -->
+                    <div class="stat-card p-6 rounded-xl">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-slate-400 mb-1">Total Deployments</p>
+                                <p class="text-3xl font-bold">24</p>
+                            </div>
+                            <div class="bg-indigo-500 bg-opacity-20 p-3 rounded-lg">
+                                <i class="fas fa-rocket text-indigo-400 text-xl"></i>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <p class="text-green-400 text-sm flex items-center">
+                                <i class="fas fa-arrow-up mr-1"></i> 12% from last month
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Success Rate -->
+                    <div class="stat-card p-6 rounded-xl">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-slate-400 mb-1">Success Rate</p>
+                                <p class="text-3xl font-bold">98.5%</p>
+                            </div>
+                            <div class="bg-green-500 bg-opacity-20 p-3 rounded-lg">
+                                <i class="fas fa-check-circle text-green-400 text-xl"></i>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <p class="text-green-400 text-sm flex items-center">
+                                <i class="fas fa-arrow-up mr-1"></i> 2% from last month
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Avg. Deploy Time -->
+                    <div class="stat-card p-6 rounded-xl">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-slate-400 mb-1">Avg. Deploy Time</p>
+                                <p class="text-3xl font-bold">24s</p>
+                            </div>
+                            <div class="bg-yellow-500 bg-opacity-20 p-3 rounded-lg">
+                                <i class="fas fa-clock text-yellow-400 text-xl"></i>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <p class="text-green-400 text-sm flex items-center">
+                                <i class="fas fa-arrow-down mr-1"></i> 5s faster than last month
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Active Projects -->
+                    <div class="stat-card p-6 rounded-xl">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-slate-400 mb-1">Active Projects</p>
+                                <p class="text-3xl font-bold">8</p>
+                            </div>
+                            <div class="bg-purple-500 bg-opacity-20 p-3 rounded-lg">
+                                <i class="fas fa-folder text-purple-400 text-xl"></i>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <p class="text-slate-400 text-sm">2 added this week</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Recent Deployments -->
+                    <div class="lg:col-span-2">
+                        <div class="glass p-6 rounded-xl mb-6">
+                            <div class="flex justify-between items-center mb-6">
+                                <h3 class="text-xl font-bold">Recent Deployments</h3>
+                                <button class="text-indigo-400 hover:text-indigo-300 transition">View All</button>
+                            </div>
+                            
+                            <div class="space-y-4">
+                                <!-- Deployment 1 -->
+                                <div class="deployment-card p-4 rounded-lg">
+                                    <div class="flex justify-between items-start mb-3">
+                                        <div>
+                                            <h4 class="font-bold">Portfolio Website</h4>
+                                            <p class="text-slate-400 text-sm">alex/portfolio</p>
+                                        </div>
+                                        <span class="status-badge status-success">Success</span>
+                                    </div>
+                                    <div class="flex justify-between items-center text-sm text-slate-400">
+                                        <span>2 hours ago</span>
+                                        <span>Branch: main</span>
+                                    </div>
+                                </div>
+                                
+                                <!-- Deployment 2 -->
+                                <div class="deployment-card p-4 rounded-lg">
+                                    <div class="flex justify-between items-start mb-3">
+                                        <div>
+                                            <h4 class="font-bold">E-commerce Platform</h4>
+                                            <p class="text-slate-400 text-sm">alex/ecommerce</p>
+                                        </div>
+                                        <span class="status-badge status-pending">Deploying</span>
+                                    </div>
+                                    <div class="flex justify-between items-center text-sm text-slate-400 mb-2">
+                                        <span>5 minutes ago</span>
+                                        <span>Branch: feature/payment</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 65%;"></div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Deployment 3 -->
+                                <div class="deployment-card p-4 rounded-lg">
+                                    <div class="flex justify-between items-start mb-3">
+                                        <div>
+                                            <h4 class="font-bold">Blog API</h4>
+                                            <p class="text-slate-400 text-sm">alex/blog-api</p>
+                                        </div>
+                                        <span class="status-badge status-error">Failed</span>
+                                    </div>
+                                    <div class="flex justify-between items-center text-sm text-slate-400">
+                                        <span>1 day ago</span>
+                                        <span>Branch: develop</span>
+                                    </div>
+                                </div>
+                                
+                                <!-- Deployment 4 -->
+                                <div class="deployment-card p-4 rounded-lg">
+                                    <div class="flex justify-between items-start mb-3">
+                                        <div>
+                                            <h4 class="font-bold">Task Manager</h4>
+                                            <p class="text-slate-400 text-sm">alex/task-manager</p>
+                                        </div>
+                                        <span class="status-badge status-success">Success</span>
+                                    </div>
+                                    <div class="flex justify-between items-center text-sm text-slate-400">
+                                        <span>2 days ago</span>
+                                        <span>Branch: main</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Create New Deployment -->
+                    <div>
+                        <div class="glass p-6 rounded-xl mb-6">
+                            <h3 class="text-xl font-bold mb-6">Create New Deployment</h3>
+                            
+                            <form>
+                                <div class="mb-4">
+                                    <label class="block text-slate-400 mb-2">Repository</label>
+                                    <select class="w-full glass-light p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                        <option>Select a repository</option>
+                                        <option>alex/portfolio</option>
+                                        <option>alex/ecommerce</option>
+                                        <option>alex/blog-api</option>
+                                        <option>alex/task-manager</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <label class="block text-slate-400 mb-2">Branch</label>
+                                    <select class="w-full glass-light p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                        <option>main</option>
+                                        <option>develop</option>
+                                        <option>feature/new-ui</option>
+                                        <option>hotfix/security</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="mb-6">
+                                    <label class="block text-slate-400 mb-2">Environment</label>
+                                    <div class="grid grid-cols-2 gap-3">
+                                        <label class="flex items-center glass-light p-3 rounded-lg cursor-pointer">
+                                            <input type="radio" name="environment" class="mr-2" checked>
+                                            <span>Production</span>
+                                        </label>
+                                        <label class="flex items-center glass-light p-3 rounded-lg cursor-pointer">
+                                            <input type="radio" name="environment" class="mr-2">
+                                            <span>Staging</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <button type="submit" class="btn-primary w-full text-white py-3 rounded-lg font-semibold">
+                                    Deploy Now
+                                </button>
+                            </form>
+                        </div>
+                        
+                        <!-- Quick Actions -->
+                        <div class="glass p-6 rounded-xl">
+                            <h3 class="text-xl font-bold mb-4">Quick Actions</h3>
+                            <div class="space-y-3">
+                                <button class="w-full text-left p-3 rounded-lg glass-light hover:bg-slate-800 transition flex items-center">
+                                    <i class="fas fa-sync-alt text-indigo-400 mr-3"></i>
+                                    <span>Redeploy Latest</span>
+                                </button>
+                                <button class="w-full text-left p-3 rounded-lg glass-light hover:bg-slate-800 transition flex items-center">
+                                    <i class="fas fa-history text-indigo-400 mr-3"></i>
+                                    <span>View Deployment History</span>
+                                </button>
+                                <button class="w-full text-left p-3 rounded-lg glass-light hover:bg-slate-800 transition flex items-center">
+                                    <i class="fas fa-cog text-indigo-400 mr-3"></i>
+                                    <span>Deployment Settings</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <script>
+        // Simulate progress bar animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const progressBars = document.querySelectorAll('.progress-fill');
+            progressBars.forEach(bar => {
+                const width = bar.style.width;
+                bar.style.width = '0';
+                setTimeout(() => {
+                    bar.style.width = width;
+                }, 500);
+            });
+        });
+        
+        // Add animation to elements when they come into view
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-fadeIn');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+        
+        // Observe stat cards
+        const statCards = document.querySelectorAll('.stat-card');
+        statCards.forEach(card => {
+            observer.observe(card);
+        });
+        
+        // Observe deployment cards
+        const deploymentCards = document.querySelectorAll('.deployment-card');
+        deploymentCards.forEach(card => {
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>

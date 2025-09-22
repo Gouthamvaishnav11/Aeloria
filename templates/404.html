@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Page Not Found | Aeloria</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Custom animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        @keyframes slideInUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0px) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(5deg);
+            }
+            100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes glitch {
+            0% {
+                transform: translate(0);
+            }
+            20% {
+                transform: translate(-2px, 2px);
+            }
+            40% {
+                transform: translate(-2px, -2px);
+            }
+            60% {
+                transform: translate(2px, 2px);
+            }
+            80% {
+                transform: translate(2px, -2px);
+            }
+            100% {
+                transform: translate(0);
+            }
+        }
+        
+        .animate-fadeIn {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+        
+        .animate-slideInUp {
+            animation: slideInUp 0.8s ease-out forwards;
+        }
+        
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .animate-pulse-slow {
+            animation: pulse 3s infinite;
+        }
+        
+        .animate-glitch {
+            animation: glitch 0.3s infinite;
+        }
+        
+        /* Background styles */
+        body {
+            background: #0a0a14;
+            color: #e2e8f0;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Glassmorphism */
+        .glass {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .glass-light {
+            background: rgba(15, 23, 42, 0.5);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        
+        /* Button styles */
+        .btn-primary {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.5);
+        }
+        
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+            z-index: -1;
+        }
+        
+        .btn-primary:hover::before {
+            transform: translateX(0);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid rgba(99, 102, 241, 0.5);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-outline:hover {
+            background: rgba(99, 102, 241, 0.1);
+            border-color: #6366f1;
+            transform: translateY(-3px);
+        }
+        
+        /* 404 number styles */
+        .error-number {
+            font-size: 12rem;
+            font-weight: 900;
+            line-height: 1;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(99, 102, 241, 0.5);
+        }
+        
+        /* Floating elements */
+        .floating-element {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(40px);
+            opacity: 0.3;
+            z-index: -1;
+        }
+        
+        /* Search box */
+        .search-box {
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .search-box:focus-within {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+        
+        /* Link styles */
+        .error-link {
+            color: #a5b4fc;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .error-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #a5b4fc;
+            transition: width 0.3s ease;
+        }
+        
+        .error-link:hover::after {
+            width: 100%;
+        }
+        
+        /* Icon styles */
+        .error-icon {
+            font-size: 8rem;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 20px rgba(99, 102, 241, 0.5));
+        }
+        
+        /* Suggestion card */
+        .suggestion-card {
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 0.75rem;
+            padding: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .suggestion-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px -10px rgba(99, 102, 241, 0.3);
+            border-color: rgba(99, 102, 241, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating background elements -->
+    <div class="floating-element w-64 h-64 bg-indigo-500 top-20 left-10 animate-float"></div>
+    <div class="floating-element w-96 h-96 bg-purple-500 bottom-20 right-10 animate-float" style="animation-delay: 2s;"></div>
+    <div class="floating-element w-48 h-48 bg-blue-500 top-1/2 left-1/4 animate-float" style="animation-delay: 4s;"></div>
+    
+    <!-- Header -->
+    <header class="glass p-6">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center">
+                <a href="index.html" class="flex items-center">
+                    <span class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-purple-500">Aeloria</span>
+                </a>
+            </div>
+            
+            <div class="flex items-center space-x-4">
+                <a href="login.html" class="text-slate-300 hover:text-indigo-300 transition">Sign In</a>
+                <a href="login.html" class="btn-primary text-white px-4 py-2 rounded-lg font-semibold">Get Started</a>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Main Content -->
+    <main class="flex-1 flex items-center justify-center px-6 py-12">
+        <div class="max-w-6xl mx-auto text-center">
+            <!-- 404 Number -->
+            <div class="error-number mb-8 animate-fadeIn">404</div>
+            
+            <!-- Error Icon -->
+            <div class="mb-8 animate-slideInUp">
+                <i class="fas fa-rocket error-icon animate-pulse-slow"></i>
+            </div>
+            
+            <!-- Error Message -->
+            <h1 class="text-4xl md:text-5xl font-bold mb-4 animate-slideInUp" style="animation-delay: 0.2s;">
+                Oops! Page Not Found
+            </h1>
+            <p class="text-xl text-slate-400 max-w-2xl mx-auto mb-8 animate-slideInUp" style="animation-delay: 0.4s;">
+                The page you're looking for might have been removed, had its name changed, or is temporarily unavailable.
+            </p>
+            
+            <!-- Search Box -->
+            <div class="max-w-md mx-auto mb-12 animate-slideInUp" style="animation-delay: 0.6s;">
+                <form class="search-box rounded-lg p-2 flex items-center">
+                    <input type="text" placeholder="Search for what you need..." class="bg-transparent border-0 focus:outline-none flex-1 px-3 py-2 text-slate-300">
+                    <button type="submit" class="bg-indigo-600 text-white p-2 rounded-lg hover:bg-indigo-700 transition">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
+            </div>
+            
+            <!-- Action Buttons -->
+            <div class="flex flex-col sm:flex-row justify-center gap-4 mb-16 animate-slideInUp" style="animation-delay: 0.8s;">
+                <a href="index.html" class="btn-primary text-white px-8 py-3 rounded-lg font-semibold">
+                    <i class="fas fa-home mr-2"></i> Go to Homepage
+                </a>
+                <a href="contact.html" class="btn-outline text-indigo-300 px-8 py-3 rounded-lg font-semibold">
+                    <i class="fas fa-envelope mr-2"></i> Contact Support
+                </a>
+            </div>
+            
+            <!-- Helpful Links -->
+            <div class="max-w-4xl mx-auto animate-slideInUp" style="animation-delay: 1s;">
+                <h2 class="text-2xl font-bold mb-6">You might be looking for</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <a href="features.html" class="suggestion-card">
+                        <div class="flex items-center">
+                            <div class="bg-indigo-500 bg-opacity-20 w-10 h-10 rounded-lg flex items-center justify-center mr-3">
+                                <i class="fas fa-rocket text-indigo-400"></i>
+                            </div>
+                            <div class="text-left">
+                                <h3 class="font-bold">Features</h3>
+                                <p class="text-slate-400 text-sm">Explore our platform features</p>
+                            </div>
+                        </div>
+                    </a>
+                    
+                    <a href="pricing.html" class="suggestion-card">
+                        <div class="flex items-center">
+                            <div class="bg-green-500 bg-opacity-20 w-10 h-10 rounded-lg flex items-center justify-center mr-3">
+                                <i class="fas fa-dollar-sign text-green-400"></i>
+                            </div>
+                            <div class="text-left">
+                                <h3 class="font-bold">Pricing</h3>
+                                <p class="text-slate-400 text-sm">View our pricing plans</p>
+                            </div>
+                        </div>
+                    </a>
+                    
+                    <a href="dashboard.html" class="suggestion-card">
+                        <div class="flex items-center">
+                            <div class="bg-purple-500 bg-opacity-20 w-10 h-10 rounded-lg flex items-center justify-center mr-3">
+                                <i class="fas fa-tachometer-alt text-purple-400"></i>
+                            </div>
+                            <div class="text-left">
+                                <h3 class="font-bold">Dashboard</h3>
+                                <p class="text-slate-400 text-sm">Access your dashboard</p>
+                            </div>
+                        </div>
+                    </a>
+                    
+                    <a href="docs.html" class="suggestion-card">
+                        <div class="flex items-center">
+                            <div class="bg-blue-500 bg-opacity-20 w-10 h-10 rounded-lg flex items-center justify-center mr-3">
+                                <i class="fas fa-book text-blue-400"></i>
+                            </div>
+                            <div class="text-left">
+                                <h3 class="font-bold">Documentation</h3>
+                                <p class="text-slate-400 text-sm">Read our docs</p>
+                            </div>
+                        </div>
+                    </a>
+                    
+                    <a href="blog.html" class="suggestion-card">
+                        <div class="flex items-center">
+                            <div class="bg-yellow-500 bg-opacity-20 w-10 h-10 rounded-lg flex items-center justify-center mr-3">
+                                <i class="fas fa-blog text-yellow-400"></i>
+                            </div>
+                            <div class="text-left">
+                                <h3 class="font-bold">Blog</h3>
+                                <p class="text-slate-400 text-sm">Read our latest posts</p>
+                            </div>
+                        </div>
+                    </a>
+                    
+                    <a href="community.html" class="suggestion-card">
+                        <div class="flex items-center">
+                            <div class="bg-red-500 bg-opacity-20 w-10 h-10 rounded-lg flex items-center justify-center mr-3">
+                                <i class="fas fa-users text-red-400"></i>
+                            </div>
+                            <div class="text-left">
+                                <h3 class="font-bold">Community</h3>
+                                <p class="text-slate-400 text-sm">Join our community</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Additional Help -->
+            <div class="mt-16 animate-slideInUp" style="animation-delay: 1.2s;">
+                <p class="text-slate-400 mb-4">Still can't find what you're looking for?</p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <a href="contact.html" class="error-link">
+                        <i class="fas fa-life-ring mr-2"></i> Contact our support team
+                    </a>
+                    <span class="text-slate-500">•</span>
+                    <a href="https://status.aeloria.app" target="_blank" class="error-link">
+                        <i class="fas fa-server mr-2"></i> Check system status
+                    </a>
+                    <span class="text-slate-500">•</span>
+                    <a href="https://github.com/aeloria/aeloria/issues" target="_blank" class="error-link">
+                        <i class="fab fa-github mr-2"></i> Report an issue
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="glass mt-auto py-8">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <span class="text-slate-400">&copy; 2023 Aeloria. All rights reserved.</span>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-slate-400 hover:text-indigo-400 transition"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="text-slate-400 hover:text-indigo-400 transition"><i class="fab fa-github"></i></a>
+                    <a href="#" class="text-slate-400 hover:text-indigo-400 transition"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" class="text-slate-400 hover:text-indigo-400 transition"><i class="fab fa-discord"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Add animation to elements when they come into view
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-fadeIn');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+        
+        // Observe suggestion cards
+        const suggestionCards = document.querySelectorAll('.suggestion-card');
+        suggestionCards.forEach(card => {
+            observer.observe(card);
+        });
+        
+        // Handle search form submission
+        document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const searchTerm = this.querySelector('input').value;
+            if (searchTerm) {
+                // In a real application, this would redirect to search results
+                alert(`Searching for: ${searchTerm}`);
+            }
+        });
+        
+        // Add glitch effect to 404 number on hover
+        const errorNumber = document.querySelector('.error-number');
+        errorNumber.addEventListener('mouseenter', () => {
+            errorNumber.classList.add('animate-glitch');
+        });
+        
+        errorNumber.addEventListener('mouseleave', () => {
+            errorNumber.classList.remove('animate-glitch');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Aeloria Docs</title>
+  <meta name="description" content="Aeloria documentation - deploy apps with confidence">
+  <link rel="stylesheet" href="https://use.typekit.net/yjp3aho.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* small helpers for code blocks */
+    pre { white-space: pre-wrap; }
+    .scrollbar-hide::-webkit-scrollbar { display: none; }
+  </style>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { 'sofia': ['sofia-pro', 'sans-serif'] },
+          colors: {
+            'brand': {
+              50: '#f0f9ff', 100: '#e0f2fe', 200: '#bae6fd', 300: '#7dd3fc',
+              400: '#38bdf8', 500: '#0ea5e9', 600: '#0284c7', 700: '#0369a1',
+              800: '#075985', 900: '#0c4a6e'
+            }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="font-sofia bg-gray-950 text-gray-100 min-h-screen">
+  <!-- Top nav -->
+  <header class="fixed top-0 left-0 right-0 z-40 bg-gray-900/80 backdrop-blur border-b border-gray-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="w-8 h-8 bg-gradient-to-br from-brand-500 to-brand-600 rounded-lg flex items-center justify-center">
+          <i data-lucide="cloud" class="w-4 h-4 text-white"></i>
+        </div>
+        <a href="/" class="text-white font-bold text-lg">Aeloria</a>
+        <span class="text-gray-500 ml-2">/ Docs</span>
+      </div>
+      <div class="flex items-center space-x-3">
+        <div class="hidden md:block">
+          <input id="doc-search" type="search" placeholder="Search docs..." class="bg-gray-800 text-gray-100 placeholder-gray-500 px-3 py-2 rounded-lg w-72 focus:outline-none focus:ring-2 focus:ring-brand-600" />
+        </div>
+        <button id="theme-toggle" class="p-2 rounded-lg bg-gray-800 hover:bg-gray-700" title="Toggle theme">
+          <i data-lucide="moon" class="w-5 h-5 text-gray-200"></i>
+        </button>
+        <a href="/" class="ml-2 inline-flex items-center gap-2 bg-brand-600 text-white px-3 py-2 rounded-lg hover:bg-brand-700"> 
+          <i data-lucide="rocket" class="w-4 h-4"></i>
+          Dashboard
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="pt-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <!-- Sidebar -->
+        <aside class="md:col-span-1 sticky top-20 self-start">
+          <div class="bg-gray-900 border border-gray-800 rounded-2xl p-4 space-y-4">
+            <div class="flex items-center justify-between">
+              <h4 class="text-sm font-semibold text-gray-200">Documentation</h4>
+              <button id="sidebar-toggle" class="md:hidden p-2">
+                <i data-lucide="chevron-down" class="w-4 h-4 text-gray-300"></i>
+              </button>
+            </div>
+            <nav id="sidebar" class="space-y-2 text-sm text-gray-300">
+              <a href="#introduction" class="block p-2 rounded-md hover:bg-gray-800">Introduction</a>
+              <a href="#quickstart" class="block p-2 rounded-md hover:bg-gray-800">Quickstart</a>
+              <a href="#configuration" class="block p-2 rounded-md hover:bg-gray-800">Configuration</a>
+              <a href="#cli" class="block p-2 rounded-md hover:bg-gray-800">CLI</a>
+              <a href="#api" class="block p-2 rounded-md hover:bg-gray-800">API Reference</a>
+              <a href="#faq" class="block p-2 rounded-md hover:bg-gray-800">FAQ</a>
+            </nav>
+            <div class="pt-2 border-t border-gray-800 text-xs text-gray-400">
+              <div>Version <span class="text-gray-200">v1.0.0</span></div>
+              <div class="mt-2">Last updated: <span class="text-gray-200">Sep 21, 2025</span></div>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Content -->
+        <section class="md:col-span-3 space-y-8">
+
+          <!-- Introduction -->
+          <article id="introduction" class="bg-gray-900 border border-gray-800 rounded-2xl p-8">
+            <h1 class="text-2xl font-bold text-white mb-3">Introduction</h1>
+            <p class="text-gray-400 mb-4">Welcome to Aeloria — a lightweight deployment platform that connects to your GitHub repositories, runs tests, and deploys applications automatically.</p>
+            <p class="text-gray-400">This documentation covers everything from getting started to advanced configuration and API usage.</p>
+          </article>
+
+          <!-- Quickstart -->
+          <article id="quickstart" class="bg-gray-900 border border-gray-800 rounded-2xl p-8">
+            <h2 class="text-xl font-semibold text-white mb-4">Quickstart</h2>
+            <p class="text-gray-400 mb-4">Get your first app live in minutes with three simple steps:</p>
+            <ol class="list-decimal list-inside text-gray-300 space-y-2 mb-4">
+              <li>Connect your GitHub repository.</li>
+              <li>Configure build & environment (auto-detected for most projects).</li>
+              <li>Deploy and access your app at a custom domain.</li>
+            </ol>
+
+            <div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
+              <div class="flex items-start justify-between">
+                <div class="flex-1 min-w-0">
+                  <pre id="code-quickstart" class="language-bash text-sm overflow-auto scrollbar-hide" style="max-height:260px;"><code>git clone https://github.com/you/your-app.git
+cd your-app
+# push to GitHub, then link the repo in Aeloria
+# Aeloria will detect the framework and create a pipeline
+</code></pre>
+                </div>
+                <div class="ml-4 flex-shrink-0">
+                  <button class="copy-btn bg-gray-700 px-3 py-2 rounded-lg text-sm">Copy</button>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Configuration -->
+          <article id="configuration" class="bg-gray-900 border border-gray-800 rounded-2xl p-8">
+            <h2 class="text-xl font-semibold text-white mb-4">Configuration</h2>
+            <p class="text-gray-400 mb-4">Aeloria supports an optional <code class="bg-gray-800 px-1 py-0.5 rounded">aeloria.yaml</code> file for custom builds.</p>
+            <pre class="language-yaml text-sm overflow-auto scrollbar-hide bg-gray-800 p-4 rounded-lg border border-gray-700"><code># aeloria.yaml
+build:
+  command: "npm run build"
+  output: "build/"
+env:
+  NODE_ENV: production
+  API_URL: "https://api.example.com"
+</code></pre>
+          </article>
+
+          <!-- CLI -->
+          <article id="cli" class="bg-gray-900 border border-gray-800 rounded-2xl p-8">
+            <h2 class="text-xl font-semibold text-white mb-4">CLI</h2>
+            <p class="text-gray-400 mb-4">Use the Aeloria CLI to manage deployments locally.</p>
+            <pre class="language-bash text-sm overflow-auto scrollbar-hide bg-gray-800 p-4 rounded-lg border border-gray-700"><code># install
+npm i -g @aeloria/cli
+
+# login
+aeloria login
+
+# deploy current repo
+aeloria deploy --prod
+</code></pre>
+          </article>
+
+          <!-- API Reference -->
+          <article id="api" class="bg-gray-900 border border-gray-800 rounded-2xl p-8">
+            <h2 class="text-xl font-semibold text-white mb-4">API Reference</h2>
+            <p class="text-gray-400 mb-4">Aeloria exposes a REST API for programmatic deployments.</p>
+            <h3 class="text-lg font-medium text-white mb-2">Trigger a deployment</h3>
+            <pre class="language-http text-sm overflow-auto scrollbar-hide bg-gray-800 p-4 rounded-lg border border-gray-700"><code>POST /v1/deploy
+Authorization: Bearer &lt;API_KEY&gt;
+Content-Type: application/json
+
+{
+  "repo": "github.com/you/your-app",
+  "branch": "main"
+}
+</code></pre>
+            <p class="text-gray-400 mt-4">Successful response returns a <code class="bg-gray-800 px-1 py-0.5 rounded">deployment_id</code> you can use to poll status.</p>
+          </article>
+
+          <!-- FAQ -->
+          <article id="faq" class="bg-gray-900 border border-gray-800 rounded-2xl p-8">
+            <h2 class="text-xl font-semibold text-white mb-4">FAQ</h2>
+            <div class="space-y-4 text-gray-300">
+              <details class="bg-gray-800 p-4 rounded-lg">
+                <summary class="cursor-pointer">How long does a deployment take?</summary>
+                <p class="mt-2 text-gray-400">Typical builds finish in under 2 minutes for small apps. Larger builds depend on project complexity.</p>
+              </details>
+
+              <details class="bg-gray-800 p-4 rounded-lg">
+                <summary class="cursor-pointer">Can I use a custom domain?</summary>
+                <p class="mt-2 text-gray-400">Yes — add your domain in the dashboard and follow the DNS setup instructions we provide.</p>
+              </details>
+            </div>
+          </article>
+
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="mt-12 pb-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm text-gray-500">
+      © 2024 Aeloria — Documentation
+    </div>
+  </footer>
+
+  <script>
+    // icons
+    lucide.createIcons();
+
+    // Theme toggle (light/dark) - simple visual only
+    const themeToggle = document.getElementById('theme-toggle');
+    themeToggle.addEventListener('click', () => {
+      document.documentElement.classList.toggle('light');
+      // swap moon/sun icon
+      const icon = themeToggle.querySelector('i');
+      icon.setAttribute('data-lucide', document.documentElement.classList.contains('light') ? 'sun' : 'moon');
+      lucide.createIcons();
+    });
+
+    // Copy to clipboard for code blocks
+    document.querySelectorAll('.copy-btn').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const pre = btn.closest('div').querySelector('pre');
+        if (!pre) return;
+        const text = pre.innerText;
+        try { await navigator.clipboard.writeText(text); btn.innerText = 'Copied'; setTimeout(() => btn.innerText = 'Copy', 1500); }
+        catch (e) { btn.innerText = 'Failed'; setTimeout(() => btn.innerText = 'Copy', 1500); }
+      });
+    });
+
+    // Simple search over sidebar items & headings
+    const search = document.getElementById('doc-search');
+    if (search) {
+      search.addEventListener('input', (e) => {
+        const q = e.target.value.toLowerCase().trim();
+        document.querySelectorAll('nav a, section article h2, section article h1').forEach(el => {
+          const text = (el.innerText || '').toLowerCase();
+          if (!q) { el.style.display = ''; return; }
+          if (text.includes(q)) el.style.display = ''; else el.style.display = 'none';
+        });
+      });
+    }
+
+    // Smooth scroll for internal links
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', (e) => {
+        e.preventDefault();
+        const target = document.querySelector(a.getAttribute('href'));
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+
+    // Sidebar toggle for small screens
+    const sidebarToggle = document.getElementById('sidebar-toggle');
+    if (sidebarToggle) sidebarToggle.addEventListener('click', () => {
+      const sidebar = document.getElementById('sidebar');
+      sidebar.classList.toggle('hidden');
+    });
+  </script>
+</body>
+</html>

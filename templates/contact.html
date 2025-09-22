@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Aeloria</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Custom animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        @keyframes slideInUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes slideInLeft {
+            from {
+                transform: translateX(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes slideInRight {
+            from {
+                transform: translateX(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0px) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(5deg);
+            }
+            100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+        }
+        
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 20px rgba(99, 102, 241, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(99, 102, 241, 0);
+            }
+        }
+        
+        .animate-fadeIn {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+        
+        .animate-slideInUp {
+            animation: slideInUp 0.8s ease-out forwards;
+        }
+        
+        .animate-slideInLeft {
+            animation: slideInLeft 0.8s ease-out forwards;
+        }
+        
+        .animate-slideInRight {
+            animation: slideInRight 0.8s ease-out forwards;
+        }
+        
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .animate-pulse-slow {
+            animation: pulse 3s infinite;
+        }
+        
+        /* Background styles */
+        body {
+            background: #0a0a14;
+            color: #e2e8f0;
+            overflow-x: hidden;
+        }
+        
+        /* Glassmorphism */
+        .glass {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .glass-light {
+            background: rgba(15, 23, 42, 0.5);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        
+        /* Button styles */
+        .btn-primary {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.5);
+        }
+        
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+            z-index: -1;
+        }
+        
+        .btn-primary:hover::before {
+            transform: translateX(0);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid rgba(99, 102, 241, 0.5);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-outline:hover {
+            background: rgba(99, 102, 241, 0.1);
+            border-color: #6366f1;
+            transform: translateY(-3px);
+        }
+        
+        /* Input styles */
+        .form-input {
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .form-input:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+            outline: none;
+        }
+        
+        .form-input.error {
+            border-color: #ef4444;
+        }
+        
+        .form-textarea {
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            resize: vertical;
+        }
+        
+        .form-textarea:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+            outline: none;
+        }
+        
+        .form-textarea.error {
+            border-color: #ef4444;
+        }
+        
+        .error-message {
+            color: #ef4444;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+        
+        /* Contact card */
+        .contact-card {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        
+        .contact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px -10px rgba(99, 102, 241, 0.3);
+            border-color: rgba(99, 102, 241, 0.3);
+        }
+        
+        /* FAQ item */
+        .faq-item {
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 0.75rem;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+        
+        .faq-question {
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        
+        .faq-question:hover {
+            background: rgba(99, 102, 241, 0.1);
+        }
+        
+        .faq-answer {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+            padding: 0 1.5rem 1rem;
+        }
+        
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+        }
+        
+        .faq-question i {
+            transition: transform 0.3s ease;
+        }
+        
+        /* Social icon */
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .social-icon:hover {
+            background: rgba(99, 102, 241, 0.2);
+            border-color: #6366f1;
+            transform: translateY(-3px);
+        }
+        
+        /* Floating elements */
+        .floating-element {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(40px);
+            opacity: 0.3;
+            z-index: -1;
+        }
+        
+        /* Success message */
+        .success-message {
+            background: rgba(16, 185, 129, 0.2);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            display: none;
+        }
+        
+        .success-message.show {
+            display: block;
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating background elements -->
+    <div class="floating-element w-64 h-64 bg-indigo-500 top-20 left-10 animate-float"></div>
+    <div class="floating-element w-96 h-96 bg-purple-500 bottom-20 right-10 animate-float" style="animation-delay: 2s;"></div>
+    <div class="floating-element w-48 h-48 bg-blue-500 top-1/2 left-1/4 animate-float" style="animation-delay: 4s;"></div>
+    
+    <!-- Header -->
+    <header class="glass p-6">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center">
+                <a href="index.html" class="flex items-center">
+                    <span class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-purple-500">Aeloria</span>
+                </a>
+                <nav class="hidden md:flex items-center space-x-8 ml-10">
+                    <a href="index.html" class="text-slate-300 hover:text-indigo-300 transition">Home</a>
+                    <a href="features.html" class="text-slate-300 hover:text-indigo-300 transition">Features</a>
+                    <a href="pricing.html" class="text-slate-300 hover:text-indigo-300 transition">Pricing</a>
+                    <a href="#" class="text-indigo-400 font-medium">Contact</a>
+                </nav>
+            </div>
+            
+            <div class="flex items-center space-x-4">
+                <a href="login.html" class="text-slate-300 hover:text-indigo-300 transition">Sign In</a>
+                <a href="login.html" class="btn-primary text-white px-4 py-2 rounded-lg font-semibold">Get Started</a>
+                
+                <!-- Mobile menu button -->
+                <button class="md:hidden text-slate-300 focus:outline-none">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 py-12">
+        <!-- Page Title -->
+        <div class="text-center mb-16 animate-slideInUp">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">
+                <span class="bg-clip-text text-transparent bg-gradient-to-r from-indigo-300 to-purple-400">Get in Touch</span>
+            </h1>
+            <p class="text-xl text-slate-400 max-w-3xl mx-auto">Have questions about Aeloria? We're here to help. Reach out to our team and we'll get back to you as soon as possible.</p>
+        </div>
+        
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Left Column - Contact Form -->
+            <div class="lg:col-span-2 animate-slideInLeft">
+                <div class="glass p-8 rounded-2xl">
+                    <h2 class="text-2xl font-bold mb-6">Send us a message</h2>
+                    
+                    <!-- Success Message -->
+                    <div id="successMessage" class="success-message">
+                        <div class="flex items-center">
+                            <i class="fas fa-check-circle text-green-400 text-xl mr-3"></i>
+                            <span>Thank you for your message! We'll get back to you soon.</span>
+                        </div>
+                    </div>
+                    
+                    <form id="contactForm">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                            <div>
+                                <label for="firstName" class="block text-slate-400 mb-2">First Name</label>
+                                <input type="text" id="firstName" class="form-input w-full px-4 py-3 rounded-lg focus:outline-none" placeholder="John" required>
+                                <div class="error-message" id="firstName-error"></div>
+                            </div>
+                            <div>
+                                <label for="lastName" class="block text-slate-400 mb-2">Last Name</label>
+                                <input type="text" id="lastName" class="form-input w-full px-4 py-3 rounded-lg focus:outline-none" placeholder="Doe" required>
+                                <div class="error-message" id="lastName-error"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label for="email" class="block text-slate-400 mb-2">Email Address</label>
+                            <input type="email" id="email" class="form-input w-full px-4 py-3 rounded-lg focus:outline-none" placeholder="you@example.com" required>
+                            <div class="error-message" id="email-error"></div>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label for="subject" class="block text-slate-400 mb-2">Subject</label>
+                            <input type="text" id="subject" class="form-input w-full px-4 py-3 rounded-lg focus:outline-none" placeholder="How can we help you?" required>
+                            <div class="error-message" id="subject-error"></div>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label for="message" class="block text-slate-400 mb-2">Message</label>
+                            <textarea id="message" rows="5" class="form-textarea w-full px-4 py-3 rounded-lg focus:outline-none" placeholder="Tell us more about your inquiry..." required></textarea>
+                            <div class="error-message" id="message-error"></div>
+                        </div>
+                        
+                        <button type="submit" class="btn-primary w-full text-white py-3 rounded-lg font-semibold">
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Right Column - Contact Info -->
+            <div class="animate-slideInRight">
+                <!-- Contact Information -->
+                <div class="glass p-8 rounded-2xl">
+                    <h2 class="text-2xl font-bold mb-6">Contact Information</h2>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-start">
+                            <div class="bg-indigo-500 bg-opacity-20 w-12 h-12 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+                                <i class="fas fa-map-marker-alt text-indigo-400 text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold mb-1">Our Location</h3>
+                                <p class="text-slate-400">123 Tech Street<br>San Francisco, CA 94105</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="bg-green-500 bg-opacity-20 w-12 h-12 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+                                <i class="fas fa-phone text-green-400 text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold mb-1">Phone Number</h3>
+                                <p class="text-slate-400">+1 (555) 123-4567</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="bg-blue-500 bg-opacity-20 w-12 h-12 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+                                <i class="fas fa-envelope text-blue-400 text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold mb-1">Email Address</h3>
+                                <p class="text-slate-400">support@aeloria.app</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="bg-purple-500 bg-opacity-20 w-12 h-12 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+                                <i class="fas fa-clock text-purple-400 text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold mb-1">Business Hours</h3>
+                                <p class="text-slate-400">Monday - Friday: 9am - 6pm PST<br>Saturday - Sunday: Closed</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Social Media -->
+                    <div class="mt-8">
+                        <h3 class="font-bold mb-4">Follow Us</h3>
+                        <div class="flex space-x-4">
+                            <a href="#" class="social-icon">
+                                <i class="fab fa-twitter text-slate-300"></i>
+                            </a>
+                            <a href="#" class="social-icon">
+                                <i class="fab fa-github text-slate-300"></i>
+                            </a>
+                            <a href="#" class="social-icon">
+                                <i class="fab fa-linkedin text-slate-300"></i>
+                            </a>
+                            <a href="#" class="social-icon">
+                                <i class="fab fa-discord text-slate-300"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- FAQ Section -->
+        <div class="mt-20 animate-slideInUp">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">
+                    <span class="bg-clip-text text-transparent bg-gradient-to-r from-indigo-300 to-purple-400">Frequently Asked Questions</span>
+                </h2>
+                <p class="text-xl text-slate-400 max-w-3xl mx-auto">Find answers to common questions about Aeloria and our services.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- FAQ Item 1 -->
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3 class="font-bold">What is Aeloria?</h3>
+                        <i class="fas fa-chevron-down text-slate-400"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p class="text-slate-400">Aeloria is a cloud platform that allows you to deploy full-stack applications and static websites directly from GitHub to the World Wide Web with automated builds, testing, and deployments.</p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item 2 -->
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3 class="font-bold">How much does Aeloria cost?</h3>
+                        <i class="fas fa-chevron-down text-slate-400"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p class="text-slate-400">Aeloria offers a free tier for personal projects and small teams. We also have paid plans for larger teams and enterprises with additional features and support.</p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item 3 -->
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3 class="font-bold">What technologies does Aeloria support?</h3>
+                        <i class="fas fa-chevron-down text-slate-400"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p class="text-slate-400">Aeloria supports a wide range of technologies including React, Next.js, Vue.js, Angular, Node.js, Python, Django, Flask, Spring Boot, and many more. We're constantly adding support for new technologies.</p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item 4 -->
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3 class="font-bold">How do I get started with Aeloria?</h3>
+                        <i class="fas fa-chevron-down text-slate-400"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p class="text-slate-400">Getting started is easy! Simply sign up for an account, connect your GitHub repository, configure your project settings, and deploy. Our platform will handle the rest with automated builds and deployments.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="glass mt-20 py-12">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-2xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-purple-500">Aeloria</h3>
+                    <p class="text-slate-400">Simplifying cloud deployment for developers, students, and startups.</p>
+                    <div class="flex space-x-4 mt-6">
+                        <a href="#" class="text-slate-400 hover:text-indigo-400 transition"><i class="fab fa-twitter text-xl"></i></a>
+                        <a href="#" class="text-slate-400 hover:text-indigo-400 transition"><i class="fab fa-github text-xl"></i></a>
+                        <a href="#" class="text-slate-400 hover:text-indigo-400 transition"><i class="fab fa-linkedin text-xl"></i></a>
+                        <a href="#" class="text-slate-400 hover:text-indigo-400 transition"><i class="fab fa-discord text-xl"></i></a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 text-slate-200">Product</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-slate-400 hover:text-indigo-400 transition">Features</a></li>
+                        <li><a href="#" class="text-slate-400 hover:text-indigo-400 transition">Pricing</a></li>
+                        <li><a href="#" class="text-slate-400 hover:text-indigo-400 transition">Documentation</a></li>
+                        <li><a href="#" class="text-slate-400 hover:text-indigo-400 transition">Release Notes</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 text-slate-200">Resources</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-slate-400 hover:text-indigo-400 transition">Blog</a></li>
+                        <li><a href="#" class="text-slate-400 hover:text-indigo-400 transition">Tutorials</a></li>
+                        <li><a href="#" class="text-slate-400 hover:text-indigo-400 transition">Community</a></li>
+                        <li><a href="#" class="text-slate-400 hover:text-indigo-400 transition">Support</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 text-slate-200">Company</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-slate-400 hover:text-indigo-400 transition">About Us</a></li>
+                        <li><a href="#" class="text-slate-400 hover:text-indigo-400 transition">Careers</a></li>
+                        <li><a href="#" class="text-slate-400 hover:text-indigo-400 transition">Contact</a></li>
+                        <li><a href="#" class="text-slate-400 hover:text-indigo-400 transition">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-slate-800 mt-12 pt-8 text-center text-slate-500">
+                <p>&copy; 2023 Aeloria. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Handle contact form submission
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Reset error messages
+            const errorElements = document.querySelectorAll('.error-message');
+            errorElements.forEach(el => el.textContent = '');
+            
+            // Get form values
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const email = document.getElementById('email').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+            
+            // Basic validation
+            let isValid = true;
+            
+            if (!firstName) {
+                document.getElementById('firstName-error').textContent = 'First name is required';
+                isValid = false;
+            }
+            
+            if (!lastName) {
+                document.getElementById('lastName-error').textContent = 'Last name is required';
+                isValid = false;
+            }
+            
+            if (!email) {
+                document.getElementById('email-error').textContent = 'Email is required';
+                isValid = false;
+            } else if (!isValidEmail(email)) {
+                document.getElementById('email-error').textContent = 'Please enter a valid email address';
+                isValid = false;
+            }
+            
+            if (!subject) {
+                document.getElementById('subject-error').textContent = 'Subject is required';
+                isValid = false;
+            }
+            
+            if (!message) {
+                document.getElementById('message-error').textContent = 'Message is required';
+                isValid = false;
+            }
+            
+            if (isValid) {
+                // Show success message
+                document.getElementById('successMessage').classList.add('show');
+                
+                // Reset form
+                this.reset();
+                
+                // Hide success message after 5 seconds
+                setTimeout(() => {
+                    document.getElementById('successMessage').classList.remove('show');
+                }, 5000);
+            }
+        });
+        
+        // Email validation helper
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+        
+        // FAQ toggle
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const faqItem = question.parentElement;
+                const isActive = faqItem.classList.contains('active');
+                
+                // Close all FAQ items
+                document.querySelectorAll('.faq-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+                
+                // Open clicked item if it wasn't active
+                if (!isActive) {
+                    faqItem.classList.add('active');
+                }
+            });
+        });
+        
+        // Add animation to elements when they come into view
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-fadeIn');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+        
+        // Observe FAQ items
+        const faqItems = document.querySelectorAll('.faq-item');
+        faqItems.forEach(item => {
+            observer.observe(item);
+        });
+    </script>
+</body>
+</html>
