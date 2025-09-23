@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About CloudDeploy - Effortless Cloud Deployment</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        body { 
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0a;
+            overflow-x: hidden;
+        }
+        
+        /* Custom Gradients */
+        .gradient-text {
+            background: linear-gradient(135deg, #00d4ff 0%, #ff00ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+        }
+        
+        .glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .glass-hover {
+            transition: all 0.4s ease;
+        }
+        
+        .glass-hover:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.2);
+            border-color: rgba(0, 212, 255, 0.3);
+        }
+        
+        .neon-border {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .neon-border::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.4), transparent);
+            transition: left 0.5s;
+        }
+        
+        .neon-border:hover::before {
+            left: 100%;
+        }
+        
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(0, 212, 255, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(0, 212, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 212, 255, 0); }
+        }
+        
+        .tech-icon {
+            transition: all 0.3s ease;
+        }
+        
+        .tech-icon:hover {
+            transform: scale(1.1) rotate(5deg);
+            filter: drop-shadow(0 0 10px currentColor);
+        }
+        
+        .timeline-line {
+            background: linear-gradient(to bottom, #00d4ff, #ff00ff);
+        }
+        
+        .timeline-dot {
+            background: linear-gradient(135deg, #00d4ff, #ff00ff);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.6);
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #1a1a1a;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #00d4ff, #ff00ff);
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="text-gray-100">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 glass">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <div class="w-10 h-10 bg-gradient-to-r from-cyan-400 to-purple-500 rounded-lg flex items-center justify-center mr-3">
+                            <i class="fas fa-cloud text-white"></i>
+                        </div>
+                        <span class="font-bold text-xl tracking-tight">CloudDeploy</span>
+                    </div>
+                    <div class="hidden md:ml-10 md:flex md:space-x-8">
+                        <a href="#" class="text-cyan-400 px-1 pt-1 text-sm font-medium relative">
+                            About
+                            <span class="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-cyan-400 to-purple-500"></span>
+                        </a>
+                        <a href="#" class="text-gray-300 hover:text-white px-1 pt-1 text-sm font-medium transition">Features</a>
+                        <a href="#" class="text-gray-300 hover:text-white px-1 pt-1 text-sm font-medium transition">Pricing</a>
+                        <a href="#" class="text-gray-300 hover:text-white px-1 pt-1 text-sm font-medium transition">Docs</a>
+                        <a href="#" class="text-gray-300 hover:text-white px-1 pt-1 text-sm font-medium transition">Blog</a>
+                    </div>
+                </div>
+                <div class="flex items-center">
+                    <a href="#" class="hidden md:block bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-600 hover:to-purple-700 text-white px-6 py-2 rounded-full text-sm font-medium transition neon-border">
+                        Get Started
+                    </a>
+                    <button class="md:hidden text-gray-300 hover:text-white">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="min-h-screen flex items-center relative overflow-hidden">
+        <div class="absolute inset-0 gradient-bg opacity-50"></div>
+        <div class="absolute inset-0">
+            <div class="absolute top-20 left-10 w-72 h-72 bg-purple-500 rounded-full filter blur-3xl opacity-20 floating"></div>
+            <div class="absolute bottom-20 right-10 w-96 h-96 bg-cyan-500 rounded-full filter blur-3xl opacity-20 floating" style="animation-delay: 2s;"></div>
+        </div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center pt-20">
+                <div class="inline-block mb-6">
+                    <span class="px-4 py-1 glass rounded-full text-sm text-cyan-300">The Future of Deployment</span>
+                </div>
+                <h1 class="text-5xl md:text-7xl font-black mb-6 leading-tight">
+                    About <span class="gradient-text">CloudDeploy</span>
+                </h1>
+                <p class="text-xl md:text-2xl text-gray-300 max-w-4xl mx-auto mb-12">
+                    Revolutionizing how developers bring their ideas to the web with <span class="text-cyan-300">effortless</span> cloud deployment
+                </p>
+                
+                <div class="flex flex-wrap justify-center gap-8 mb-16">
+                    <div class="glass px-8 py-6 rounded-2xl">
+                        <div class="text-4xl font-bold gradient-text mb-1">100K+</div>
+                        <div class="text-gray-400">Developers</div>
+                    </div>
+                    <div class="glass px-8 py-6 rounded-2xl">
+                        <div class="text-4xl font-bold gradient-text mb-1">1M+</div>
+                        <div class="text-gray-400">Deployments</div>
+                    </div>
+                    <div class="glass px-8 py-6 rounded-2xl">
+                        <div class="text-4xl font-bold gradient-text mb-1">99.9%</div>
+                        <div class="text-gray-400">Uptime</div>
+                    </div>
+                </div>
+                
+                <div class="flex justify-center space-x-4">
+                    <a href="#" class="glass px-8 py-3 rounded-full hover:bg-white/10 transition inline-flex items-center">
+                        <span>Explore Platform</span>
+                        <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                    <a href="#" class="px-8 py-3 rounded-full border border-gray-600 hover:border-cyan-400 transition inline-flex items-center">
+                        <span>Watch Demo</span>
+                        <i class="fas fa-play ml-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <i class="fas fa-chevron-down text-2xl text-gray-500"></i>
+        </div>
+    </section>
+
+    <!-- Mission Section -->
+    <section class="py-20 relative">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-4xl md:text-5xl font-bold mb-6">
+                Our <span class="gradient-text">Mission</span>
+            </h2>
+            <p class="text-xl text-gray-300 mb-12 leading-relaxed">
+                At CloudDeploy, we're <span class="text-cyan-300 font-semibold">revolutionizing</span> how developers bring their ideas to the web. 
+                We believe that deploying applications should be as <span class="text-purple-300 font-semibold">simple as writing code</span>. 
+                Our mission is to eliminate the complexities of hosting infrastructure so developers can focus on what they do best: 
+                creating <span class="gradient-text font-semibold">amazing experiences</span>.
+            </p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16">
+                <div class="glass p-6 rounded-2xl glass-hover">
+                    <div class="w-16 h-16 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-bolt text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Speed</h3>
+                    <p class="text-gray-400">Deploy in seconds, not hours</p>
+                </div>
+                <div class="glass p-6 rounded-2xl glass-hover">
+                    <div class="w-16 h-16 bg-gradient-to-r from-purple-400 to-pink-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-shield-alt text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Security</h3>
+                    <p class="text-gray-400">Enterprise-grade protection</p>
+                </div>
+                <div class="glass p-6 rounded-2xl glass-hover">
+                    <div class="w-16 h-16 bg-gradient-to-r from-green-400 to-teal-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-chart-line text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Scale</h3>
+                    <p class="text-gray-400">Grow without limits</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Who We Are Section -->
+    <section class="py-20 relative">
+        <div class="absolute inset-0 bg-gradient-to-r from-purple-900/20 to-cyan-900/20"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div>
+                    <h2 class="text-4xl md:text-5xl font-bold mb-6">
+                        Who We <span class="gradient-text">Are</span>
+                    </h2>
+                    <p class="text-lg text-gray-300 mb-6 leading-relaxed">
+                        CloudDeploy is a <span class="text-cyan-300 font-semibold">next-generation</span> cloud platform built by developers, for developers. 
+                        Born from the frustration of complicated deployment processes, we've created a <span class="text-purple-300 font-semibold">seamless solution</span> 
+                        that transforms how applications are deployed and scaled across the globe.
+                    </p>
+                    <p class="text-lg text-gray-300 mb-8 leading-relaxed">
+                        Our team consists of experienced engineers, designers, and product managers who have worked at leading tech companies 
+                        and understand the <span class="gradient-text font-semibold">pain points</span> of modern development workflows.
+                    </p>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-gradient-to-r from-cyan-400 to-purple-500 rounded-xl flex items-center justify-center">
+                                <i class="fas fa-users text-white"></i>
+                            </div>
+                            <div>
+                                <div class="font-bold text-lg">Global Team</div>
+                                <div class="text-gray-400">50+ team members across 15 countries</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-gradient-to-r from-purple-400 to-pink-500 rounded-xl flex items-center justify-center">
+                                <i class="fas fa-award text-white"></i>
+                            </div>
+                            <div>
+                                <div class="font-bold text-lg">Industry Leaders</div>
+                                <div class="text-gray-400">Experts from top tech companies</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative">
+                    <div class="glass p-2 rounded-3xl floating">
+                        <img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
+                             alt="Team collaboration" 
+                             class="rounded-2xl w-full h-auto">
+                    </div>
+                    <div class="absolute -bottom-6 -right-6 w-32 h-32 bg-gradient-to-r from-cyan-400 to-purple-500 rounded-full filter blur-3xl opacity-50"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-20 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">
+                    What We <span class="gradient-text">Do</span>
+                </h2>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                    Powerful features designed for modern developers
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="glass p-8 rounded-3xl glass-hover group">
+                    <div class="w-16 h-16 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-2xl flex items-center justify-center mb-6 group-hover:rotate-6 transition">
+                        <i class="fas fa-rocket text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-3">Instant Deployment</h3>
+                    <p class="text-gray-400 mb-4">Push to GitHub, watch it go live instantly with our automated pipelines.</p>
+                    <a href="#" class="text-cyan-400 hover:text-cyan-300 inline-flex items-center">
+                        Learn more <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="glass p-8 rounded-3xl glass-hover group">
+                    <div class="w-16 h-16 bg-gradient-to-r from-purple-400 to-pink-500 rounded-2xl flex items-center justify-center mb-6 group-hover:rotate-6 transition">
+                        <i class="fas fa-code text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-3">Multi-Language Support</h3>
+                    <p class="text-gray-400 mb-4">React, Vue, Node.js, Python, Ruby, and more - we've got you covered.</p>
+                    <a href="#" class="text-purple-400 hover:text-purple-300 inline-flex items-center">
+                        Learn more <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="glass p-8 rounded-3xl glass-hover group">
+                    <div class="w-16 h-16 bg-gradient-to-r from-green-400 to-teal-500 rounded-2xl flex items-center justify-center mb-6 group-hover:rotate-6 transition">
+                        <i class="fas fa-expand-arrows-alt text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-3">Auto Scaling</h3>
+                    <p class="text-gray-400 mb-4">Handle traffic spikes automatically without manual intervention.</p>
+                    <a href="#" class="text-green-400 hover:text-green-300 inline-flex items-center">
+                        Learn more <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="glass p-8 rounded-3xl glass-hover group">
+                    <div class="w-16 h-16 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-2xl flex items-center justify-center mb-6 group-hover:rotate-6 transition">
+                        <i class="fas fa-globe text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-3">Global CDN</h3>
+                    <p class="text-gray-400 mb-4">Lightning-fast load times from edge locations worldwide.</p>
+                    <a href="#" class="text-yellow-400 hover:text-yellow-300 inline-flex items-center">
+                        Learn more <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+
+                <!-- Feature 5 -->
+                <div class="glass p-8 rounded-3xl glass-hover group">
+                    <div class="w-16 h-16 bg-gradient-to-r from-red-400 to-pink-500 rounded-2xl flex items-center justify-center mb-6 group-hover:rotate-6 transition">
+                        <i class="fas fa-sync-alt text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-3">CI/CD Pipelines</h3>
+                    <p class="text-gray-400 mb-4">Built-in continuous integration and deployment workflows.</p>
+                    <a href="#" class="text-red-400 hover:text-red-300 inline-flex items-center">
+                        Learn more <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+
+                <!-- Feature 6 -->
+                <div class="glass p-8 rounded-3xl glass-hover group">
+                    <div class="w-16 h-16 bg-gradient-to-r from-indigo-400 to-purple-500 rounded-2xl flex items-center justify-center mb-6 group-hover:rotate-6 transition">
+                        <i class="fas fa-layer-group text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-3">Environment Mgmt</h3>
+                    <p class="text-gray-400 mb-4">Staging, production, and feature branches made simple.</p>
+                    <a href="#" class="text-indigo-400 hover:text-indigo-300 inline-flex items-center">
+                        Learn more <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technology Section -->
+    <section class="py-20 relative">
+        <div class="absolute inset-0 bg-gradient-to-br from-purple-900/10 to-cyan-900/10"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div>
+                    <h2 class="text-4xl md:text-5xl font-bold mb-8">
+                        Our <span class="gradient-text">Technology</span> Stack
+                    </h2>
+                    <p class="text-xl text-gray-300 mb-8 leading-relaxed">
+                        CloudDeploy leverages <span class="text-cyan-300 font-semibold">cutting-edge</span> cloud technologies to provide a robust, secure, and scalable platform:
+                    </p>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-start space-x-4">
+                            <div class="w-12 h-12 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-xl flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-cube text-white"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold mb-1">Container Architecture</h3>
+                                <p class="text-gray-400">Isolated, secure environments with Docker and Kubernetes</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start space-x-4">
+                            <div class="w-12 h-12 bg-gradient-to-r from-purple-400 to-pink-500 rounded-xl flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-network-wired text-white"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold mb-1">Edge Computing</h3>
+                                <p class="text-gray-400">Global distribution for lightning-fast performance</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start space-x-4">
+                            <div class="w-12 h-12 bg-gradient-to-r from-green-400 to-teal-500 rounded-xl flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-cogs text-white"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold mb-1">Automated Builds</h3>
+                                <p class="text-gray-400">Multi-language support with intelligent caching</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start space-x-4">
+                            <div class="w-12 h-12 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-xl flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-chart-bar text-white"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold mb-1">Monitoring</h3>
+                                <p class="text-gray-400">Real-time insights with comprehensive alerting</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="glass p-8 rounded-3xl">
+                        <h3 class="text-2xl font-bold mb-6 text-center">Powered By</h3>
+                        <div class="grid grid-cols-3 gap-6">
+                            <div class="glass p-6 rounded-2xl text-center tech-icon">
+                                <i class="fab fa-docker text-4xl text-cyan-400 mb-3"></i>
+                                <div class="text-sm font-medium">Docker</div>
+                            </div>
+                            <div class="glass p-6 rounded-2xl text-center tech-icon">
+                                <i class="fab fa-aws text-4xl text-orange-400 mb-3"></i>
+                                <div class="text-sm font-medium">AWS</div>
+                            </div>
+                            <div class="glass p-6 rounded-2xl text-center tech-icon">
+                                <i class="fab fa-kubernetes text-4xl text-blue-400 mb-3"></i>
+                                <div class="text-sm font-medium">K8s</div>
+                            </div>
+                            <div class="glass p-6 rounded-2xl text-center tech-icon">
+                                <i class="fab fa-node-js text-4xl text-green-400 mb-3"></i>
+                                <div class="text-sm font-medium">Node.js</div>
+                            </div>
+                            <div class="glass p-6 rounded-2xl text-center tech-icon">
+                                <i class="fab fa-python text-4xl text-yellow-400 mb-3"></i>
+                                <div class="text-sm font-medium">Python</div>
+                            </div>
+                            <div class="glass p-6 rounded-2xl text-center tech-icon">
+                                <i class="fab fa-react text-4xl text-cyan-400 mb-3"></i>
+                                <div class="text-sm font-medium">React</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Timeline Section -->
+    <section class="py-20 relative">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">
+                    Our <span class="gradient-text">Story</span>
+                </h2>
+                <p class="text-xl text-gray-300">From frustration to innovation</p>
+            </div>
+
+            <div class="relative">
+                <div class="absolute left-8 top-0 bottom-0 w-1 timeline-line"></div>
+                
+                <div class="space-y-12">
+                    <!-- Timeline Item 1 -->
+                    <div class="flex items-start">
+                        <div class="timeline-dot w-16 h-16 rounded-full flex items-center justify-center z-10 flex-shrink-0">
+                            <i class="fas fa-seedling text-white text-xl"></i>
+                        </div>
+                        <div class="ml-8 glass p-8 rounded-3xl flex-1">
+                            <div class="text-cyan-400 font-bold text-lg mb-2">2023</div>
+                            <h3 class="text-2xl font-bold mb-3">The Beginning</h3>
+                            <p class="text-gray-400">Born from developer frustration with complex deployment processes. A vision for simplicity takes shape.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Timeline Item 2 -->
+                    <div class="flex items-start">
+                        <div class="timeline-dot w-16 h-16 rounded-full flex items-center justify-center z-10 flex-shrink-0">
+                            <i class="fas fa-rocket text-white text-xl"></i>
+                        </div>
+                        <div class="ml-8 glass p-8 rounded-3xl flex-1">
+                            <div class="text-purple-400 font-bold text-lg mb-2">2023</div>
+                            <h3 class="text-2xl font-bold mb-3">First Release</h3>
+                            <p class="text-gray-400">MVP launch with static sites and Node.js support. First 1,000 developers join the revolution.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Timeline Item 3 -->
+                    <div class="flex items-start">
+                        <div class="timeline-dot w-16 h-16 rounded-full flex items-center justify-center z-10 flex-shrink-0">
+                            <i class="fas fa-expand text-white text-xl"></i>
+                        </div>
+                        <div class="ml-8 glass p-8 rounded-3xl flex-1">
+                            <div class="text-pink-400 font-bold text-lg mb-2">2024</div>
+                            <h3 class="text-2xl font-bold mb-3">Platform Expansion</h3>
+                            <p class="text-gray-400">Added Python, Ruby, PHP, and Go support. Advanced CI/CD features introduced.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Timeline Item 4 -->
+                    <div class="flex items-start">
+                        <div class="timeline-dot w-16 h-16 rounded-full flex items-center justify-center z-10 flex-shrink-0 pulse">
+                            <i class="fas fa-globe text-white text-xl"></i>
+                        </div>
+                        <div class="ml-8 glass p-8 rounded-3xl flex-1">
+                            <div class="text-green-400 font-bold text-lg mb-2">Today</div>
+                            <h3 class="text-2xl font-bold mb-3">Global Impact</h3>
+                            <p class="text-gray-400">Powering thousands of applications worldwide. From portfolios to enterprise systems.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-r from-purple-900 to-cyan-900"></div>
+        <div class="absolute inset-0">
+            <div class="absolute top-0 left-0 w-full h-full bg-black/50"></div>
+            <div class="absolute top-20 left-20 w-96 h-96 bg-purple-500 rounded-full filter blur-3xl opacity-30 floating"></div>
+            <div class="absolute bottom-20 right-20 w-96 h-96 bg-cyan-500 rounded-full filter blur-3xl opacity-30 floating" style="animation-delay: 3s;"></div>
+        </div>
+        
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+            <h2 class="text-4xl md:text-5xl font-bold mb-6 text-white">
+                Ready to <span class="gradient-text">Transform</span> Your Workflow?
+            </h2>
+            <p class="text-xl text-gray-200 mb-12 max-w-3xl mx-auto">
+                Join thousands of developers who've already made the switch to effortless deployment. 
+                Whether you're a solo developer or an enterprise team, we've got you covered.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row justify-center gap-6">
+                <a href="#" class="bg-white text-gray-900 hover:bg-gray-100 px-8 py-4 rounded-full font-bold text-lg transition neon-border inline-flex items-center justify-center">
+                    <span>Start Free Trial</span>
+                    <i class="fas fa-arrow-right ml-3"></i>
+                </a>
+                <a href="#" class="glass px-8 py-4 rounded-full font-bold text-lg hover:bg-white/10 transition inline-flex items-center justify-center">
+                    <span>Book a Demo</span>
+                    <i class="fas fa-calendar ml-3"></i>
+                </a>
+            </div>
+            
+            <div class="mt-12 flex justify-center space-x-8 text-gray-300">
+                <div class="flex items-center">
+                    <i class="fas fa-check-circle text-green-400 mr-2"></i>
+                    <span>No credit card required</span>
+                </div>
+                <div class="flex items-center">
+                    <i class="fas fa-check-circle text-green-400 mr-2"></i>
+                    <span>14-day free trial</span>
+                </div>
+                <div class="flex items-center">
+                    <i class="fas fa-check-circle text-green-400 mr-2"></i>
+                    <span>Cancel anytime</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="relative bg-black/80 backdrop-blur-lg border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-6">
+                        <div class="w-10 h-10 bg-gradient-to-r from-cyan-400 to-purple-500 rounded-lg flex items-center justify-center mr-3">
+                            <i class="fas fa-cloud text-white"></i>
+                        </div>
+                        <span class="font-bold text-xl">CloudDeploy</span>
+                    </div>
+                    <p class="text-gray-400 mb-4">
+                        The future of cloud deployment is here. 
+                        Build, deploy, and scale with confidence.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 glass rounded-full flex items-center justify-center hover:bg-white/10 transition">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 glass rounded-full flex items-center justify-center hover:bg-white/10 transition">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 glass rounded-full flex items-center justify-center hover:bg-white/10 transition">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 glass rounded-full flex items-center justify-center hover:bg-white/10 transition">
+                            <i class="fab fa-discord"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-white font-bold mb-4">Product</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-cyan-400 transition">Features</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-cyan-400 transition">Pricing</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-cyan-400 transition">Integrations</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-cyan-400 transition">Changelog</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-white font-bold mb-4">Resources</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-purple-400 transition">Documentation</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-purple-400 transition">Tutorials</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-purple-400 transition">Blog</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-purple-400 transition">Support</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-white font-bold mb-4">Company</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-pink-400 transition">About</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-pink-400 transition">Careers</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-pink-400 transition">Contact</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-pink-400 transition">Partners</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <div class="text-gray-400 text-sm mb-4 md:mb-0">
+                    &copy; 2023 CloudDeploy. All rights reserved.
+                </div>
+                <div class="flex space-x-6 text-sm">
+                    <a href="#" class="text-gray-400 hover:text-white">Privacy Policy</a>
+                    <a href="#" class="text-gray-400 hover:text-white">Terms of Service</a>
+                    <a href="#" class="text-gray-400 hover:text-white">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
