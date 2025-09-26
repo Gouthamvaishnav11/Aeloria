@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deployment Logs - Aeloria</title>
+    <title>Deployment Logs </title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         /* Custom animations */
         @keyframes fadeIn {
@@ -382,6 +383,25 @@
             box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.2);
             border-color: rgba(99, 102, 241, 0.2);
         }
+        
+        /* Commit info */
+        .commit-info {
+            display: flex;
+            align-items: center;
+            font-family: monospace;
+            font-size: 0.875rem;
+            background: rgba(30, 41, 59, 0.5);
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+        }
+        
+        .commit-hash {
+            color: #a5b4fc;
+        }
+        
+        .branch-name {
+            color: #fbbf24;
+        }
     </style>
 </head>
 <body class="font-sans">
@@ -399,10 +419,20 @@
                 </a>
                 <div>
                     <h1 class="text-2xl font-bold">Deployment Logs</h1>
-                    <div class="flex items-center space-x-4 text-slate-400 text-sm">
+                    <div class="flex flex-wrap items-center gap-4 text-slate-400 text-sm">
                         <span>E-commerce Platform</span>
                         <span>•</span>
                         <span>Deployment ID: dep-12345678</span>
+                        <span>•</span>
+                        <div class="commit-info">
+                            <i class="fas fa-code-branch mr-2 text-indigo-400"></i>
+                            <span class="commit-hash">a1b2c3d</span>
+                        </div>
+                        <span>•</span>
+                        <div class="commit-info">
+                            <i class="fas fa-sitemap mr-2 text-purple-400"></i>
+                            <span class="branch-name">main</span>
+                        </div>
                         <span>•</span>
                         <span class="status-badge status-running">
                             <span class="loading-spinner mr-2"></span>
@@ -495,6 +525,14 @@
             
             <!-- Right Column - Stats and Info -->
             <div>
+                <!-- Log Count Over Time -->
+                <div class="log-card p-6 rounded-xl mb-6">
+                    <h2 class="text-xl font-bold mb-4">Log Count Over Time</h2>
+                    <div class="h-40">
+                        <canvas id="logCountChart"></canvas>
+                    </div>
+                </div>
+                
                 <!-- Log Statistics -->
                 <div class="log-card p-6 rounded-xl mb-6">
                     <h2 class="text-xl font-bold mb-4">Log Statistics</h2>
@@ -604,6 +642,8 @@
         let currentFilter = 'all';
         let searchTerm = '';
         let highlightMatches = true;
+        let logCountChart = null;
+        let logCountsOverTime = [];
         
         // DOM elements
         const logViewer = document.getElementById('logViewer');
@@ -679,6 +719,9 @@
         
         // Initialize
         function init() {
+            // Initialize log count chart
+            initLogCountChart();
+            
             // Start generating logs
             generateLogs();
             
@@ -726,6 +769,85 @@
             });
         }
         
+        // Initialize log count chart
+        function initLogCountChart() {
+            const ctx = document.getElementById('logCountChart').getContext('2d');
+            
+            logCountChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: 'Log Count',
+                        data: [],
+                        borderColor: '#6366f1',
+                        backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.05)'
+                            },
+                            ticks: {
+                                color: 'rgba(226, 232, 240, 0.5)'
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.05)'
+                            },
+                            ticks: {
+                                color: 'rgba(226, 232, 240, 0.5)'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(15, 23, 42, 0.8)',
+                            titleColor: '#e2e8f0',
+                            bodyColor: '#e2e8f0',
+                            borderColor: 'rgba(99, 102, 241, 0.3)',
+                            borderWidth: 1
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Update log count chart
+        function updateLogCountChart() {
+            if (!logCountChart) return;
+            
+            // Get current time in seconds
+            const now = new Date();
+            const timeLabel = `${now.getMinutes()}:${now.getSeconds().toString().padStart(2, '0')}`;
+            
+            // Add new data point
+            logCountChart.data.labels.push(timeLabel);
+            logCountChart.data.datasets[0].data.push(logs.length);
+            
+            // Keep only last 20 data points
+            if (logCountChart.data.labels.length > 20) {
+                logCountChart.data.labels.shift();
+                logCountChart.data.datasets[0].data.shift();
+            }
+            
+            // Update chart
+            logCountChart.update('none'); // 'none' for faster updates
+        }
+        
         // Generate logs
         function generateLogs() {
             let index = 0;
@@ -758,6 +880,9 @@
             
             // Update stats
             updateStats();
+            
+            // Update log count chart
+            updateLogCountChart();
             
             // Render logs
             renderLogs();
@@ -873,6 +998,14 @@
         function clearLogs() {
             if (confirm('Are you sure you want to clear all logs?')) {
                 logs.length = 0;
+                
+                // Reset chart
+                if (logCountChart) {
+                    logCountChart.data.labels = [];
+                    logCountChart.data.datasets[0].data = [];
+                    logCountChart.update();
+                }
+                
                 renderLogs();
                 updateStats();
             }

@@ -1,382 +1,613 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aeloria - Deploy Your Apps with Confidence</title>
-    <meta name="description"
-        content="Deploy full-stack applications and static websites directly from GitHub. Automated testing, continuous deployment, and scalable cloud infrastructure.">
-
-    <!-- Fonts and Styles -->
-    <link rel="stylesheet" href="https://use.typekit.net/yjp3aho.css">
+    <title>Aeloria - Cloud Deployment Platform</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        'sofia': ['sofia-pro', 'sans-serif']
-                    },
-                    colors: {
-                        'brand': {
-                            50: '#f0f9ff',
-                            100: '#e0f2fe',
-                            200: '#bae6fd',
-                            300: '#7dd3fc',
-                            400: '#38bdf8',
-                            500: '#0ea5e9',
-                            600: '#0284c7',
-                            700: '#0369a1',
-                            800: '#075985',
-                            900: '#0c4a6e'
-                        }
-                    }
-                }
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0d1117;
+            color: #ffffff;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+        }
+        
+        /* Animated Background Elements */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .animated-bg .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 25% 25%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
+            animation: pulse 15s infinite alternate;
+        }
+        
+        .animated-bg .grid-lines {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            animation: moveGrid 30s linear infinite;
+        }
+        
+        .animated-bg .floating-shapes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .shape {
+            position: absolute;
+            opacity: 0.1;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            animation: float 20s infinite ease-in-out;
+        }
+        
+        .shape:nth-child(1) {
+            width: 300px;
+            height: 300px;
+            top: -150px;
+            left: -150px;
+            animation-delay: 0s;
+        }
+        
+        .shape:nth-child(2) {
+            width: 200px;
+            height: 200px;
+            bottom: -100px;
+            right: -100px;
+            animation-delay: 5s;
+        }
+        
+        .shape:nth-child(3) {
+            width: 150px;
+            height: 150px;
+            top: 50%;
+            right: 10%;
+            animation-delay: 10s;
+        }
+        
+        /* Keyframes for animations */
+        @keyframes pulse {
+            0% {
+                opacity: 0.7;
+                transform: scale(1);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1.1);
             }
         }
-    </script>
+        
+        @keyframes moveGrid {
+            0% {
+                background-position: 0 0;
+            }
+            100% {
+                background-position: 40px 40px;
+            }
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(10deg);
+            }
+        }
+        
+        /* Enhanced hover effects */
+        .hover-scale {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .hover-scale:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .btn-pulse {
+            animation: btnPulse 2s infinite;
+        }
+        
+        @keyframes btnPulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(99, 102, 241, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(99, 102, 241, 0);
+            }
+        }
+        
+        /* Logo animation */
+        .logo-icon {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            background-image: url('https://z-cdn-media.chatglm.cn/files/25c558c6-130a-4e38-921c-3d8b2f66aff6_pasted_image_1758898853400.png?auth_key=1790435263-47f3d0029c3246acb58a0eb110fe1d2b-0-ef261bfb18fba19bb4bb27d175c48ba2');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            animation: logoGlow 4s infinite alternate;
+        }
+        
+        @keyframes logoGlow {
+            0% {
+                filter: drop-shadow(0 0 2px rgba(99, 102, 241, 0.5));
+            }
+            100% {
+                filter: drop-shadow(0 0 8px rgba(99, 102, 241, 0.8));
+            }
+        }
+        
+        /* Text animations */
+        .animated-text {
+            display: inline-block;
+            animation: textGlow 4s infinite alternate;
+        }
+        
+        @keyframes textGlow {
+            0% {
+                text-shadow: 0 0 5px rgba(99, 102, 241, 0.5);
+            }
+            100% {
+                text-shadow: 0 0 15px rgba(99, 102, 241, 0.8);
+            }
+        }
+        
+        /* Glass effect enhancement */
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .glass-effect:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Deployment animation */
+        .deployment-animation {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        
+        .github-icon, .cloud-icon {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            font-size: 24px;
+        }
+        
+        .github-icon {
+            top: 50%;
+            left: 10%;
+            transform: translateY(-50%);
+            background: #24292e;
+            color: white;
+        }
+        
+        .cloud-icon {
+            top: 50%;
+            right: 10%;
+            transform: translateY(-50%);
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+        }
+        
+        .deployment-path {
+            position: absolute;
+            top: 50%;
+            left: 15%;
+            width: 70%;
+            height: 2px;
+            background: linear-gradient(90deg, #6366f1, #8b5cf6);
+            transform: translateY(-50%);
+        }
+        
+        .deployment-particle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+            top: 50%;
+            transform: translateY(-50%);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            animation: moveParticle 4s linear infinite;
+        }
+        
+        @keyframes moveParticle {
+            0% {
+                left: 15%;
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                left: 85%;
+                opacity: 0;
+            }
+        }
+
+         /* Modern hero illustration */
+        .hero-illustration {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            height: 400px;
+            margin: 40px auto;
+        }
+        
+        .code-window {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            height: 200px;
+            background: #1e1e1e;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+        }
+        
+        .code-header {
+            height: 40px;
+            background: #2d2d2d;
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            gap: 8px;
+        }
+        
+        .code-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        
+        .code-dot.red { background: #ff5f56; }
+        .code-dot.yellow { background: #ffbd2e; }
+        .code-dot.green { background: #27c93f; }
+        
+        .code-content {
+            padding: 16px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            color: #d4d4d4;
+        }
+        
+        .cloud-server {
+            position: absolute;
+            top: 20%;
+            right: 10%;
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: white;
+            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.3);
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .github-icon {
+            position: absolute;
+            top: 20%;
+            left: 10%;
+            width: 80px;
+            height: 80px;
+            background: #24292e;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: white;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .deployment-arrow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 2px;
+            background: linear-gradient(90deg, #6366f1, #8b5cf6);
+        }
+        
+        .deployment-arrow::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-left: 10px solid #8b5cf6;
+            border-top: 6px solid transparent;
+            border-bottom: 6px solid transparent;
+        }
+        
+        /* Animations */
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 0.8;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .stats-container {
+                gap: 40px;
+            }
+            
+            .stat-number {
+                font-size: 36px;
+            }
+            
+            .hero-illustration {
+                height: 300px;
+            }
+            
+            .code-window {
+                width: 250px;
+                height: 150px;
+            }
+            
+            .cloud-server {
+                width: 100px;
+                height: 100px;
+                font-size: 32px;
+            }
+            
+            .github-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 24px;
+            }
+        }
+
+         /* Modern stats */
+        .stats-container {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            margin: 80px 0;
+            flex-wrap: wrap;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 48px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+        }
+        
+        .stat-label {
+            font-size: 16px;
+            color: #a0a0a0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+
+    
+    </style>
 </head>
-
-<body class="font-sofia bg-gray-950 text-gray-100">
-    <!-- Navigation -->
-    <nav data-id="main-navigation"
-        class="fixed top-0 w-full z-50 bg-gray-900/95 backdrop-blur-sm border-b border-gray-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <!-- Logo -->
-                <div data-id="nav-logo" class="flex items-center space-x-3">
-                    <div
-                        class="w-8 h-8 bg-gradient-to-br from-brand-500 to-brand-600 rounded-lg flex items-center justify-center">
-                        <i data-lucide="cloud" class="w-5 h-5 text-white"></i>
-                    </div>
-                    <span class="text-xl font-bold text-white">Aeloria</span>
-                </div>
-
-                <!-- Desktop Navigation -->
-                <div data-id="desktop-nav" class="hidden md:flex items-center space-x-8">
-                    <a href="#features" data-id="nav-features"
-                        class="text-gray-300 hover:text-white transition-colors">Features</a>
-                    <a href="#how-it-works" data-id="nav-how-it-works"
-                        class="text-gray-300 hover:text-white transition-colors">How it Works</a>
-                    <a href="/about" data-id="nav-pricing"
-                        class="text-gray-300 hover:text-white transition-colors">Pricing</a>
-                    <a href="docs.html" data-id="nav-docs"
-                        class="text-gray-300 hover:text-white transition-colors">Docs</a>
-                    <a href="/login" data-id="nav-login" class="text-gray-300 hover:text-white transition-colors">
-                        Login
-                    </a>
-                    <a href="/login" data-id="nav-signup"
-                        class="bg-brand-600 text-white px-4 py-2 rounded-lg hover:bg-brand-700 transition-colors">
-                        Get Started
-                    </a>
-
-                </div>
-
-                <!-- Mobile menu button -->
-                <button data-id="mobile-menu-toggle" class="md:hidden p-2 text-gray-300 hover:text-white">
-                    <i data-lucide="menu" class="w-6 h-6"></i>
-                </button>
-            </div>
-
-            <!-- Mobile Navigation -->
-            <div data-id="mobile-nav" class="md:hidden hidden border-t border-gray-800 py-4 bg-gray-900">
-                <div class="flex flex-col space-y-4">
-                    <a href="#features" data-id="mobile-nav-features"
-                        class="text-gray-300 hover:text-white transition-colors">Features</a>
-                    <a href="#how-it-works" data-id="mobile-nav-how-it-works"
-                        class="text-gray-300 hover:text-white transition-colors">How it Works</a>
-                    <a href="#pricing" data-id="mobile-nav-pricing"
-                        class="text-gray-300 hover:text-white transition-colors">Pricing</a>
-                    <a href="docs.html" data-id="mobile-nav-docs"
-                        class="text-gray-300 hover:text-white transition-colors">Docs</a>
-                    <button data-id="mobile-nav-login"
-                        class="text-left text-gray-300 hover:text-white transition-colors">Login</button>
-                    <button data-id="mobile-nav-signup"
-                        class="text-left bg-brand-600 text-white px-4 py-2 rounded-lg hover:bg-brand-700 transition-colors w-fit">Get
-                        Started</button>
-                </div>
-            </div>
+<body>
+    
+    <!-- Animated Background -->
+    <div class="animated-bg">
+        <div class="particles"></div>
+        <div class="grid-lines"></div>
+        <div class="floating-shapes">
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
         </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <section data-id="hero-section" class="pt-20 pb-16 bg-gradient-to-br from-gray-950 to-gray-900">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-4xl mx-auto">
-                <h1 data-id="hero-title" class="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
-                    Deploy Your Apps with <span
-                        class="text-transparent bg-clip-text bg-gradient-to-r from-brand-400 to-brand-600">Confidence</span>
+    </div>
+    
+    <div class="min-h-screen flex flex-col items-center justify-start relative text-white">
+        <!-- Header Section -->
+        <header class="w-full max-w-7xl mx-auto py-4 px-6 md:px-8 flex justify-between items-center z-10">
+            <!-- Logo -->
+            <div class="flex items-center space-x-2">
+                <span class="logo-icon"></span>
+                <h2 class="text-white text-xl font-bold">Aeloria</h2>
+            </div>
+            <!-- Navigation Menu (Desktop Only) -->
+            <div class="flex items-center space-x-8">
+                <a href="/features" class="text-gray-300 hover:text-white text-sm font-medium transition-colors duration-300">Features</a>
+                <div class="relative group inline-block">
+                    <a href="#" class="text-gray-300 hover:text-white text-sm font-medium inline-flex items-center transition-colors duration-300">
+                        Solutions
+                        <svg class="ml-1 h-4 w-4 fill-current text-gray-300 group-hover:text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                            <path d="M5.25 7.5l4.75 4.5 4.75-4.5h-9.5z" />
+                        </svg>
+                    </a>
+                    <div class="absolute hidden group-hover:block bg-[#0d1117] shadow-lg rounded-md mt-2 w-48 z-50 transition-all duration-300 transform origin-top scale-95 group-hover:scale-100">
+                        <a href="/static-sites" class="block px-4 py-2 text-gray-300 hover:bg-[#1c2128] rounded-md text-sm transition-colors duration-200">Static Sites</a>
+                        <a href="/full-stack" class="block px-4 py-2 text-gray-300 hover:bg-[#1c2128] rounded-md text-sm transition-colors duration-200">Full-Stack Apps</a>
+                        <a href="/testing" class="block px-4 py-2 text-gray-300 hover:bg-[#1c2128] rounded-md text-sm transition-colors duration-200">Testing Environments</a>
+                        <a href="/enterprise" class="block px-4 py-2 text-gray-300 hover:bg-[#1c2128] rounded-md text-sm transition-colors duration-200">Enterprise Solutions</a>
+                        <a href="/education" class="block px-4 py-2 text-gray-300 hover:bg-[#1c2128] rounded-md text-sm transition-colors duration-200">Education & Startups</a>
+                    </div>
+                </div>
+                <a href="/pricing" class="text-gray-300 hover:text-white text-sm font-medium transition-colors duration-300">Pricing</a>
+                <a href="/docs" class="text-gray-300 hover:text-white text-sm font-medium transition-colors duration-300">Documentation</a>
+            </div>
+            <!-- Auth Buttons -->
+            <div class="flex items-center space-x-4">
+                <a href="#" class="text-gray-300 hover:text-white text-sm font-medium transition-colors duration-300">Contact sales</a>
+                <a href="/login" class="text-gray-300 hover:text-white text-sm font-medium transition-colors duration-300">Log in</a>
+                <a href="/signup" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-md shadow-md transition duration-200 text-sm btn-pulse">
+                    Sign up
+                </a>
+            </div>
+        </header>
+        
+        <!-- Hero Section -->
+        <section class="flex flex-col items-center justify-center min-h-screen p-4 md:p-8">
+            <div class="text-center w-full max-w-4xl mx-auto">
+                <div class="inline-block bg-indigo-500/20 border border-indigo-400 text-indigo-300 text-sm font-semibold px-4 py-1.5 rounded-full mb-6 animated-text">
+                    <i class="fas fa-cloud-upload-alt mr-2"></i> Deploy in Seconds, Not Hours
+                </div>
+                <h1 class="text-4xl md:text-6xl lg:text-7xl font-black tracking-tight mb-4 text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-indigo-400 animated-text">
+                    Deploy from GitHub to Cloud
                 </h1>
-                <p data-id="hero-description" class="text-xl text-gray-400 mb-8 leading-relaxed">
-                    Connect your GitHub repository and deploy full-stack applications and static websites with automated
-                    testing, continuous deployment, and zero configuration required.
+                <p class="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto mb-10">
+                    Aeloria is a cloud platform that allows users to deploy full-stack applications and static websites directly from GitHub. 
+                    Perfect for students, startups, and developers who want to deploy projects without complex configurations.
                 </p>
-                <div data-id="hero-cta-buttons"
-                    class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
-                    <button data-id="hero-get-started"
-                        class="bg-brand-600 text-white px-8 py-4 rounded-xl text-lg font-semibold hover:bg-brand-700 transition-colors shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
-                        <i data-lucide="github" class="w-5 h-5 inline mr-2"></i>
-                        Deploy from GitHub
-                    </button>
-                    <button data-id="hero-watch-demo"
-                        class="border border-gray-600 text-gray-200 px-8 py-4 rounded-xl text-lg font-semibold hover:bg-gray-800 transition-colors">
-                        <i data-lucide="play" class="w-5 h-5 inline mr-2"></i>
-                        Watch Demo
-                    </button>
+                <div class="flex flex-row items-center justify-center gap-4">
+                    <a href="/signup" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-lg text-lg transition-transform transform hover:scale-105 shadow-lg hover-scale">
+                        <i class="fas fa-rocket mr-2"></i> Start Deploying
+                    </a>
+                    <a href="/features" class="bg-gray-700/50 hover:bg-gray-700 text-gray-200 font-bold py-3 px-8 rounded-lg text-lg transition-transform transform hover:scale-105 border border-gray-600 hover-scale">
+                        How It Works <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
                 </div>
-
-                <!-- Hero Image/Dashboard Preview -->
-                <div data-id="hero-preview" class="relative">
-                    <div class="bg-gray-900 rounded-2xl shadow-2xl border border-gray-800 overflow-hidden">
-                        <div class="bg-gray-800 px-4 py-3 flex items-center space-x-2">
-                            <div class="w-3 h-3 bg-red-400 rounded-full"></div>
-                            <div class="w-3 h-3 bg-yellow-400 rounded-full"></div>
-                            <div class="w-3 h-3 bg-green-400 rounded-full"></div>
-                        </div>
-                        <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
-                            alt="Aeloria Dashboard" class="w-full h-64 md:h-96 object-cover"
-                            data-id="hero-dashboard-image" />
+                
+                 <!-- Hero Illustration -->
+            <div class="hero-illustration">
+                <div class="github-icon">
+                    <i class="fab fa-github"></i>
+                </div>
+                <div class="code-window">
+                    <div class="code-header">
+                        <div class="code-dot red"></div>
+                        <div class="code-dot yellow"></div>
+                        <div class="code-dot green"></div>
+                    </div>
+                    <div class="code-content">
+                        <div>$ git push origin main</div>
+                        <div>✓ Deploying to Aeloria...</div>
+                        <div>✓ Build completed</div>
+                        <div>✓ Live at: https://app.aeloria.dev</div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Features Section -->
-    <section id="features" data-id="features-section" class="py-20 bg-gray-950">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 data-id="features-title" class="text-3xl md:text-4xl font-bold text-white mb-4">
-                    Everything You Need to Deploy
-                </h2>
-                <p data-id="features-description" class="text-xl text-gray-400 max-w-3xl mx-auto">
-                    From automated testing to continuous deployment, Aeloria provides all the tools you need to ship
-                    your applications with confidence.
-                </p>
-            </div>
-
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Feature cards -->
-                <div class="bg-gray-900 rounded-2xl p-8 hover:shadow-lg hover:shadow-brand-500/20 transition-shadow">
-                    <div class="w-12 h-12 bg-brand-900 rounded-xl flex items-center justify-center mb-6">
-                        <i data-lucide="github" class="w-6 h-6 text-brand-400"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold text-white mb-3">GitHub Integration</h3>
-                    <p class="text-gray-400">Connect your repository with one click. Push code changes and watch your
-                        application update automatically.</p>
-                </div>
-                <div class="bg-gray-900 rounded-2xl p-8 hover:shadow-lg hover:shadow-green-500/20 transition-shadow">
-                    <div class="w-12 h-12 bg-green-900 rounded-xl flex items-center justify-center mb-6">
-                        <i data-lucide="check-circle" class="w-6 h-6 text-green-400"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold text-white mb-3">Automated Testing</h3>
-                    <p class="text-gray-400">Run comprehensive tests before deployment. Only error-free code reaches
-                        production.</p>
-                </div>
-                <div class="bg-gray-900 rounded-2xl p-8 hover:shadow-lg hover:shadow-purple-500/20 transition-shadow">
-                    <div class="w-12 h-12 bg-purple-900 rounded-xl flex items-center justify-center mb-6">
-                        <i data-lucide="zap" class="w-6 h-6 text-purple-400"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold text-white mb-3">Zero Configuration</h3>
-                    <p class="text-gray-400">Smart detection of your project type. Deploy React, Vue, Node.js, Python
-                        apps without complex setup.</p>
-                </div>
-                <div class="bg-gray-900 rounded-2xl p-8 hover:shadow-lg hover:shadow-blue-500/20 transition-shadow">
-                    <div class="w-12 h-12 bg-blue-900 rounded-xl flex items-center justify-center mb-6">
-                        <i data-lucide="refresh-cw" class="w-6 h-6 text-blue-400"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold text-white mb-3">Continuous Deployment</h3>
-                    <p class="text-gray-400">Every commit triggers automated builds. Your live site stays synchronized
-                        with your latest code.</p>
-                </div>
-                <div class="bg-gray-900 rounded-2xl p-8 hover:shadow-lg hover:shadow-orange-500/20 transition-shadow">
-                    <div class="w-12 h-12 bg-orange-900 rounded-xl flex items-center justify-center mb-6">
-                        <i data-lucide="eye" class="w-6 h-6 text-orange-400"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold text-white mb-3">Staging Environment</h3>
-                    <p class="text-gray-400">Preview changes in a safe environment before they go live. Test thoroughly
-                        without risk.</p>
-                </div>
-                <div class="bg-gray-900 rounded-2xl p-8 hover:shadow-lg hover:shadow-red-500/20 transition-shadow">
-                    <div class="w-12 h-12 bg-red-900 rounded-xl flex items-center justify-center mb-6">
-                        <i data-lucide="activity" class="w-6 h-6 text-red-400"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold text-white mb-3">Real-time Monitoring</h3>
-                    <p class="text-gray-400">Track deployment logs, monitor performance, and get instant notifications
-                        about your applications.</p>
+                <div class="cloud-server">
+                    <i class="fas fa-cloud"></i>
                 </div>
             </div>
-        </div>
-    </section>
 
 
-    <!-- How It Works -->
-    <section id="how-it-works" class="py-20 bg-slate-50 dark:bg-slate-900">
-        <div class="max-w-6xl mx-auto px-6 text-center">
-            <h2 class="text-3xl md:text-4xl font-bold text-slate-800 dark:text-white mb-12">
-                How It Works
-            </h2>
-            <div class="grid md:grid-cols-3 gap-10">
-                <!-- Step 1 -->
-                <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-8">
-                    <div
-                        class="flex items-center justify-center w-16 h-16 mx-auto bg-indigo-100 dark:bg-indigo-900 rounded-full mb-6">
-                        <i data-lucide="git-branch" class="w-8 h-8 text-indigo-600 dark:text-indigo-400"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold text-slate-800 dark:text-white mb-3">Connect GitHub</h3>
-                    <p class="text-slate-600 dark:text-slate-300">
-                        Link your GitHub repository and let us handle the build and deployment pipeline automatically.
+             <!-- Stats -->
+            <div class="stats-container">
+                <div class="stat-item">
+                    <div class="stat-number">10K+</div>
+                    <div class="stat-label">Active Developers</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">50K+</div>
+                    <div class="stat-label">Deployments</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">99.9%</div>
+                    <div class="stat-label">Uptime</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">5s</div>
+                    <div class="stat-label">Avg. Deploy Time</div>
+                </div>
+            </div>
+            
+            <!-- Key Features -->
+            <div class="mt-20 md:mt-24 w-full max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+                <!-- Feature 1 -->
+                <div class="glass-effect p-6 rounded-xl text-center hover:bg-white/10 transition-all duration-300 hover-scale">
+                    <div class="text-indigo-400 text-3xl mb-4"><i class="fab fa-github"></i></div>
+                    <h3 class="text-xl font-bold mb-2">GitHub Integration</h3>
+                    <p class="text-gray-400 text-sm">
+                        Connect your GitHub repository and deploy with a single push. No complex configurations required.
                     </p>
                 </div>
-
-                <!-- Step 2 -->
-                <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-8">
-                    <div
-                        class="flex items-center justify-center w-16 h-16 mx-auto bg-green-100 dark:bg-green-900 rounded-full mb-6">
-                        <i data-lucide="zap" class="w-8 h-8 text-green-600 dark:text-green-400"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold text-slate-800 dark:text-white mb-3">Automated Testing</h3>
-                    <p class="text-slate-600 dark:text-slate-300">
-                        Every push runs through automated testing to ensure your code is production-ready.
+                <!-- Feature 2 -->
+                <div class="glass-effect p-6 rounded-xl text-center hover:bg-white/10 transition-all duration-300 hover-scale">
+                    <div class="text-indigo-400 text-3xl mb-4"><i class="fas fa-bolt"></i></div>
+                    <h3 class="text-xl font-bold mb-2">Instant Deployment</h3>
+                    <p class="text-gray-400 text-sm">
+                        Deploy your full-stack applications and static sites in seconds, not hours. Get live URLs instantly.
                     </p>
                 </div>
-
-                <!-- Step 3 -->
-                <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-8">
-                    <div
-                        class="flex items-center justify-center w-16 h-16 mx-auto bg-blue-100 dark:bg-blue-900 rounded-full mb-6">
-                        <i data-lucide="rocket" class="w-8 h-8 text-blue-600 dark:text-blue-400"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold text-slate-800 dark:text-white mb-3">Deploy Instantly</h3>
-                    <p class="text-slate-600 dark:text-slate-300">
-                        Once tests pass, your app is deployed instantly on our scalable cloud infrastructure.
+                <!-- Feature 3 -->
+                <div class="glass-effect p-6 rounded-xl text-center hover:bg-white/10 transition-all duration-300 hover-scale">
+                    <div class="text-indigo-400 text-3xl mb-4"><i class="fas fa-expand-arrows-alt"></i></div>
+                    <h3 class="text-xl font-bold mb-2">Auto-Scaling</h3>
+                    <p class="text-gray-400 text-sm">
+                        Built on scalable infrastructure that grows with your application. From student projects to startups.
                     </p>
                 </div>
             </div>
-        </div>
-    </section>
-
-
-    <!-- CTA Section -->
-    <section data-id="cta-section" class="py-20 bg-brand-700">
-        <div class="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-            <h2 data-id="cta-title" class="text-3xl md:text-4xl font-bold text-white mb-6">
-                Ready to Deploy with Confidence?
-            </h2>
-            <p data-id="cta-description" class="text-xl text-brand-100 mb-8">
-                Join thousands of developers who trust Aeloria for their deployments. Start your free trial today.
-            </p>
-            <button data-id="cta-button"
-                class="bg-white text-brand-700 px-8 py-4 rounded-xl text-lg font-semibold hover:bg-gray-100 transition-colors shadow-lg">
-                <i data-lucide="rocket" class="w-5 h-5 inline mr-2"></i>
-                Deploy Your First App
-            </button>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer data-id="main-footer" class="bg-gray-900 text-gray-300 py-16">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid md:grid-cols-4 gap-8 mb-12">
-                <!-- Company -->
-                <div data-id="footer-company">
-                    <div class="flex items-center space-x-3 mb-6">
-                        <div class="w-8 h-8 bg-brand-600 rounded-lg flex items-center justify-center">
-                            <i data-lucide="cloud" class="w-5 h-5 text-white"></i>
-                        </div>
-                        <span class="text-xl font-bold text-white">Aeloria</span>
-                    </div>
-                    <p class="text-gray-400 mb-4">Deploy your applications with confidence. Automated testing,
-                        continuous deployment, and scalable infrastructure.</p>
-                    <div class="flex space-x-4">
-                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
-                            <i data-lucide="twitter" class="w-5 h-5"></i>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
-                            <i data-lucide="github" class="w-5 h-5"></i>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
-                            <i data-lucide="linkedin" class="w-5 h-5"></i>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Product -->
-                <div data-id="footer-product">
-                    <h4 class="font-semibold text-white mb-4">Product</h4>
-                    <ul class="space-y-2 text-gray-400">
-                        <li><a href="#" class="hover:text-white transition-colors">Features</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Pricing</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Security</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Changelog</a></li>
-                    </ul>
-                </div>
-
-                <!-- Resources -->
-                <div data-id="footer-resources">
-                    <h4 class="font-semibold text-white mb-4">Resources</h4>
-                    <ul class="space-y-2 text-gray-400">
-                        <li><a href="docs.html" class="hover:text-white transition-colors">Documentation</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Tutorials</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Blog</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Status</a></li>
-                    </ul>
-                </div>
-
-                <!-- Support -->
-                <div data-id="footer-support">
-                    <h4 class="font-semibold text-white mb-4">Support</h4>
-                    <ul class="space-y-2 text-gray-400">
-                        <li><a href="#" class="hover:text-white transition-colors">Help Center</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Contact Us</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Community</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Privacy Policy</a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
-                <p data-id="footer-copyright" class="text-gray-500">© 2024 Aeloria. All rights reserved.</p>
-                <div data-id="footer-links" class="flex space-x-6 mt-4 md:mt-0">
-                    <a href="#" class="text-gray-400 hover:text-white transition-colors">Terms</a>
-                    <a href="#" class="text-gray-400 hover:text-white transition-colors">Privacy</a>
-                    <a href="#" class="text-gray-400 hover:text-white transition-colors">Cookies</a>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <script type="module">
-        // Mobile menu toggle
-        const mobileMenuToggle = document.querySelector('[data-id="mobile-menu-toggle"]');
-        const mobileNav = document.querySelector('[data-id="mobile-nav"]');
-
-        mobileMenuToggle.addEventListener('click', () => {
-            mobileNav.classList.toggle('hidden');
-        });
-
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                    // Close mobile menu if open
-                    mobileNav.classList.add('hidden');
-                }
-            });
-        });
-
-        // Initialize Lucide icons
-        lucide.createIcons();
-    </script>
+        </section>
+    </div>
+    
+    
 </body>
-
 </html>
