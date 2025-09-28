@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - Aeloria</title>
+    <!-- Montserrat Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    
+    <style>
+        * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #0a0a0a; /* Changed to pure black */
+    color: #e0e0e0;
+    line-height: 1.6;
+}
+
+/* Navbar Styles */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 40px;
+    background-color: #1a1a1a;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.navbar-logo {
+    display: flex;
+    align-items: center;
+    color: #8b5cf6; /* Changed to purple */
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 24px;
+}
+
+.navbar-logo .material-icons {
+    margin-right: 10px;
+    color: #8b5cf6; /* Changed to purple */
+}
+
+.navbar-menu {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+}
+
+.navbar-menu a {
+    color: #b0b0b0;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 16px;
+    padding: 5px 0;
+    border-radius: 4px;
+    transition: color 0.3s ease;
+}
+
+.navbar-menu a:hover {
+    color: #8b5cf6; /* Changed to purple */
+}
+
+.navbar-actions {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.navbar-actions a {
+    color: #b0b0b0;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 8px 16px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.navbar-actions a:hover {
+    background-color: #2a2a2a;
+}
+
+.navbar-actions .btn-primary {
+    background-color: #8b5cf6; /* Changed to purple */
+    color: #ffffff; /* Changed to white for better contrast */
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.navbar-actions .btn-primary:hover {
+    background-color: #7c3aed; /* Darker purple for hover */
+}
+
+/* Main Container */
+.main-container {
+    display: flex;
+    min-height: calc(100vh - 70px);
+}
+
+.sidebar {
+    width: 260px;
+    background-color: #1a1a1a;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+    padding: 30px 0;
+}
+
+.sidebar-header {
+    padding: 0 25px 20px;
+    border-bottom: 1px solid #2a2a2a;
+    margin-bottom: 20px;
+}
+
+.sidebar-header h2 {
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.sidebar-menu {
+    list-style: none;
+}
+
+.sidebar-menu li {
+    margin-bottom: 5px;
+}
+
+.sidebar-menu a {
+    display: flex;
+    align-items: center;
+    padding: 12px 25px;
+    color: #b0b0b0;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.sidebar-menu a:hover {
+    background-color: #2a2a2a;
+    color: #8b5cf6; /* Changed to purple */
+}
+
+.sidebar-menu a.active {
+    background-color: #2a2a2a;
+    color: #8b5cf6; /* Changed to purple */
+    border-left: 3px solid #8b5cf6; /* Changed to purple */
+}
+
+.sidebar-menu .material-icons {
+    margin-right: 12px;
+    font-size: 20px;
+}
+
+.content {
+    flex: 1;
+    padding: 30px;
+    background-color: #0a0a0a; /* Changed to pure black */
+}
+
+.content-header {
+    margin-bottom: 30px;
+}
+
+.content-header h1 {
+    color: #ffffff;
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.content-header p {
+    color: #b0b0b0;
+    font-size: 16px;
+}
+
+.settings-card {
+    background-color: #1a1a1a;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    padding: 30px;
+    margin-bottom: 30px;
+    border: 1px solid #2a2a2a;
+}
+
+.settings-card h2 {
+    color: #ffffff;
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.settings-card h2 .material-icons {
+    margin-right: 10px;
+    color: #8b5cf6; /* Changed to purple */
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-row {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.form-row .form-group {
+    flex: 1;
+    margin-bottom: 0;
+}
+
+.form-group label {
+    display: block;
+    color: #e0e0e0;
+    margin-bottom: 8px;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px 15px;
+    background-color: #2a2a2a;
+    border: 1px solid #3a3a3a;
+    border-radius: 8px;
+    color: #e0e0e0;
+    font-size: 15px;
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #8b5cf6; /* Changed to purple */
+    background-color: #2a2a2a;
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2); /* Changed to purple with transparency */
+}
+
+.btn-primary {
+    background-color: #8b5cf6; /* Changed to purple */
+    color: #ffffff; /* Changed to white for better contrast */
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+}
+
+.btn-primary:hover {
+    background-color: #7c3aed; /* Darker purple for hover */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4); /* Changed to purple with transparency */
+}
+
+.btn-primary .material-icons {
+    margin-right: 8px;
+    font-size: 18px;
+}
+
+.btn-secondary {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border: 1px solid #3a3a3a;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background-color: #3a3a3a;
+    border-color: #4a4a4a;
+}
+
+.btn-danger {
+    background-color: #f44336;
+    color: #ffffff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 500;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-danger:hover {
+    background-color: #e53935;
+}
+
+/* API Keys Section */
+.api-keys-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.api-keys-list {
+    display: grid;
+    gap: 15px;
+}
+
+.api-key-item {
+    background-color: #2a2a2a;
+    border: 1px solid #3a3a3a;
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.api-key-item:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+}
+
+.api-key-info h4 {
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.api-key-info p {
+    color: #b0b0b0;
+    font-size: 13px;
+}
+
+.api-key-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.api-key-actions button {
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.btn-copy {
+    background-color: #8b5cf6; /* Changed to purple */
+    color: #ffffff; /* Changed to white for better contrast */
+    border: none;
+}
+
+.btn-copy:hover {
+    background-color: #7c3aed; /* Darker purple for hover */
+}
+
+.btn-revoke {
+    background-color: #f44336;
+    color: white;
+    border: none;
+}
+
+.btn-revoke:hover {
+    background-color: #e53935;
+}
+
+/* Security Section */
+.security-section {
+    margin-bottom: 30px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid #2a2a2a;
+}
+
+.security-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.tfa-status {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #2a2a2a;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #3a3a3a;
+}
+
+.tfa-status p {
+    color: #e0e0e0;
+    font-weight: 500;
+}
+
+.tfa-status .status-badge {
+    background-color: #8b5cf6; /* Changed to purple */
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.tfa-status .status-badge.disabled {
+    background-color: #757575;
+}
+
+/* Notifications Section */
+.notification-settings {
+    margin-bottom: 30px;
+}
+
+.notification-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #2a2a2a;
+}
+
+.notification-item:last-child {
+    border-bottom: none;
+}
+
+.notification-info h4 {
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.notification-info p {
+    color: #b0b0b0;
+    font-size: 13px;
+}
+
+/* Toggle Switch */
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 26px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #4a4a4a;
+    transition: .4s;
+    border-radius: 26px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #8b5cf6; /* Changed to purple */
+}
+
+input:checked + .slider:before {
+    transform: translateX(24px);
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+}
+
+.modal-content {
+    background-color: #1a1a1a;
+    margin: 10% auto;
+    padding: 0;
+    border-radius: 16px;
+    width: 500px;
+    max-width: 90%;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    border: 1px solid #2a2a2a;
+}
+
+.modal-header {
+    padding: 25px 30px;
+    border-bottom: 1px solid #2a2a2a;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h2 {
+    color: #ffffff;
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.close-modal {
+    background: none;
+    border: none;
+    color: #b0b0b0;
+    font-size: 24px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close-modal:hover {
+    color: #e0e0e0;
+}
+
+.modal-body {
+    padding: 30px;
+}
+
+.modal-footer {
+    padding: 20px 30px;
+    border-top: 1px solid #2a2a2a;
+    text-align: right;
+}
+
+.api-key-display {
+    margin-bottom: 20px;
+}
+
+.api-key-value {
+    background-color: #2a2a2a;
+    padding: 15px;
+    border-radius: 8px;
+    font-family: 'Courier New', monospace;
+    word-break: break-all;
+    position: relative;
+    margin-bottom: 15px;
+    border: 1px solid #3a3a3a;
+}
+
+.copy-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #8b5cf6; /* Changed to purple */
+    color: #ffffff; /* Changed to white for better contrast */
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+}
+
+.copy-btn .material-icons {
+    font-size: 14px;
+    margin-right: 4px;
+}
+
+.api-warning {
+    background-color: #3e2723;
+    border-left: 4px solid #8b5cf6; /* Changed to purple */
+    padding: 15px;
+    border-radius: 0 8px 8px 0;
+}
+
+.api-warning p {
+    margin: 0;
+    color: #e0e0e0;
+    font-size: 14px;
+}
+
+/* Toast Notification */
+.toast {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background-color: #1a1a1a;
+    color: white;
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    z-index: 1001;
+    transform: translateY(100px);
+    opacity: 0;
+    transition: all 0.3s ease;
+    border: 1px solid #2a2a2a;
+}
+
+.toast.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.toast .material-icons {
+    margin-right: 10px;
+    color: #8b5cf6; /* Changed to purple */
+}
+
+.toast.error .material-icons {
+    color: #f44336;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .main-container {
+        flex-direction: column;
+    }
+    
+    .sidebar {
+        width: 100%;
+        padding: 20px 0;
+    }
+    
+    .sidebar-menu {
+        display: flex;
+        overflow-x: auto;
+        padding: 0 20px;
+    }
+    
+    .sidebar-menu li {
+        margin-bottom: 0;
+        margin-right: 10px;
+    }
+    
+    .sidebar-menu a {
+        white-space: nowrap;
+        padding: 10px 15px;
+        border-radius: 6px;
+    }
+    
+    .content {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        padding: 15px 20px;
+    }
+    
+    .navbar-menu {
+        display: none;
+    }
+    
+    .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+    
+    .form-row .form-group {
+        margin-bottom: 20px;
+    }
+    
+    .api-key-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .api-key-actions {
+        margin-top: 15px;
+        align-self: flex-end;
+    }
+    
+    .notification-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .notification-item .toggle-switch {
+        margin-top: 10px;
+        align-self: flex-end;
+    }
+    
+    .modal-content {
+        width: 95%;
+        margin: 5% auto;
+    }
+}
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="/" class="navbar-logo">
+            <span class="material-icons">cloud</span>
+            Aeloria
+        </a>
+        <div class="navbar-menu">
+            <a href="/features">Features</a>
+            <a href="/dashboard">Dashboard</a>
+            <a href="/docs">Documentation</a>
+        </div>
+        <div class="navbar-actions">
+            <span style="color: #b0b0b0;">Welcome, John</span>
+            <a href="/dashboard">Dashboard</a>
+            <a href="/settings">Settings</a>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h2>Settings</h2>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="#profile" class="active"><span class="material-icons">person</span>Profile</a></li>
+                <li><a href="#api-keys"><span class="material-icons">vpn_key</span>API Keys</a></li>
+                <li><a href="#security"><span class="material-icons">security</span>Security</a></li>
+                <li><a href="#notifications"><span class="material-icons">notifications</span>Notifications</a></li>
+            </ul>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <!-- Profile Section -->
+            <div id="profile" class="content-section">
+                <div class="content-header">
+                    <h1>Profile Settings</h1>
+                    <p>Manage your personal information and account details</p>
+                </div>
+
+                <div class="settings-card">
+                    <h2><span class="material-icons">person</span>Personal Information</h2>
+                    <form id="profile-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="first-name">First Name</label>
+                                <input type="text" id="first-name" name="first_name" value="John" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="last-name">Last Name</label>
+                                <input type="text" id="last-name" name="last_name" value="Doe" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" value="john.doe@example.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone" value="+1 (555) 123-4567" required>
+                        </div>
+                        <button type="submit" class="btn-primary">
+                            <span class="material-icons">save</span>Save Changes
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- API Keys Section -->
+            <div id="api-keys" class="content-section" style="display: none;">
+                <div class="content-header">
+                    <h1>API Keys</h1>
+                    <p>Generate and manage API keys for your applications</p>
+                </div>
+
+                <div class="settings-card">
+                    <div class="api-keys-header">
+                        <h2><span class="material-icons">vpn_key</span>Your API Keys</h2>
+                        <button id="create-api-key-btn" class="btn-primary">
+                            <span class="material-icons">add</span>Generate New Key
+                        </button>
+                    </div>
+
+                    <div class="api-keys-list">
+                        <div class="api-key-item">
+                            <div class="api-key-info">
+                                <h4>Production Application</h4>
+                                <p>Created: January 15, 2023 • Last used: 2 days ago</p>
+                            </div>
+                            <div class="api-key-actions">
+                                <button class="btn-copy" onclick="copyToClipboard('ael_sk_1234567890abcdefghijklmnopqrstuvwxyz')">
+                                    <span class="material-icons">content_copy</span>Copy
+                                </button>
+                                <button class="btn-revoke" onclick="revokeApiKey(1)">
+                                    <span class="material-icons">delete</span>Revoke
+                                </button>
+                            </div>
+                        </div>
+                        <div class="api-key-item">
+                            <div class="api-key-info">
+                                <h4>Development Environment</h4>
+                                <p>Created: February 3, 2023 • Last used: 1 hour ago</p>
+                            </div>
+                            <div class="api-key-actions">
+                                <button class="btn-copy" onclick="copyToClipboard('ael_sk_0987654321zyxwvutsrqponmlkjihgfedcba')">
+                                    <span class="material-icons">content_copy</span>Copy
+                                </button>
+                                <button class="btn-revoke" onclick="revokeApiKey(2)">
+                                    <span class="material-icons">delete</span>Revoke
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Security Section -->
+            <div id="security" class="content-section" style="display: none;">
+                <div class="content-header">
+                    <h1>Security Settings</h1>
+                    <p>Manage your account security and authentication preferences</p>
+                </div>
+
+                <div class="settings-card">
+                    <h2><span class="material-icons">lock</span>Password</h2>
+                    <form id="change-password-form">
+                        <div class="form-group">
+                            <label for="current-password">Current Password</label>
+                            <input type="password" id="current-password" name="current_password" required>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="new-password">New Password</label>
+                                <input type="password" id="new-password" name="new_password" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="confirm-password">Confirm New Password</label>
+                                <input type="password" id="confirm-password" name="confirm_password" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn-primary">
+                            <span class="material-icons">update</span>Update Password
+                        </button>
+                    </form>
+                </div>
+
+                <div class="settings-card">
+                    <h2><span class="material-icons">security</span>Two-Factor Authentication</h2>
+                    <div class="tfa-status">
+                        <div>
+                            <p>Two-factor authentication adds an extra layer of security to your account</p>
+                            <p style="margin-top: 10px;">Status: <span class="status-badge disabled">Disabled</span></p>
+                        </div>
+                        <button id="enable-tfa-btn" class="btn-secondary">Enable 2FA</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notifications Section -->
+            <div id="notifications" class="content-section" style="display: none;">
+                <div class="content-header">
+                    <h1>Notification Preferences</h1>
+                    <p>Configure how and when you receive notifications</p>
+                </div>
+
+                <div class="settings-card">
+                    <h2><span class="material-icons">email</span>Email Notifications</h2>
+                    <div class="notification-settings">
+                        <div class="notification-item">
+                            <div class="notification-info">
+                                <h4>Deployment Notifications</h4>
+                                <p>Get notified when your deployments start, succeed, or fail</p>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="deployment-notifications" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="notification-item">
+                            <div class="notification-info">
+                                <h4>Security Alerts</h4>
+                                <p>Important security notifications about your account</p>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="security-notifications" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="notification-item">
+                            <div class="notification-info">
+                                <h4>Product Updates</h4>
+                                <p>New features, improvements, and announcements</p>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="product-notifications">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings-card">
+                    <h2><span class="material-icons">slack</span>Slack Integration</h2>
+                    <form id="slack-form">
+                        <div class="form-group">
+                            <label for="slack-webhook">Slack Webhook URL</label>
+                            <input type="url" id="slack-webhook" name="slack_webhook" placeholder="https://hooks.slack.com/services/...">
+                        </div>
+                        <button type="submit" class="btn-primary">
+                            <span class="material-icons">save</span>Save Integration
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- API Key Modal -->
+    <div id="api-key-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Your New API Key</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="api-key-display">
+                    <p style="color: #e0e0e0; margin-bottom: 15px;">Copy your API key and store it securely. For security reasons, we won't be able to show it to you again.</p>
+                    <div class="api-key-value" id="modal-api-key">
+                        <button class="copy-btn" id="copy-api-key">
+                            <span class="material-icons">content_copy</span>Copy
+                        </button>
+                        <span id="generated-key-text">ael_sk_1234567890abcdefghijklmnopqrstuvwxyz</span>
+                    </div>
+                    <div class="api-warning">
+                        <p><strong>Security Warning:</strong> Treat your API key like a password. Do not share it publicly or commit it to version control.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-primary" id="close-modal-btn">I've Saved My Key</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <span class="material-icons">check_circle</span>
+        <span id="toast-message">Settings saved successfully!</span>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sidebar navigation
+            const sidebarLinks = document.querySelectorAll('.sidebar-menu a');
+            const contentSections = document.querySelectorAll('.content-section');
+            
+            sidebarLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href').substring(1);
+                    
+                    // Update active state
+                    sidebarLinks.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Show target section
+                    contentSections.forEach(section => {
+                        section.style.display = 'none';
+                    });
+                    document.getElementById(targetId).style.display = 'block';
+                });
+            });
+            
+            // Profile form submission
+            const profileForm = document.getElementById('profile-form');
+            if (profileForm) {
+                profileForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    showToast('Profile updated successfully!');
+                });
+            }
+            
+            // API Key Management
+            const createApiKeyBtn = document.getElementById('create-api-key-btn');
+            const apiKeyModal = document.getElementById('api-key-modal');
+            const closeModalBtn = document.querySelector('.close-modal');
+            const closeModalFooterBtn = document.getElementById('close-modal-btn');
+            const copyApiKeyBtn = document.getElementById('copy-api-key');
+            
+            createApiKeyBtn.addEventListener('click', function() {
+                // Generate a random API key
+                const randomString = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+                const apiKey = 'ael_sk_' + randomString;
+                
+                // Show modal with API key
+                document.getElementById('generated-key-text').textContent = apiKey;
+                apiKeyModal.style.display = 'block';
+                
+                // Add new API key to the list
+                const apiKeyName = 'New API Key';
+                const currentDate = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+                
+                const newApiKeyItem = document.createElement('div');
+                newApiKeyItem.className = 'api-key-item';
+                newApiKeyItem.innerHTML = `
+                    <div class="api-key-info">
+                        <h4>${apiKeyName}</h4>
+                        <p>Created: ${currentDate} • Last used: Never</p>
+                    </div>
+                    <div class="api-key-actions">
+                        <button class="btn-copy" onclick="copyToClipboard('${apiKey}')">
+                            <span class="material-icons">content_copy</span>Copy
+                        </button>
+                        <button class="btn-revoke" onclick="revokeApiKey(${Date.now()})">
+                            <span class="material-icons">delete</span>Revoke
+                        </button>
+                    </div>
+                `;
+                
+                const apiKeysList = document.querySelector('.api-keys-list');
+                apiKeysList.insertBefore(newApiKeyItem, apiKeysList.firstChild);
+            });
+            
+            // Close modal
+            closeModalBtn.addEventListener('click', function() {
+                apiKeyModal.style.display = 'none';
+            });
+            
+            closeModalFooterBtn.addEventListener('click', function() {
+                apiKeyModal.style.display = 'none';
+            });
+            
+            // Copy API key
+            copyApiKeyBtn.addEventListener('click', function() {
+                const apiKey = document.getElementById('generated-key-text').textContent;
+                copyToClipboard(apiKey);
+            });
+            
+            // Change password
+            const changePasswordForm = document.getElementById('change-password-form');
+            if (changePasswordForm) {
+                changePasswordForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const newPassword = document.getElementById('new-password').value;
+                    const confirmPassword = document.getElementById('confirm-password').value;
+                    
+                    // Check if passwords match
+                    if (newPassword !== confirmPassword) {
+                        showToast('Passwords do not match!', 'error');
+                        return;
+                    }
+                    
+                    showToast('Password changed successfully!');
+                    changePasswordForm.reset();
+                });
+            }
+            
+            // Enable 2FA button
+            const enableTfaBtn = document.getElementById('enable-tfa-btn');
+            if (enableTfaBtn) {
+                enableTfaBtn.addEventListener('click', function() {
+                    showToast('Two-factor authentication setup would open here. This is a placeholder.');
+                });
+            }
+            
+            // Save notification preferences
+            const notificationCheckboxes = document.querySelectorAll('#notifications-tab input[type="checkbox"]');
+            notificationCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    const notificationName = this.id.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase());
+                    showToast(`${notificationName} ${this.checked ? 'enabled' : 'disabled'}!`);
+                });
+            });
+            
+            // Slack integration
+            const slackForm = document.getElementById('slack-form');
+            if (slackForm) {
+                slackForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    showToast('Slack integration saved successfully!');
+                });
+            }
+        });
+        
+        // Helper functions
+        function copyToClipboard(text) {
+            const tempInput = document.createElement('input');
+            tempInput.value = text;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+            
+            showToast('API key copied to clipboard!');
+        }
+        
+        function revokeApiKey(keyId) {
+            if (confirm('Are you sure you want to revoke this API key? This action cannot be undone.')) {
+                showToast('API key revoked successfully!');
+                
+                // Remove the API key from the list
+                const apiKeyItems = document.querySelectorAll('.api-key-item');
+                apiKeyItems.forEach(item => {
+                    const revokeBtn = item.querySelector('.btn-revoke');
+                    if (revokeBtn && revokeBtn.getAttribute('onclick').includes(keyId)) {
+                        item.style.opacity = '0';
+                        item.style.transform = 'translateX(-20px)';
+                        setTimeout(() => {
+                            item.remove();
+                        }, 300);
+                    }
+                });
+            }
+        }
+        
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toast-message');
+            const toastIcon = toast.querySelector('.material-icons');
+            
+            // Update toast content
+            toastMessage.textContent = message;
+            
+            // Update toast type
+            if (type === 'error') {
+                toast.classList.add('error');
+                toastIcon.textContent = 'error';
+            } else {
+                toast.classList.remove('error');
+                toastIcon.textContent = 'check_circle';
+            }
+            
+            // Show toast
+            toast.classList.add('show');
+            
+            // Hide toast after 3 seconds
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

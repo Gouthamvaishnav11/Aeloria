@@ -1,249 +1,1414 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Aeloria Docs</title>
-  <meta name="description" content="Aeloria documentation - deploy apps with confidence">
-  <link rel="stylesheet" href="https://use.typekit.net/yjp3aho.css">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aeloria Documentation</title>
+  <!-- Montserrat Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <!-- Material Icons -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  
   <style>
-    /* small helpers for code blocks */
-    pre { white-space: pre-wrap; }
-    .scrollbar-hide::-webkit-scrollbar { display: none; }
-  </style>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: { 'sofia': ['sofia-pro', 'sans-serif'] },
-          colors: {
-            'brand': {
-              50: '#f0f9ff', 100: '#e0f2fe', 200: '#bae6fd', 300: '#7dd3fc',
-              400: '#38bdf8', 500: '#0ea5e9', 600: '#0284c7', 700: '#0369a1',
-              800: '#075985', 900: '#0c4a6e'
-            }
-          }
-        }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: #121212;
+      color: #e0e0e0;
+      line-height: 1.6;
+      scroll-behavior: smooth;
+    }
+    
+    /* Navbar Styles */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 40px;
+      background-color: #1e1e1e;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .navbar-logo {
+      display: flex;
+      align-items: center;
+      color: #00BCD4; /* Changed from purple to cyan */
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 24px;
+    }
+    
+    .navbar-menu {
+      display: flex;
+      gap: 30px;
+      align-items: center;
+    }
+    
+    .navbar-menu a {
+      color: #e0e0e0;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 16px;
+      padding: 5px 0;
+      border-radius: 4px;
+      transition: color 0.3s ease;
+    }
+    
+    .navbar-menu a:hover {
+      color: #00BCD4; /* Changed from purple to cyan */
+    }
+    
+    .navbar-actions {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
+    
+    .navbar-actions a {
+      color: #e0e0e0;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 16px;
+      cursor: pointer;
+      padding: 8px 16px;
+      border-radius: 4px;
+      transition: background-color 0.3s ease;
+    }
+    
+    .navbar-actions a:hover {
+      background-color: #2c2c2c;
+    }
+    
+    .navbar-actions .btn-primary {
+      background-color: #00BCD4; /* Changed from purple to cyan */
+      color: #121212;
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+    }
+    
+    .navbar-actions .btn-primary:hover {
+      background-color: #0097A7; /* Changed to darker cyan */
+    }
+    
+    /* Hero Styles */
+    .hero {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      padding: 80px 20px;
+      max-width: 1200px;
+      margin: auto;
+      background: linear-gradient(135deg, #00BCD4 0%, #006064 100%); /* Changed from purple gradient to cyan gradient */
+      border-radius: 16px;
+      color: #ffffff;
+      box-shadow: 0 10px 30px rgba(0, 188, 212, 0.3); /* Changed shadow color */
+      margin-top: 20px;
+    }
+    
+    .hero-left {
+      flex: 1 1 500px;
+      padding: 0 20px;
+    }
+    
+    .hero-left h1 {
+      font-size: 42px;
+      font-weight: 700;
+      margin: 0 0 20px;
+      line-height: 1.2;
+    }
+    
+    .hero-left p {
+      font-size: 18px;
+      margin-bottom: 30px;
+      opacity: 0.9;
+    }
+    
+    .btn-primary {
+      background-color: #ffffff;
+      color: #006064; /* Changed from purple to dark cyan */
+      text-decoration: none;
+      padding: 14px 28px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 16px;
+      display: inline-block;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+    }
+    
+    .hero-right {
+      flex: 1 1 400px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .hero-image {
+      width: 100%;
+      max-width: 450px;
+      height: auto;
+    }
+    
+    /* Documentation Container */
+    .doc-container {
+      display: flex;
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 0 20px;
+      gap: 30px;
+    }
+    
+    /* Sidebar */
+    .doc-sidebar {
+      flex: 0 0 250px;
+      background-color: #1e1e1e;
+      border-radius: 12px;
+      padding: 25px;
+      height: fit-content;
+      position: sticky;
+      top: 100px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      border: 1px solid #2c2c2c;
+    }
+    
+    .doc-sidebar h3 {
+      color: #00BCD4; /* Changed from purple to cyan */
+      margin-top: 0;
+      margin-bottom: 20px;
+      font-size: 20px;
+      font-weight: 600;
+    }
+    
+    .doc-sidebar ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+    
+    .doc-sidebar li {
+      margin-bottom: 8px;
+    }
+    
+    .doc-sidebar a {
+      color: #e0e0e0;
+      text-decoration: none;
+      font-size: 15px;
+      display: block;
+      padding: 10px 15px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+    
+    .doc-sidebar a:hover {
+      background-color: #2c2c2c;
+      color: #00BCD4; /* Changed from purple to cyan */
+    }
+    
+    .doc-sidebar a.active {
+      background-color: #006064; /* Changed from purple to dark cyan */
+      color: #ffffff;
+      font-weight: 500;
+    }
+    
+    /* Main Content */
+    .doc-content {
+      flex: 1;
+      background-color: #1e1e1e;
+      border-radius: 12px;
+      padding: 40px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      border: 1px solid #2c2c2c;
+    }
+    
+    .doc-content h2 {
+      color: #00BCD4; /* Changed from purple to cyan */
+      margin-top: 0;
+      margin-bottom: 25px;
+      font-size: 32px;
+      font-weight: 700;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #2c2c2c;
+    }
+    
+    .doc-content h3 {
+      color: #ffffff;
+      margin-top: 35px;
+      margin-bottom: 15px;
+      font-size: 24px;
+      font-weight: 600;
+    }
+    
+    .doc-content p {
+      line-height: 1.7;
+      margin-bottom: 20px;
+      color: #e0e0e0;
+      font-size: 16px;
+    }
+    
+    .doc-content ul {
+      padding-left: 20px;
+      margin-bottom: 25px;
+    }
+    
+    .doc-content li {
+      margin-bottom: 10px;
+      color: #e0e0e0;
+      font-size: 16px;
+    }
+    
+    .doc-content code {
+      background-color: #2c2c2c;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      color: #00BCD4; /* Changed from pink to cyan */
+      font-size: 14px;
+    }
+    
+    .doc-content pre {
+      background-color: #2c2c2c;
+      padding: 20px;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin-bottom: 25px;
+      border: 1px solid #3c3c3c;
+    }
+    
+    .doc-content pre code {
+      background: none;
+      padding: 0;
+      color: #e0e0e0;
+      font-size: 14px;
+    }
+    
+    .doc-content .note {
+      background-color: #2c2c2c;
+      border-left: 4px solid #00BCD4; /* Changed from purple to cyan */
+      padding: 15px 20px;
+      margin-bottom: 25px;
+      border-radius: 0 8px 8px 0;
+    }
+    
+    .doc-content .note-title {
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #00BCD4; /* Changed from purple to cyan */
+      font-size: 16px;
+    }
+    
+    .doc-content table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 25px;
+      font-size: 15px;
+    }
+    
+    .doc-content th, .doc-content td {
+      border: 1px solid #3c3c3c;
+      padding: 12px 15px;
+      text-align: left;
+    }
+    
+    .doc-content th {
+      background-color: #2c2c2c;
+      color: #ffffff;
+      font-weight: 600;
+    }
+    
+    /* API Key Section */
+    .api-key-section {
+      background-color: #2c2c2c;
+      border-radius: 12px;
+      padding: 30px;
+      margin: 30px 0;
+      border: 1px solid #3c3c3c;
+    }
+    
+    .api-key-section h3 {
+      margin-top: 0;
+      color: #ffffff;
+      font-size: 22px;
+      margin-bottom: 20px;
+    }
+    
+    .api-key-form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    
+    .api-key-form input {
+      flex: 1;
+      min-width: 250px;
+      padding: 12px 15px;
+      border: 1px solid #3c3c3c;
+      border-radius: 6px;
+      font-size: 15px;
+      background-color: #1e1e1e;
+      color: #e0e0e0;
+    }
+    
+    .api-key-form input:focus {
+      outline: none;
+      border-color: #00BCD4; /* Changed from purple to cyan */
+    }
+    
+    .api-key-form button {
+      background-color: #00BCD4; /* Changed from purple to cyan */
+      color: #121212;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 15px;
+      transition: background-color 0.3s ease;
+    }
+    
+    .api-key-form button:hover {
+      background-color: #0097A7; /* Changed to darker cyan */
+    }
+    
+    .api-key-display {
+      background-color: #1e1e1e;
+      border: 1px solid #3c3c3c;
+      border-radius: 6px;
+      padding: 15px;
+      margin-top: 20px;
+      display: none;
+    }
+    
+    .api-key-display.show {
+      display: block;
+    }
+    
+    .api-key-display h4 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      color: #ffffff;
+    }
+    
+    .api-key-value {
+      background-color: #2c2c2c;
+      padding: 12px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      word-break: break-all;
+      margin-bottom: 15px;
+      position: relative;
+      color: #e0e0e0;
+    }
+    
+    .copy-button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: #00BCD4; /* Changed from purple to cyan */
+      color: #121212;
+      border: none;
+      border-radius: 4px;
+      padding: 5px 10px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+    
+    .api-warning {
+      background-color: #3c2c2c;
+      border-left: 4px solid #cf6679;
+      padding: 15px;
+      margin-top: 15px;
+      border-radius: 0 4px 4px 0;
+    }
+    
+    .api-warning p {
+      margin: 0;
+      color: #e0e0e0;
+      font-size: 14px;
+    }
+    
+    /* API Endpoint Card */
+    .endpoint-card {
+      background-color: #2c2c2c;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 25px;
+      border: 1px solid #3c3c3c;
+    }
+    
+    .endpoint-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    
+    .endpoint-method {
+      background-color: #00BCD4; /* Changed from purple to cyan */
+      color: #121212;
+      padding: 5px 10px;
+      border-radius: 4px;
+      font-weight: 600;
+      margin-right: 15px;
+      font-size: 14px;
+    }
+    
+    .endpoint-url {
+      font-family: 'Courier New', monospace;
+      color: #e0e0e0;
+      font-size: 16px;
+      flex: 1;
+    }
+    
+    .endpoint-description {
+      color: #e0e0e0;
+      margin-bottom: 15px;
+    }
+    
+    .endpoint-params {
+      background-color: #1e1e1e;
+      border-radius: 6px;
+      padding: 15px;
+      margin-top: 15px;
+    }
+    
+    .endpoint-params h4 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      color: #ffffff;
+      font-size: 16px;
+    }
+    
+    .param-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    
+    .param-table th, .param-table td {
+      border: 1px solid #3c3c3c;
+      padding: 10px;
+      text-align: left;
+    }
+    
+    .param-table th {
+      background-color: #2c2c2c;
+      font-weight: 600;
+    }
+    
+    /* Response Example */
+    .response-example {
+      background-color: #2c2c2c;
+      border-radius: 8px;
+      padding: 20px;
+      margin-top: 15px;
+    }
+    
+    .response-example h4 {
+      margin-top: 0;
+      margin-bottom: 15px;
+      color: #ffffff;
+      font-size: 16px;
+    }
+    
+    /* Contact Section */
+    .contact-section {
+      background-color: #1e1e1e;
+      border-radius: 12px;
+      padding: 40px;
+      text-align: center;
+      max-width: 800px;
+      margin: 60px auto;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      border: 1px solid #2c2c2c;
+    }
+    
+    .contact-section h2 {
+      color: #00BCD4; /* Changed from purple to cyan */
+      margin-bottom: 20px;
+      font-size: 28px;
+    }
+    
+    .contact-section p {
+      color: #e0e0e0;
+      margin-bottom: 30px;
+      font-size: 16px;
+    }
+    
+    .contact-section a {
+      color: #00BCD4; /* Changed from purple to cyan */
+      text-decoration: none;
+      font-weight: 500;
+    }
+    
+    .contact-section a:hover {
+      text-decoration: underline;
+    }
+    
+    /* Responsive */
+    @media (max-width: 992px) {
+      .doc-container {
+        flex-direction: column;
+      }
+      
+      .doc-sidebar {
+        position: static;
+        width: 100%;
+        margin-bottom: 30px;
       }
     }
-  </script>
+    
+    @media (max-width: 768px) {
+      .navbar {
+        padding: 15px 20px;
+      }
+      
+      .navbar-menu {
+        display: none;
+      }
+      
+      .hero {
+        padding: 60px 20px;
+      }
+      
+      .hero-left h1 {
+        font-size: 32px;
+      }
+      
+      .doc-content {
+        padding: 25px;
+      }
+      
+      .doc-content h2 {
+        font-size: 26px;
+      }
+      
+      .doc-content h3 {
+        font-size: 20px;
+      }
+    }
+  </style>
 </head>
-<body class="font-sofia bg-gray-950 text-gray-100 min-h-screen">
-  <!-- Top nav -->
-  <header class="fixed top-0 left-0 right-0 z-40 bg-gray-900/80 backdrop-blur border-b border-gray-800">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-      <div class="flex items-center space-x-3">
-        <div class="w-8 h-8 bg-gradient-to-br from-brand-500 to-brand-600 rounded-lg flex items-center justify-center">
-          <i data-lucide="cloud" class="w-4 h-4 text-white"></i>
-        </div>
-        <a href="/" class="text-white font-bold text-lg">Aeloria</a>
-        <span class="text-gray-500 ml-2">/ Docs</span>
-      </div>
-      <div class="flex items-center space-x-3">
-        <div class="hidden md:block">
-          <input id="doc-search" type="search" placeholder="Search docs..." class="bg-gray-800 text-gray-100 placeholder-gray-500 px-3 py-2 rounded-lg w-72 focus:outline-none focus:ring-2 focus:ring-brand-600" />
-        </div>
-        <button id="theme-toggle" class="p-2 rounded-lg bg-gray-800 hover:bg-gray-700" title="Toggle theme">
-          <i data-lucide="moon" class="w-5 h-5 text-gray-200"></i>
-        </button>
-        <a href="/" class="ml-2 inline-flex items-center gap-2 bg-brand-600 text-white px-3 py-2 rounded-lg hover:bg-brand-700"> 
-          <i data-lucide="rocket" class="w-4 h-4"></i>
-          Dashboard
-        </a>
-      </div>
-    </div>
-  </header>
+<body>
 
-  <main class="pt-20">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-        <!-- Sidebar -->
-        <aside class="md:col-span-1 sticky top-20 self-start">
-          <div class="bg-gray-900 border border-gray-800 rounded-2xl p-4 space-y-4">
-            <div class="flex items-center justify-between">
-              <h4 class="text-sm font-semibold text-gray-200">Documentation</h4>
-              <button id="sidebar-toggle" class="md:hidden p-2">
-                <i data-lucide="chevron-down" class="w-4 h-4 text-gray-300"></i>
-              </button>
-            </div>
-            <nav id="sidebar" class="space-y-2 text-sm text-gray-300">
-              <a href="#introduction" class="block p-2 rounded-md hover:bg-gray-800">Introduction</a>
-              <a href="#quickstart" class="block p-2 rounded-md hover:bg-gray-800">Quickstart</a>
-              <a href="#configuration" class="block p-2 rounded-md hover:bg-gray-800">Configuration</a>
-              <a href="#cli" class="block p-2 rounded-md hover:bg-gray-800">CLI</a>
-              <a href="#api" class="block p-2 rounded-md hover:bg-gray-800">API Reference</a>
-              <a href="#faq" class="block p-2 rounded-md hover:bg-gray-800">FAQ</a>
-            </nav>
-            <div class="pt-2 border-t border-gray-800 text-xs text-gray-400">
-              <div>Version <span class="text-gray-200">v1.0.0</span></div>
-              <div class="mt-2">Last updated: <span class="text-gray-200">Sep 21, 2025</span></div>
-            </div>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <a href="/" class="navbar-logo">
+      Aeloria
+    </a>
+    <div class="navbar-menu">
+      <a href="/features">Features</a>
+      <a href="/pricing">Pricing</a>
+      <a href="/blog">Blog</a>
+      <a href="/docs" class="active">Documentation</a>
+    </div>
+    <div class="navbar-actions">
+      <a href="/login">Log in</a>
+      <a href="/signup" class="btn-primary">Sign up</a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-left">
+      <h1>Aeloria Documentation</h1>
+      <p>Everything you need to know about deploying applications with Aeloria's cloud platform. From getting started to advanced API usage.</p>
+      <a href="/signup" class="btn-primary">Get Started</a>
+    </div>
+    <div class="hero-right">
+      <img src="https://via.placeholder.com/450x300?text=Documentation" alt="Documentation" class="hero-image" />
+    </div>
+  </section>
+
+  <!-- Documentation Container -->
+  <div class="doc-container">
+    <!-- Sidebar -->
+    <div class="doc-sidebar">
+      <h3>Documentation</h3>
+      <ul>
+        <li><a href="#introduction" class="active">Introduction</a></li>
+        <li><a href="#getting-started">Getting Started</a></li>
+        <li><a href="#github-integration">GitHub Integration</a></li>
+        <li><a href="#automated-testing">Automated Testing</a></li>
+        <li><a href="#deployment-process">Deployment Process</a></li>
+        <li><a href="#environment-variables">Environment Variables</a></li>
+        <li><a href="#custom-domains">Custom Domains</a></li>
+        <li><a href="#monitoring">Monitoring & Analytics</a></li>
+        <li><a href="#security">Security Features</a></li>
+        <li><a href="#api-reference">API Reference</a></li>
+        <li><a href="#troubleshooting">Troubleshooting</a></li>
+      </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="doc-content">
+      <h2 id="introduction">Introduction to Aeloria</h2>
+      <p>Aeloria is a modern cloud deployment platform designed to simplify how developers host their websites and full-stack applications on the World Wide Web. With seamless GitHub integration and automated testing, Aeloria makes deployment fast, secure, and reliable.</p>
+      
+      <p>Our platform is built for developers who want to focus on writing code rather than managing infrastructure. Whether you're deploying a simple static site or a complex full-stack application, Aeloria provides the tools you need to get your project online quickly and safely.</p>
+      
+      <h3>Key Benefits</h3>
+      <ul>
+        <li><strong>Seamless GitHub Integration:</strong> Connect your repositories in seconds and deploy automatically on every push.</li>
+        <li><strong>Automated Testing:</strong> Ensure your code is production-ready with our built-in testing framework.</li>
+        <li><strong>Global CDN:</strong> Deliver your content quickly to users around the world.</li>
+        <li><strong>SSL Certificates:</strong> Automatic SSL provisioning for all deployments.</li>
+        <li><strong>Custom Domains:</strong> Easily connect your own domain names.</li>
+        <li><strong>Real-time Monitoring:</strong> Track performance and uptime with detailed analytics.</li>
+      </ul>
+      
+      <h2 id="getting-started">Getting Started</h2>
+      <p>Welcome to Aeloria! This guide will walk you through the process of setting up your account and deploying your first application.</p>
+      
+      <h3>Step 1: Create an Account</h3>
+      <p>Visit <a href="/signup">aeloria.com/signup</a> to create your free account. You can sign up using your email address or through GitHub.</p>
+      
+      <h3>Step 2: Connect Your GitHub Account</h3>
+      <p>After logging in, you'll be prompted to connect your GitHub account. This allows Aeloria to access your repositories and deploy them automatically.</p>
+      
+      <div class="note">
+        <div class="note-title">Note</div>
+        <p>Aeloria only requires read access to your repositories. We will never modify your code without your permission.</p>
+      </div>
+      
+      <h3>Step 3: Import a Repository</h3>
+      <p>Once connected, you can import a repository from GitHub:</p>
+      <ol>
+        <li>Click the "New Project" button in your dashboard</li>
+        <li>Select the repository you want to deploy</li>
+        <li>Configure your project settings (we'll cover this in detail later)</li>
+        <li>Click "Deploy"</li>
+      </ol>
+      
+      <p>Aeloria will automatically detect your project type and suggest optimal settings. You can customize these settings before deploying.</p>
+      
+      <h2 id="github-integration">GitHub Integration</h2>
+      <p>Aeloria's deep GitHub integration is one of its most powerful features. This section explains how to make the most of this integration.</p>
+      
+      <h3>Repository Permissions</h3>
+      <p>When you connect your GitHub account, Aeloria requests the following permissions:</p>
+      <ul>
+        <li><strong>Read access to repositories:</strong> Allows Aeloria to clone your code and deploy it.</li>
+        <li><strong>Read access to organization repositories:</strong> If you want to deploy repositories from organizations.</li>
+        <li><strong>Webhook access:</strong> Allows Aeloria to create webhooks that trigger deployments when you push changes.</li>
+      </ul>
+      
+      <h3>Automatic Deployments</h3>
+      <p>By default, Aeloria creates a webhook in your repository that triggers a deployment whenever you push to the main branch. You can customize this behavior:</p>
+      <ul>
+        <li><strong>Deploy on specific branches:</strong> Configure which branches should trigger deployments.</li>
+        <li><strong>Manual deployments:</strong> Disable automatic deployments and deploy manually from the dashboard.</li>
+        <li><strong>Deploy on pull requests:</strong> Automatically deploy preview versions when pull requests are created.</li>
+      </ul>
+      
+      <h3>GitHub Actions Integration</h3>
+      <p>If you're using GitHub Actions, you can integrate Aeloria into your CI/CD pipeline:</p>
+      <pre><code>- name: Deploy to Aeloria
+  uses: aeloria/deploy-action@v1
+  with:
+    api-token: ${{ '{{' }} secrets.AELORIA_API_TOKEN {{ '}}' }}
+    project-id: your-project-id</code></pre>
+      
+      <h2 id="automated-testing">Automated Testing</h2>
+      <p>Automated testing is a core feature of Aeloria that ensures only quality code reaches production. This section explains how to configure and use testing in your deployments.</p>
+      
+      <h3>Supported Testing Frameworks</h3>
+      <p>Aeloria supports a wide range of testing frameworks out of the box:</p>
+      <table>
+        <tr>
+          <th>Language</th>
+          <th>Framework</th>
+        </tr>
+        <tr>
+          <td>JavaScript/TypeScript</td>
+          <td>Jest, Mocha, Jasmine, Cypress</td>
+        </tr>
+        <tr>
+          <td>Python</td>
+          <td>Pytest, Unittest</td>
+        </tr>
+        <tr>
+          <td>Ruby</td>
+          <td>RSpec, Minitest</td>
+        </tr>
+        <tr>
+          <td>Java</td>
+          <td>JUnit, TestNG</td>
+        </tr>
+        <tr>
+          <td>PHP</td>
+          <td>PHPUnit</td>
+        </tr>
+        <tr>
+          <td>Go</td>
+          <td>Testing, Ginkgo</td>
+        </tr>
+      </table>
+      
+      <h3>Configuring Tests</h3>
+      <p>Aeloria automatically detects your testing framework based on your project structure. If you need to customize the testing configuration, you can add a <code>aeloria.yml</code> file to your repository:</p>
+      <pre><code>test:
+  command: npm test
+  directory: /app
+  timeout: 30000
+  coverage:
+    enabled: true
+    threshold: 80</code></pre>
+      
+      <h3>Test Results</h3>
+      <p>After each deployment, you can view detailed test results in your Aeloria dashboard, including:</p>
+      <ul>
+        <li>Pass/fail status for each test</li>
+        <li>Test execution time</li>
+        <li>Coverage reports (if enabled)</li>
+        <li>Error messages and stack traces for failed tests</li>
+      </ul>
+      
+      <div class="note">
+        <div class="note-title">Pro Tip</div>
+        <p>Set up Slack or email notifications to be alerted when tests fail, so you can fix issues quickly.</p>
+      </div>
+      
+      <h2 id="deployment-process">Deployment Process</h2>
+      <p>Understanding the deployment process will help you troubleshoot issues and optimize your workflow. This section explains each step in detail.</p>
+      
+      <h3>Deployment Flow</h3>
+      <p>When you push changes to your repository, Aeloria follows this process:</p>
+      <ol>
+        <li><strong>Trigger Detection:</strong> The webhook in your repository notifies Aeloria of the push.</li>
+        <li><strong>Code Checkout:</strong> Aeloria clones your repository into a build environment.</li>
+        <li><strong>Dependency Installation:</strong> Required dependencies are installed based on your project type.</li>
+        <li><strong>Build Process:</strong> Your project is built according to the build commands specified in your configuration.</li>
+        <li><strong>Automated Testing:</strong> Tests are run to validate your code.</li>
+        <li><strong>Asset Optimization:</strong> Static assets are optimized for performance.</li>
+        <li><strong>Deployment:</strong> Your application is deployed to our global infrastructure.</li>
+        <li><strong>Health Check:</strong> Aeloria verifies that your deployment was successful.</li>
+        <li><strong>Notification:</strong> You're notified of the deployment status.</li>
+      </ol>
+      
+      <h3>Build Configuration</h3>
+      <p>Aeloria automatically detects your project type and sets appropriate build commands. You can customize these in your project settings or with a <code>aeloria.yml</code> file:</p>
+      <pre><code>build:
+  command: npm run build
+  output_directory: dist
+  install_command: npm install</code></pre>
+      
+      <h3>Deployment Environments</h3>
+      <p>Aeloria supports multiple deployment environments:</p>
+      <ul>
+        <li><strong>Production:</strong> Your live application accessible to users.</li>
+        <li><strong>Preview:</strong> Temporary deployments for each pull request or branch.</li>
+        <li><strong>Staging:</strong> A testing environment that mirrors production.</li>
+      </ul>
+      
+      <h2 id="environment-variables">Environment Variables</h2>
+      <p>Environment variables allow you to configure your application without hardcoding values in your code. This section explains how to manage environment variables in Aeloria.</p>
+      
+      <h3>Setting Environment Variables</h3>
+      <p>You can set environment variables in your project settings:</p>
+      <ol>
+        <li>Navigate to your project in the Aeloria dashboard</li>
+        <li>Click on the "Settings" tab</li>
+        <li>Select "Environment Variables"</li>
+        <li>Add your variables with their values</li>
+        <li>Click "Save"</li>
+      </ol>
+      
+      <h3>Environment Types</h3>
+      <p>Aeloria supports different types of environment variables:</p>
+      <ul>
+        <li><strong>Build Variables:</strong> Available during the build process.</li>
+        <li><strong>Runtime Variables:</strong> Available to your application when it's running.</li>
+        <li><strong>Preview Variables:</strong> Only available in preview deployments.</li>
+      </ul>
+      
+      <h3>Accessing Variables in Your Code</h3>
+      <p>How you access environment variables depends on your programming language:</p>
+      <pre><code># Node.js
+const apiKey = process.env.API_KEY;
+
+# Python
+import os
+api_key = os.environ.get('API_KEY')
+
+# Ruby
+api_key = ENV['API_KEY']</code></pre>
+      
+      <h2 id="custom-domains">Custom Domains</h2>
+      <p>Custom domains allow you to serve your application from your own domain name. This section explains how to set up and manage custom domains in Aeloria.</p>
+      
+      <h3>Adding a Custom Domain</h3>
+      <p>To add a custom domain to your project:</p>
+      <ol>
+        <li>Navigate to your project in the Aeloria dashboard</li>
+        <li>Click on the "Domains" tab</li>
+        <li>Click "Add Domain"</li>
+        <li>Enter your domain name (e.g., example.com)</li>
+        <li>Click "Add"</li>
+      </ol>
+      
+      <h3>DNS Configuration</h3>
+      <p>After adding your domain, you'll need to configure your DNS settings. Aeloria will provide you with the DNS records to add:</p>
+      <ul>
+        <li><strong>ALIAS or CNAME record:</strong> Points your domain to Aeloria's servers.</li>
+        <li><strong>TXT record:</strong> Used for domain verification.</li>
+      </ul>
+      
+      <h3>SSL Certificates</h3>
+      <p>Aeloria automatically provisions and renews SSL certificates for all custom domains using Let's Encrypt. This process is completely transparent to you.</p>
+      
+      <div class="note">
+        <div class="note-title">Note</div>
+        <p>It may take a few minutes for DNS changes to propagate and for your SSL certificate to be issued.</p>
+      </div>
+      
+      <h2 id="monitoring">Monitoring & Analytics</h2>
+      <p>Aeloria provides comprehensive monitoring and analytics to help you understand your application's performance and usage. This section explains how to use these features.</p>
+      
+      <h3>Performance Metrics</h3>
+      <p>Aeloria tracks key performance metrics for your application:</p>
+      <ul>
+        <li><strong>Response Time:</strong> How long it takes for your application to respond to requests.</li>
+        <li><strong>Uptime:</strong> The percentage of time your application is available.</li>
+        <li><strong>Throughput:</strong> The number of requests your application handles per second.</li>
+        <li><strong>Error Rate:</strong> The percentage of requests that result in errors.</li>
+      </ul>
+      
+      <h3>Real-time Monitoring</h3>
+      <p>The Aeloria dashboard provides real-time monitoring of your application:</p>
+      <ul>
+        <li>Live request logs</li>
+        <li>Real-time performance charts</li>
+        <li>Current server status</li>
+      </ul>
+      
+      <h3>Alerts and Notifications</h3>
+      <p>You can set up alerts to notify you when certain conditions are met:</p>
+      <ul>
+        <li>High error rate</li>
+        <li>Slow response times</li>
+        <li>Downtime</li>
+        <li>Failed deployments</li>
+      </ul>
+      
+      <p>Alerts can be delivered via email, Slack, or webhooks.</p>
+      
+      <h2 id="security">Security Features</h2>
+      <p>Security is a top priority at Aeloria. This section explains the security features we provide to keep your applications safe.</p>
+      
+      <h3>SSL/TLS Encryption</h3>
+      <p>All traffic to and from your application is encrypted using SSL/TLS. Aeloria automatically provisions and renews SSL certificates for all deployments, including custom domains.</p>
+      
+      <h3>Web Application Firewall (WAF)</h3>
+      <p>Aeloria includes a built-in web application firewall that protects your application from common security threats:</p>
+      <ul>
+        <li>SQL injection</li>
+        <li>Cross-site scripting (XSS)</li>
+        <li>CSRF attacks</li>
+        <li>DDoS protection</li>
+      </ul>
+      
+      <h3>Secure Build Environment</h3>
+      <p>Your code is built in a secure, isolated environment:</p>
+      <ul>
+        <li>Sandboxed build containers</li>
+        <li>Temporary build artifacts</li>
+        <li>Secure dependency installation</li>
+      </ul>
+      
+      <h3>Access Control</h3>
+      <p>Aeloria provides fine-grained access control:</p>
+      <ul>
+        <li>Team member management</li>
+        <li>Role-based permissions</li>
+        <li>Single sign-on (SSO) integration</li>
+      </ul>
+      
+      <h2 id="api-reference">API Reference</h2>
+      <p>The Aeloria API allows you to programmatically manage your projects, deployments, and more. This section provides a comprehensive reference for all API endpoints.</p>
+      
+      <h3>Authentication</h3>
+      <p>All API requests must include an API token in the Authorization header:</p>
+      <pre><code>Authorization: Bearer your-api-token</code></pre>
+      
+      <p>You can generate API tokens in your account settings or using the form below.</p>
+      
+      <!-- API Key Generation Section -->
+      <div class="api-key-section">
+        <h3>Generate API Key</h3>
+        <p>Create a new API key to authenticate your requests to the Aeloria API. Each key can be revoked at any time.</p>
+        
+        <div class="api-key-form">
+          <input type="text" id="api-key-name" placeholder="Enter a name for your API key">
+          <button id="generate-api-key">Generate API Key</button>
+        </div>
+        
+        <div class="api-key-display" id="api-key-display">
+          <h4>Your API Key</h4>
+          <div class="api-key-value" id="api-key-value">
+            <button class="copy-button" id="copy-api-key">Copy</button>
+            <span id="generated-key">ael_sk_1234567890abcdefghijklmnopqrstuvwxyz</span>
           </div>
-        </aside>
-
-        <!-- Content -->
-        <section class="md:col-span-3 space-y-8">
-
-          <!-- Introduction -->
-          <article id="introduction" class="bg-gray-900 border border-gray-800 rounded-2xl p-8">
-            <h1 class="text-2xl font-bold text-white mb-3">Introduction</h1>
-            <p class="text-gray-400 mb-4">Welcome to Aeloria — a lightweight deployment platform that connects to your GitHub repositories, runs tests, and deploys applications automatically.</p>
-            <p class="text-gray-400">This documentation covers everything from getting started to advanced configuration and API usage.</p>
-          </article>
-
-          <!-- Quickstart -->
-          <article id="quickstart" class="bg-gray-900 border border-gray-800 rounded-2xl p-8">
-            <h2 class="text-xl font-semibold text-white mb-4">Quickstart</h2>
-            <p class="text-gray-400 mb-4">Get your first app live in minutes with three simple steps:</p>
-            <ol class="list-decimal list-inside text-gray-300 space-y-2 mb-4">
-              <li>Connect your GitHub repository.</li>
-              <li>Configure build & environment (auto-detected for most projects).</li>
-              <li>Deploy and access your app at a custom domain.</li>
-            </ol>
-
-            <div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
-              <div class="flex items-start justify-between">
-                <div class="flex-1 min-w-0">
-                  <pre id="code-quickstart" class="language-bash text-sm overflow-auto scrollbar-hide" style="max-height:260px;"><code>git clone https://github.com/you/your-app.git
-cd your-app
-# push to GitHub, then link the repo in Aeloria
-# Aeloria will detect the framework and create a pipeline
-</code></pre>
-                </div>
-                <div class="ml-4 flex-shrink-0">
-                  <button class="copy-btn bg-gray-700 px-3 py-2 rounded-lg text-sm">Copy</button>
-                </div>
-              </div>
-            </div>
-          </article>
-
-          <!-- Configuration -->
-          <article id="configuration" class="bg-gray-900 border border-gray-800 rounded-2xl p-8">
-            <h2 class="text-xl font-semibold text-white mb-4">Configuration</h2>
-            <p class="text-gray-400 mb-4">Aeloria supports an optional <code class="bg-gray-800 px-1 py-0.5 rounded">aeloria.yaml</code> file for custom builds.</p>
-            <pre class="language-yaml text-sm overflow-auto scrollbar-hide bg-gray-800 p-4 rounded-lg border border-gray-700"><code># aeloria.yaml
-build:
-  command: "npm run build"
-  output: "build/"
-env:
-  NODE_ENV: production
-  API_URL: "https://api.example.com"
-</code></pre>
-          </article>
-
-          <!-- CLI -->
-          <article id="cli" class="bg-gray-900 border border-gray-800 rounded-2xl p-8">
-            <h2 class="text-xl font-semibold text-white mb-4">CLI</h2>
-            <p class="text-gray-400 mb-4">Use the Aeloria CLI to manage deployments locally.</p>
-            <pre class="language-bash text-sm overflow-auto scrollbar-hide bg-gray-800 p-4 rounded-lg border border-gray-700"><code># install
-npm i -g @aeloria/cli
-
-# login
-aeloria login
-
-# deploy current repo
-aeloria deploy --prod
-</code></pre>
-          </article>
-
-          <!-- API Reference -->
-          <article id="api" class="bg-gray-900 border border-gray-800 rounded-2xl p-8">
-            <h2 class="text-xl font-semibold text-white mb-4">API Reference</h2>
-            <p class="text-gray-400 mb-4">Aeloria exposes a REST API for programmatic deployments.</p>
-            <h3 class="text-lg font-medium text-white mb-2">Trigger a deployment</h3>
-            <pre class="language-http text-sm overflow-auto scrollbar-hide bg-gray-800 p-4 rounded-lg border border-gray-700"><code>POST /v1/deploy
-Authorization: Bearer &lt;API_KEY&gt;
-Content-Type: application/json
-
-{
-  "repo": "github.com/you/your-app",
-  "branch": "main"
-}
-</code></pre>
-            <p class="text-gray-400 mt-4">Successful response returns a <code class="bg-gray-800 px-1 py-0.5 rounded">deployment_id</code> you can use to poll status.</p>
-          </article>
-
-          <!-- FAQ -->
-          <article id="faq" class="bg-gray-900 border border-gray-800 rounded-2xl p-8">
-            <h2 class="text-xl font-semibold text-white mb-4">FAQ</h2>
-            <div class="space-y-4 text-gray-300">
-              <details class="bg-gray-800 p-4 rounded-lg">
-                <summary class="cursor-pointer">How long does a deployment take?</summary>
-                <p class="mt-2 text-gray-400">Typical builds finish in under 2 minutes for small apps. Larger builds depend on project complexity.</p>
-              </details>
-
-              <details class="bg-gray-800 p-4 rounded-lg">
-                <summary class="cursor-pointer">Can I use a custom domain?</summary>
-                <p class="mt-2 text-gray-400">Yes — add your domain in the dashboard and follow the DNS setup instructions we provide.</p>
-              </details>
-            </div>
-          </article>
-
-        </section>
+          <p><strong>Important:</strong> Store this key securely. For security reasons, we won't be able to show it to you again.</p>
+          
+          <div class="api-warning">
+            <p><strong>Security Warning:</strong> Treat your API key like a password. Do not share it publicly or commit it to version control.</p>
+          </div>
+        </div>
       </div>
+      
+      <h3>API Endpoints</h3>
+      
+      <div class="endpoint-card">
+        <div class="endpoint-header">
+          <div class="endpoint-method">GET</div>
+          <div class="endpoint-url">/api/v1/projects</div>
+        </div>
+        <div class="endpoint-description">
+          <p>Retrieve a list of all projects associated with your account.</p>
+        </div>
+        <div class="endpoint-params">
+          <h4>Query Parameters</h4>
+          <table class="param-table">
+            <tr>
+              <th>Parameter</th>
+              <th>Type</th>
+              <th>Description</th>
+            </tr>
+            <tr>
+              <td>page</td>
+              <td>integer</td>
+              <td>Page number for pagination (default: 1)</td>
+            </tr>
+            <tr>
+              <td>per_page</td>
+              <td>integer</td>
+              <td>Number of items per page (default: 20, max: 100)</td>
+            </tr>
+          </table>
+        </div>
+        <div class="response-example">
+          <h4>Response Example</h4>
+          <pre><code>{
+  "projects": [
+    {
+      "id": "proj_123456",
+      "name": "My Website",
+      "repository": "https://github.com/user/repo",
+      "created_at": "2023-01-01T00:00:00Z",
+      "updated_at": "2023-01-01T00:00:00Z",
+      "status": "active"
+    }
+  ],
+  "pagination": {
+    "total": 1,
+    "page": 1,
+    "per_page": 20,
+    "total_pages": 1
+  }
+}</code></pre>
+        </div>
+      </div>
+      
+      <div class="endpoint-card">
+        <div class="endpoint-header">
+          <div class="endpoint-method">POST</div>
+          <div class="endpoint-url">/api/v1/projects</div>
+        </div>
+        <div class="endpoint-description">
+          <p>Create a new project.</p>
+        </div>
+        <div class="endpoint-params">
+          <h4>Request Body</h4>
+          <table class="param-table">
+            <tr>
+              <th>Parameter</th>
+              <th>Type</th>
+              <th>Required</th>
+              <th>Description</th>
+            </tr>
+            <tr>
+              <td>name</td>
+              <td>string</td>
+              <td>Yes</td>
+              <td>The name of the project</td>
+            </tr>
+            <tr>
+              <td>repository</td>
+              <td>string</td>
+              <td>Yes</td>
+              <td>The GitHub repository URL</td>
+            </tr>
+            <tr>
+              <td>branch</td>
+              <td>string</td>
+              <td>No</td>
+              <td>The branch to deploy (default: main)</td>
+            </tr>
+            <tr>
+              <td>build_command</td>
+              <td>string</td>
+              <td>No</td>
+              <td>The build command to run</td>
+            </tr>
+            <tr>
+              <td>output_directory</td>
+              <td>string</td>
+              <td>No</td>
+              <td>The directory containing built files</td>
+            </tr>
+          </table>
+        </div>
+        <div class="response-example">
+          <h4>Response Example</h4>
+          <pre><code>{
+  "project": {
+    "id": "proj_789012",
+    "name": "New Project",
+    "repository": "https://github.com/user/new-repo",
+    "branch": "main",
+    "build_command": "npm run build",
+    "output_directory": "dist",
+    "created_at": "2023-01-01T00:00:00Z",
+    "status": "created"
+  }
+}</code></pre>
+        </div>
+      </div>
+      
+      <div class="endpoint-card">
+        <div class="endpoint-header">
+          <div class="endpoint-method">POST</div>
+          <div class="endpoint-url">/api/v1/projects/{project_id}/deployments</div>
+        </div>
+        <div class="endpoint-description">
+          <p>Trigger a new deployment for a project.</p>
+        </div>
+        <div class="endpoint-params">
+          <h4>Path Parameters</h4>
+          <table class="param-table">
+            <tr>
+              <th>Parameter</th>
+              <th>Type</th>
+              <th>Description</th>
+            </tr>
+            <tr>
+              <td>project_id</td>
+              <td>string</td>
+              <td>The ID of the project</td>
+            </tr>
+          </table>
+          
+          <h4>Request Body</h4>
+          <table class="param-table">
+            <tr>
+              <th>Parameter</th>
+              <th>Type</th>
+              <th>Required</th>
+              <th>Description</th>
+            </tr>
+            <tr>
+              <td>branch</td>
+              <td>string</td>
+              <td>No</td>
+              <td>The branch to deploy (overrides project default)</td>
+            </tr>
+            <tr>
+              <td>commit_sha</td>
+              <td>string</td>
+              <td>No</td>
+              <td>Specific commit SHA to deploy</td>
+            </tr>
+          </table>
+        </div>
+        <div class="response-example">
+          <h4>Response Example</h4>
+          <pre><code>{
+  "deployment": {
+    "id": "deploy_345678",
+    "project_id": "proj_123456",
+    "status": "pending",
+    "branch": "main",
+    "commit_sha": "a1b2c3d4e5f67890",
+    "created_at": "2023-01-01T00:00:00Z",
+    "updated_at": "2023-01-01T00:00:00Z",
+    "url": "https://api.aeloria.com/v1/deployments/deploy_345678"
+  }
+}</code></pre>
+        </div>
+      </div>
+      
+      <div class="endpoint-card">
+        <div class="endpoint-header">
+          <div class="endpoint-method">GET</div>
+          <div class="endpoint-url">/api/v1/deployments/{deployment_id}</div>
+        </div>
+        <div class="endpoint-description">
+          <p>Get details about a specific deployment.</p>
+        </div>
+        <div class="endpoint-params">
+          <h4>Path Parameters</h4>
+          <table class="param-table">
+            <tr>
+              <th>Parameter</th>
+              <th>Type</th>
+              <th>Description</th>
+            </tr>
+            <tr>
+              <td>deployment_id</td>
+              <td>string</td>
+              <td>The ID of the deployment</td>
+            </tr>
+          </table>
+        </div>
+        <div class="response-example">
+          <h4>Response Example</h4>
+          <pre><code>{
+  "deployment": {
+    "id": "deploy_345678",
+    "project_id": "proj_123456",
+    "status": "success",
+    "branch": "main",
+    "commit_sha": "a1b2c3d4e5f67890",
+    "created_at": "2023-01-01T00:00:00Z",
+    "updated_at": "2023-01-01T00:05:00Z",
+    "started_at": "2023-01-01T00:01:00Z",
+    "completed_at": "2023-01-01T00:05:00Z",
+    "url": "https://my-project.aeloria.app",
+    "logs_url": "https://api.aeloria.com/v1/deployments/deploy_345678/logs"
+  }
+}</code></pre>
+        </div>
+      </div>
+      
+      <div class="endpoint-card">
+        <div class="endpoint-header">
+          <div class="endpoint-method">GET</div>
+          <div class="endpoint-url">/api/v1/deployments/{deployment_id}/logs</div>
+        </div>
+        <div class="endpoint-description">
+          <p>Get the build and deployment logs for a specific deployment.</p>
+        </div>
+        <div class="endpoint-params">
+          <h4>Path Parameters</h4>
+          <table class="param-table">
+            <tr>
+              <th>Parameter</th>
+              <th>Type</th>
+              <th>Description</th>
+            </tr>
+            <tr>
+              <td>deployment_id</td>
+              <td>string</td>
+              <td>The ID of the deployment</td>
+            </tr>
+          </table>
+        </div>
+        <div class="response-example">
+          <h4>Response Example</h4>
+          <pre><code>{
+  "logs": [
+    {
+      "timestamp": "2023-01-01T00:01:00Z",
+      "message": "Cloning repository...",
+      "source": "build"
+    },
+    {
+      "timestamp": "2023-01-01T00:01:30Z",
+      "message": "Installing dependencies...",
+      "source": "build"
+    },
+    {
+      "timestamp": "2023-01-01T00:02:00Z",
+      "message": "Running tests...",
+      "source": "test"
+    },
+    {
+      "timestamp": "2023-01-01T00:04:00Z",
+      "message": "All tests passed!",
+      "source": "test"
+    },
+    {
+      "timestamp": "2023-01-01T00:04:30Z",
+      "message": "Deploying to production...",
+      "source": "deploy"
+    },
+    {
+      "timestamp": "2023-01-01T00:05:00Z",
+      "message": "Deployment completed successfully!",
+      "source": "deploy"
+    }
+  ]
+}</code></pre>
+        </div>
+      </div>
+      
+      <h3>Webhooks</h3>
+      <p>You can configure webhooks to receive notifications about deployment events:</p>
+      <ul>
+        <li><strong>Deployment Started:</strong> Sent when a deployment begins</li>
+        <li><strong>Deployment Succeeded:</strong> Sent when a deployment completes successfully</li>
+        <li><strong>Deployment Failed:</strong> Sent when a deployment fails</li>
+      </ul>
+      
+      <p>Webhook payloads are sent as JSON POST requests to your specified URL. Each payload includes a signature header that you can use to verify the request came from Aeloria.</p>
+      
+      <h3>Rate Limits</h3>
+      <p>The Aeloria API is rate limited to 100 requests per minute per API token. If you exceed this limit, you'll receive a 429 Too Many Requests response with the following format:</p>
+      <pre><code>{
+  "error": {
+    "message": "Rate limit exceeded",
+    "reset_time": "2023-01-01T00:10:00Z"
+  }
+}</code></pre>
+      
+      <h2 id="troubleshooting">Troubleshooting</h2>
+      <p>This section provides solutions to common issues you might encounter while using Aeloria.</p>
+      
+      <h3>Deployment Failures</h3>
+      <p>If your deployment fails, check the following:</p>
+      <ul>
+        <li>Review the build logs in your dashboard</li>
+        <li>Ensure all dependencies are properly listed in your project</li>
+        <li>Check that your build commands are correct</li>
+        <li>Verify that your tests are passing</li>
+      </ul>
+      
+      <h3>Common Build Errors</h3>
+      <table>
+        <tr>
+          <th>Error</th>
+          <th>Solution</th>
+        </tr>
+        <tr>
+          <td>Module not found</td>
+          <td>Check that all dependencies are listed in your package.json or requirements.txt</td>
+        </tr>
+        <tr>
+          <td>Build command not found</td>
+          <td>Verify that your build command is correct in your project settings</td>
+        </tr>
+        <tr>
+          <td>Test failures</td>
+          <td>Review your test code and fix any failing tests</td>
+        </tr>
+        <tr>
+          <td>Permission denied</td>
+          <td>Ensure your repository is accessible to Aeloria</td>
+        </tr>
+      </table>
+      
+      <h3>Performance Issues</h3>
+      <p>If your application is slow or unresponsive:</p>
+      <ul>
+        <li>Check the performance metrics in your dashboard</li>
+        <li>Optimize your database queries</li>
+        <li>Implement caching where appropriate</li>
+        <li>Consider upgrading your plan for more resources</li>
+      </ul>
+      
+      <h3>Getting Help</h3>
+      <p>If you need additional help:</p>
+      <ul>
+        <li>Check our <a href="/blog">blog</a> for tutorials and tips</li>
+        <li>Contact our support team at <a href="mailto:support@aeloria.com">support@aeloria.com</a></li>
+        <li>Join our community forum to connect with other users</li>
+      </ul>
     </div>
-  </main>
+  </div>
 
-  <footer class="mt-12 pb-12">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm text-gray-500">
-      © 2024 Aeloria — Documentation
-    </div>
-  </footer>
+  <!-- Contact Section -->
+  <div class="contact-section">
+    <h2>Need More Help?</h2>
+    <p>Have questions about Aeloria? Reach out to our team via <a href="mailto:support@aeloria.com">support@aeloria.com</a> or visit our <a href="/blog">blog</a> for tutorials and guides. We're committed to making your deployment experience seamless!</p>
+  </div>
 
   <script>
-    // icons
-    lucide.createIcons();
-
-    // Theme toggle (light/dark) - simple visual only
-    const themeToggle = document.getElementById('theme-toggle');
-    themeToggle.addEventListener('click', () => {
-      document.documentElement.classList.toggle('light');
-      // swap moon/sun icon
-      const icon = themeToggle.querySelector('i');
-      icon.setAttribute('data-lucide', document.documentElement.classList.contains('light') ? 'sun' : 'moon');
-      lucide.createIcons();
+    // API Key Generation
+    document.getElementById('generate-api-key').addEventListener('click', function() {
+      const keyName = document.getElementById('api-key-name').value;
+      
+      if (!keyName) {
+        alert('Please enter a name for your API key');
+        return;
+      }
+      
+      // Generate a random API key
+      const randomString = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+      const apiKey = 'ael_sk_' + randomString;
+      
+      // Display the API key
+      document.getElementById('generated-key').textContent = apiKey;
+      document.getElementById('api-key-display').classList.add('show');
+      
+      // Clear the input
+      document.getElementById('api-key-name').value = '';
     });
-
-    // Copy to clipboard for code blocks
-    document.querySelectorAll('.copy-btn').forEach(btn => {
-      btn.addEventListener('click', async () => {
-        const pre = btn.closest('div').querySelector('pre');
-        if (!pre) return;
-        const text = pre.innerText;
-        try { await navigator.clipboard.writeText(text); btn.innerText = 'Copied'; setTimeout(() => btn.innerText = 'Copy', 1500); }
-        catch (e) { btn.innerText = 'Failed'; setTimeout(() => btn.innerText = 'Copy', 1500); }
-      });
+    
+    // Copy API Key
+    document.getElementById('copy-api-key').addEventListener('click', function() {
+      const apiKey = document.getElementById('generated-key').textContent;
+      
+      // Create a temporary input element to copy the text
+      const tempInput = document.createElement('input');
+      tempInput.value = apiKey;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      document.execCommand('copy');
+      document.body.removeChild(tempInput);
+      
+      // Change the button text temporarily
+      const copyButton = document.getElementById('copy-api-key');
+      const originalText = copyButton.textContent;
+      copyButton.textContent = 'Copied!';
+      
+      setTimeout(function() {
+        copyButton.textContent = originalText;
+      }, 2000);
     });
-
-    // Simple search over sidebar items & headings
-    const search = document.getElementById('doc-search');
-    if (search) {
-      search.addEventListener('input', (e) => {
-        const q = e.target.value.toLowerCase().trim();
-        document.querySelectorAll('nav a, section article h2, section article h1').forEach(el => {
-          const text = (el.innerText || '').toLowerCase();
-          if (!q) { el.style.display = ''; return; }
-          if (text.includes(q)) el.style.display = ''; else el.style.display = 'none';
-        });
-      });
-    }
-
-    // Smooth scroll for internal links
-    document.querySelectorAll('a[href^="#"]').forEach(a => {
-      a.addEventListener('click', (e) => {
+    
+    // Smooth scrolling for sidebar links
+    document.querySelectorAll('.doc-sidebar a').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
         e.preventDefault();
-        const target = document.querySelector(a.getAttribute('href'));
-        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        
+        // Remove active class from all links
+        document.querySelectorAll('.doc-sidebar a').forEach(link => {
+          link.classList.remove('active');
+        });
+        
+        // Add active class to clicked link
+        this.classList.add('active');
+        
+        // Scroll to the section
+        const targetId = this.getAttribute('href').substring(1);
+        const targetElement = document.getElementById(targetId);
+        
+        if (targetElement) {
+          window.scrollTo({
+            top: targetElement.offsetTop - 100,
+            behavior: 'smooth'
+          });
+        }
       });
-    });
-
-    // Sidebar toggle for small screens
-    const sidebarToggle = document.getElementById('sidebar-toggle');
-    if (sidebarToggle) sidebarToggle.addEventListener('click', () => {
-      const sidebar = document.getElementById('sidebar');
-      sidebar.classList.toggle('hidden');
     });
   </script>
 </body>

@@ -119,9 +119,9 @@ def error():
     return render_template('404.html')
 
 
-@app.route('/about')
+@app.route('/features')
 def about():
-    return render_template('about.html')
+    return render_template('features.html')
 
 
 @app.route('/contact')

@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Features</title>
+ <!-- Montserrat Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&display=swap" rel="stylesheet" />
+
+  <!-- Material Icons -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet" />
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background-color:#1a1a1a;
+      color: #ffffff;
+      scroll-behavior: smooth;
+    }
+
+    /* Navbar Styles */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 40px;
+      flex-wrap: wrap;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .navbar-logo {
+      display: flex;
+      align-items: center;
+      color:#ffffff;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 20px;
+    }
+
+    .navbar-menu {
+      display: flex;
+      gap: 30px;
+      align-items: center;
+    }
+
+    .navbar-menu a {
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 16px;
+      
+      padding: 3px 5px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+
+    .navbar-actions {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .navbar-actions a {
+      color:#ffffff;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 16px;
+      cursor: pointer;
+      
+      padding: 6px 10px;
+      border-radius: 4px;
+    }
+
+    .navbar-actions a:hover {
+      
+      color: #333333;
+    }
+
+    .navbar-actions .btn-purple {
+      background-color: #7B2CBF;
+      color: #fff;
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+      cursor: pointer;
+    }
+
+    .navbar-actions .btn-purple:hover {
+      background-color: #5A189A;
+    }
+
+    /* Hero Styles */
+    .hero {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      padding: 80px 20px;
+      max-width: 1200px;
+      margin: auto;
+      color:#ffffff;
+    }
+
+    .hero-left {
+      flex: 1 1 500px;
+    }
+
+    .hero-left h4 {
+      font-size: 18px;
+      font-weight: 500;
+      color:lightcyan;
+      margin: 0 0 15px;
+    }
+
+    .hero-left h1 {
+      font-size: 42px;
+      font-weight: 700;
+      color: #ffffff;
+      margin: 0 0 30px;
+      line-height: 1.2;
+    }
+
+    .btn-purple {
+      background-color: #7B2CBF;
+      color: #fff;
+      text-decoration: none;
+      padding: 14px 28px;
+      border-radius: 4px;
+      font-weight: 600;
+      font-size: 16px;
+      display: inline-block;
+      transition: background-color 0.3s ease;
+      cursor: pointer;
+    }
+
+    .btn-purple:hover {
+      background-color: #5A189A;
+    }
+
+    .hero-right {
+      flex: 1 1 400px;
+      padding-top: 30px;
+    }
+
+    .hero-right h3 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 10px;
+    }
+
+    .hero-right p {
+      font-size: 16px;
+      color:#ffffff;
+      line-height: 1.6;
+      max-width: 500px;
+    }
+
+    section {
+      max-width: 1200px;
+      margin: auto;
+      padding: 60px 20px;
+    }
+
+    section h2 {
+      text-align: center;
+      color: #7B2CBF;
+      font-weight: 700;
+      margin-bottom: 40px;
+      font-size: 30px;
+    }
+
+    .about-text, .how-text, .contact-text {
+      max-width: 800px;
+      margin: auto;
+      font-size: 18px;
+      line-height: 1.7;
+      text-align: center;
+      color: #555;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+    }
+
+    .card {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card .material-icons-outlined {
+      font-size: 50px;
+      color: #7B2CBF;
+      margin-bottom: 15px;
+    }
+
+    .card-title {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .card-desc {
+      font-size: 16px;
+      color: #555;
+      line-height: 1.5;
+    }
+  </style>
+
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <a href="/" class="navbar-logo">
+      Aeloria
+    </a>
+    <div class="navbar-menu">
+      <a href="#features">Features</a>
+      <a href="#">Solutions</a>
+      <a href="/pricing">Pricing</a>
+      <a href="/blog">Blog</a>
+    </div>
+    <div class="navbar-actions">
+      <a href="#contact">Contact sales</a>
+      <a href="/login">Log in</a>
+      <a href="/signup" class="btn-purple">Sign up</a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-left">
+      <h4>Aeloria</h4>
+      <h1>Deploy your applications to the cloud with confidence</h1>
+      <a href="/login" class="btn-purple">Start Deploying</a>
+    </div>
+    <div class="hero-right">
+      <h3>Seamless GitHub Integration</h3>
+      <p>Connect your GitHub repositories to Aeloria and deploy your websites and full-stack applications with just a few clicks. Our automated testing ensures only quality code reaches production.</p>
+    </div>
+  </section>
+
+  <!-- Introduction Section -->
+  <section id="introduction">
+    <h2>Introduction</h2>
+    <div class="about-text">
+     Aeloria is a modern cloud deployment platform designed to simplify how developers host their websites and full-stack applications on the World Wide Web. 
+      Unlike traditional hosting solutions, Aeloria integrates seamlessly with GitHub for project deployment and includes automated testing to validate code before it goes live. 
+      Our goal is to make deployment fast, secure, and reliable for developers and teams of all sizes.
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features">
+    <h2>Features</h2>
+    <div class="grid">
+      <div class="card">
+        <span class="material-icons-outlined">cloud_upload</span>
+        <div class="card-title">Cloud Deployment</div>
+        <div class="card-desc">
+          Host your websites and full-stack applications on our robust cloud infrastructure with global CDN support.
+        </div>
+      </div>
+      <div class="card">
+        <span class="material-icons-outlined">integration_instructions</span>
+        <div class="card-title">GitHub Integration</div>
+        <div class="card-desc">
+          Seamlessly connect your GitHub repositories for automatic deployments whenever you push changes.
+        </div>
+      </div>
+      <div class="card">
+        <span class="material-icons-outlined">rule</span>
+        <div class="card-title">Automated Testing</div>
+        <div class="card-desc">
+          Every deployment is preceded by rigorous automated testing to ensure your code is production-ready.
+        </div>
+      </div>
+      <div class="card">
+        <span class="material-icons-outlined">analytics</span>
+        <div class="card-title">Performance Monitoring</div>
+        <div class="card-desc">
+          Real-time insights into your application's performance with detailed analytics and alerts.
+        </div>
+      </div>
+      <div class="card">
+        <span class="material-icons-outlined">security</span>
+        <div class="card-title">Security First</div>
+        <div class="card-desc">
+          Built-in security features including SSL certificates, firewalls, and regular vulnerability scanning.
+        </div>
+      </div>
+      <div class="card">
+        <span class="material-icons-outlined">support_agent</span>
+        <div class="card-title">24/7 Support</div>
+        <div class="card-desc">
+          Our technical team is available around the clock to assist with any deployment or hosting issues.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="how-it-works">
+  <h2>How It Works</h2>
+  <div class="grid">
+    <div class="card">
+      <span class="material-icons-outlined">link</span>
+      <div class="card-title">Step 1: Connect GitHub</div>
+      <div class="card-desc">
+        Link your GitHub account and select the repository you want to deploy with just a few clicks.
+      </div>
+    </div>
+    <div class="card">
+      <span class="material-icons-outlined">settings</span>
+      <div class="card-title">Step 2: Configure Deployment</div>
+      <div class="card-desc">
+        Set up your deployment preferences including environment variables and build commands.
+      </div>
+    </div>
+    <div class="card">
+      <span class="material-icons-outlined">code</span>
+      <div class="card-title">Step 3: Push Code</div>
+      <div class="card-desc">
+        Push changes to your GitHub repository to trigger the automated deployment process.
+      </div>
+    </div>
+    <div class="card">
+      <span class="material-icons-outlined">check_circle</span>
+      <div class="card-title">Step 4: Automated Testing</div>
+      <div class="card-desc">
+        Our platform runs your configured tests to validate code quality before deployment.
+      </div>
+    </div>
+    <div class="card">
+      <span class="material-icons-outlined">rocket_launch</span>
+      <div class="card-title">Step 5: Deploy Live</div>
+      <div class="card-desc">
+        Once tests pass, your application is automatically deployed to our cloud infrastructure.
+      </div>
+    </div>
+  </div>
+</section>
+
+
+  <!-- Team Section -->
+  <section id="team">
+    <h2>Our Team</h2>
+    <div class="grid">
+      <div class="card">
+        <span class="material-icons-outlined">code</span>
+        <div class="card-title">Web Development</div>
+        <div class="card-desc">
+          Builds intuitive interfaces and ensures seamless user experience across all devices.
+        </div>
+      </div>
+      <div class="card">
+        <span class="material-icons-outlined">cloud</span>
+        <div class="card-title">Cloud Infrastructure</div>
+        <div class="card-desc">
+          Manages and optimizes our cloud infrastructure for maximum reliability and performance.
+        </div>
+      </div>
+      <div class="card">
+        <span class="material-icons-outlined">developer_board</span>
+        <div class="card-title">System Architecture</div>
+        <div class="card-desc">
+          Designs scalable and secure system architecture for our platform.
+        </div>
+      </div>
+      <div class="card">
+        <span class="material-icons-outlined">bug_report</span>
+        <div class="card-title">QA Engineers</div>
+        <div class="card-desc">
+          Ensures code quality through comprehensive testing and quality assurance processes.
+        </div>
+      </div>
+      <div class="card">
+        <span class="material-icons-outlined">support_agent</span>
+        <div class="card-title">Customer Support</div>
+        <div class="card-desc">
+          Provides technical assistance and guidance to our users around the clock.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact">
+    <h2>Contact</h2>
+    <div class="contact-text">
+      Have questions or need support? Reach out to our team via <strong>gouthamvaishnav8@gmail.com</strong> or visit our documentation
+      for instant help. We're committed to making your deployment experience seamless!
+    </div>
+  </section>
+</body>
+</html>
