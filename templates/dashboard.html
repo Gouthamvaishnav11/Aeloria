@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,53 +13,57 @@
             from {
                 opacity: 0;
             }
+
             to {
                 opacity: 1;
             }
         }
-        
+
         @keyframes slideIn {
             from {
                 transform: translateX(-20px);
                 opacity: 0;
             }
+
             to {
                 transform: translateX(0);
                 opacity: 1;
             }
         }
-        
+
         @keyframes pulse {
             0% {
                 box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4);
             }
+
             70% {
                 box-shadow: 0 0 0 10px rgba(99, 102, 241, 0);
             }
+
             100% {
                 box-shadow: 0 0 0 0 rgba(99, 102, 241, 0);
             }
         }
-        
+
         .animate-fadeIn {
             animation: fadeIn 0.5s ease-out forwards;
         }
-        
+
         .animate-slideIn {
             animation: slideIn 0.5s ease-out forwards;
         }
-        
+
         .animate-pulse-slow {
             animation: pulse 3s infinite;
         }
-        
+
         /* Background styles */
         body {
             background: #0a0a14;
             color: #e2e8f0;
             overflow-x: hidden;
         }
-        
+
         /* Glassmorphism */
         .glass {
             background: rgba(15, 23, 42, 0.7);
@@ -66,14 +71,14 @@
             -webkit-backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
-        
+
         .glass-light {
             background: rgba(15, 23, 42, 0.5);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
             border: 1px solid rgba(255, 255, 255, 0.08);
         }
-        
+
         /* Sidebar styles */
         .sidebar-link {
             position: relative;
@@ -82,17 +87,17 @@
             padding: 0.75rem 1rem;
             margin-bottom: 0.5rem;
         }
-        
+
         .sidebar-link:hover {
             background: rgba(99, 102, 241, 0.1);
             border-left: 3px solid #6366f1;
         }
-        
+
         .sidebar-link.active {
             background: rgba(99, 102, 241, 0.2);
             border-left: 3px solid #6366f1;
         }
-        
+
         /* Card styles */
         .stat-card {
             transition: all 0.3s ease;
@@ -101,13 +106,13 @@
             -webkit-backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
-        
+
         .stat-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 30px -10px rgba(99, 102, 241, 0.3);
             border-color: rgba(99, 102, 241, 0.3);
         }
-        
+
         /* Deployment card */
         .deployment-card {
             transition: all 0.3s ease;
@@ -116,13 +121,13 @@
             -webkit-backdrop-filter: blur(8px);
             border: 1px solid rgba(255, 255, 255, 0.08);
         }
-        
+
         .deployment-card:hover {
             transform: translateY(-3px);
             box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.2);
             border-color: rgba(99, 102, 241, 0.2);
         }
-        
+
         /* Button styles */
         .btn-primary {
             background: linear-gradient(135deg, #6366f1, #8b5cf6);
@@ -131,12 +136,12 @@
             overflow: hidden;
             z-index: 1;
         }
-        
+
         .btn-primary:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.4);
         }
-        
+
         .btn-primary::before {
             content: '';
             position: absolute;
@@ -149,23 +154,23 @@
             transition: transform 0.6s ease;
             z-index: -1;
         }
-        
+
         .btn-primary:hover::before {
             transform: translateX(0);
         }
-        
+
         .btn-outline {
             background: transparent;
             border: 2px solid rgba(99, 102, 241, 0.5);
             transition: all 0.3s ease;
         }
-        
+
         .btn-outline:hover {
             background: rgba(99, 102, 241, 0.1);
             border-color: #6366f1;
             transform: translateY(-2px);
         }
-        
+
         /* Status badge */
         .status-badge {
             padding: 0.25rem 0.75rem;
@@ -173,22 +178,22 @@
             font-size: 0.75rem;
             font-weight: 600;
         }
-        
+
         .status-success {
             background: rgba(16, 185, 129, 0.2);
             color: #10b981;
         }
-        
+
         .status-pending {
             background: rgba(245, 158, 11, 0.2);
             color: #f59e0b;
         }
-        
+
         .status-error {
             background: rgba(239, 68, 68, 0.2);
             color: #ef4444;
         }
-        
+
         /* Progress bar */
         .progress-bar {
             height: 6px;
@@ -196,14 +201,14 @@
             border-radius: 3px;
             overflow: hidden;
         }
-        
+
         .progress-fill {
             height: 100%;
             background: linear-gradient(90deg, #6366f1, #8b5cf6);
             border-radius: 3px;
             transition: width 1s ease;
         }
-        
+
         /* Notification badge */
         .notification-badge {
             position: absolute;
@@ -219,7 +224,7 @@
             font-size: 0.75rem;
             font-weight: bold;
         }
-        
+
         /* Toggle switch */
         .toggle-switch {
             position: relative;
@@ -230,11 +235,11 @@
             cursor: pointer;
             transition: background 0.3s ease;
         }
-        
+
         .toggle-switch.active {
             background: rgba(99, 102, 241, 0.5);
         }
-        
+
         .toggle-switch::after {
             content: '';
             position: absolute;
@@ -246,11 +251,11 @@
             left: 3px;
             transition: transform 0.3s ease;
         }
-        
+
         .toggle-switch.active::after {
             transform: translateX(24px);
         }
-        
+
         /* Floating elements */
         .floating-element {
             position: absolute;
@@ -259,21 +264,41 @@
             opacity: 0.3;
             z-index: -1;
         }
+
+        /* Loading spinner */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, .3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
     </style>
 </head>
+
 <body class="font-sans">
     <!-- Floating background elements -->
     <div class="floating-element w-64 h-64 bg-indigo-500 top-20 left-10"></div>
     <div class="floating-element w-96 h-96 bg-purple-500 bottom-20 right-10"></div>
-    
+
     <div class="flex h-screen">
         <!-- Sidebar -->
         <div class="w-64 glass p-6 flex flex-col">
             <div class="mb-10">
-                <h1 class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-purple-500">Aeloria</h1>
+                <h1
+                    class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-purple-500">
+                    Aeloria</h1>
                 <p class="text-slate-400 text-sm mt-1">Deployment Dashboard</p>
             </div>
-            
+
             <nav class="flex-1">
                 <a href="/dashboard" class="sidebar-link active flex items-center">
                     <i class="fas fa-home mr-3 text-indigo-400"></i>
@@ -281,11 +306,7 @@
                 </a>
                 <a href="/logs" class="sidebar-link flex items-center">
                     <i class="fas fa-rocket mr-3 text-slate-400"></i>
-                    <span>Deployments</span>
-                </a>
-                <a href="/analytics" class="sidebar-link flex items-center">
-                    <i class="fas fa-chart-line mr-3 text-slate-400"></i>
-                    <span>Analytics</span>
+                    <span>Deployments Logs</span>
                 </a>
                 <a href="/status" class="sidebar-link flex items-center">
                     <i class="fas fa-chart-line mr-3 text-slate-400"></i>
@@ -295,48 +316,49 @@
                     <i class="fas fa-cog mr-3 text-slate-400"></i>
                     <span>Settings</span>
                 </a>
-                
-                
             </nav>
-            
+
             <div class="mt-auto">
                 <div class="flex items-center p-3 rounded-lg glass-light">
-                    <img src="#" alt="User" class="w-10 h-10 rounded-full mr-3">
+                    <div class="w-10 h-10 rounded-full mr-3 bg-indigo-500 flex items-center justify-center">
+                        <span class="font-bold text-white" id="userInitial">U</span>
+                    </div>
                     <div>
-                        <p class="font-medium">UserName</p>
-                        <p class="text-slate-400 text-sm">User Role</p>
+                        <p class="font-medium" id="userName">Loading...</p>
+                        <p class="text-slate-400 text-sm" id="userRole">User</p>
                     </div>
                 </div>
             </div>
         </div>
-        
+
         <!-- Main Content -->
         <div class="flex-1 flex flex-col overflow-hidden">
             <!-- Header -->
             <header class="glass p-6 flex justify-between items-center">
                 <div>
                     <h2 class="text-2xl font-bold">Dashboard</h2>
-                    <p class="text-slate-400">Welcome back, Alex!</p>
+                    <p class="text-slate-400" id="welcomeMessage">Welcome back!</p>
                 </div>
-                
+
                 <div class="flex items-center space-x-4">
                     <!-- Search -->
                     <div class="relative">
-                        <input type="text" placeholder="Search..." class="glass-light pl-10 pr-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 w-64">
+                        <input type="text" placeholder="Search deployments..."
+                            class="glass-light pl-10 pr-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 w-64">
                         <i class="fas fa-search absolute left-3 top-3 text-slate-400"></i>
                     </div>
-                    
+
                     <!-- Notifications -->
                     <button class="relative p-2 rounded-lg hover:bg-slate-800 transition">
                         <i class="fas fa-bell text-slate-300"></i>
                         <span class="notification-badge">3</span>
                     </button>
-                    
+
                     <!-- Theme Toggle -->
                     <div class="toggle-switch active" onclick="this.classList.toggle('active')"></div>
                 </div>
             </header>
-            
+
             <!-- Main Content Area -->
             <main class="flex-1 overflow-y-auto p-6">
                 <!-- Stats Cards -->
@@ -346,7 +368,7 @@
                         <div class="flex justify-between items-start">
                             <div>
                                 <p class="text-slate-400 mb-1">Total Deployments</p>
-                                <p class="text-3xl font-bold">24</p>
+                                <p class="text-3xl font-bold" id="totalDeployments">-</p>
                             </div>
                             <div class="bg-indigo-500 bg-opacity-20 p-3 rounded-lg">
                                 <i class="fas fa-rocket text-indigo-400 text-xl"></i>
@@ -354,17 +376,18 @@
                         </div>
                         <div class="mt-4">
                             <p class="text-green-400 text-sm flex items-center">
-                                <i class="fas fa-arrow-up mr-1"></i> 12% from last month
+                                <i class="fas fa-arrow-up mr-1"></i> <span id="deploymentGrowth">-</span> from last
+                                month
                             </p>
                         </div>
                     </div>
-                    
+
                     <!-- Success Rate -->
                     <div class="stat-card p-6 rounded-xl">
                         <div class="flex justify-between items-start">
                             <div>
                                 <p class="text-slate-400 mb-1">Success Rate</p>
-                                <p class="text-3xl font-bold">98.5%</p>
+                                <p class="text-3xl font-bold" id="successRate">-</p>
                             </div>
                             <div class="bg-green-500 bg-opacity-20 p-3 rounded-lg">
                                 <i class="fas fa-check-circle text-green-400 text-xl"></i>
@@ -372,17 +395,17 @@
                         </div>
                         <div class="mt-4">
                             <p class="text-green-400 text-sm flex items-center">
-                                <i class="fas fa-arrow-up mr-1"></i> 2% from last month
+                                <i class="fas fa-arrow-up mr-1"></i> <span id="successGrowth">-</span> from last month
                             </p>
                         </div>
                     </div>
-                    
+
                     <!-- Avg. Deploy Time -->
                     <div class="stat-card p-6 rounded-xl">
                         <div class="flex justify-between items-start">
                             <div>
                                 <p class="text-slate-400 mb-1">Avg. Deploy Time</p>
-                                <p class="text-3xl font-bold">24s</p>
+                                <p class="text-3xl font-bold" id="avgDeployTime">-</p>
                             </div>
                             <div class="bg-yellow-500 bg-opacity-20 p-3 rounded-lg">
                                 <i class="fas fa-clock text-yellow-400 text-xl"></i>
@@ -390,28 +413,29 @@
                         </div>
                         <div class="mt-4">
                             <p class="text-green-400 text-sm flex items-center">
-                                <i class="fas fa-arrow-down mr-1"></i> 5s faster than last month
+                                <i class="fas fa-arrow-down mr-1"></i> <span id="timeImprovement">-</span> than last
+                                month
                             </p>
                         </div>
                     </div>
-                    
+
                     <!-- Active Projects -->
                     <div class="stat-card p-6 rounded-xl">
                         <div class="flex justify-between items-start">
                             <div>
                                 <p class="text-slate-400 mb-1">Active Projects</p>
-                                <p class="text-3xl font-bold">8</p>
+                                <p class="text-3xl font-bold" id="activeProjects">-</p>
                             </div>
                             <div class="bg-purple-500 bg-opacity-20 p-3 rounded-lg">
                                 <i class="fas fa-folder text-purple-400 text-xl"></i>
                             </div>
                         </div>
                         <div class="mt-4">
-                            <p class="text-slate-400 text-sm">2 added this week</p>
+                            <p class="text-slate-400 text-sm" id="projectsAdded">-</p>
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     <!-- Recent Deployments -->
                     <div class="lg:col-span-2">
@@ -420,185 +444,491 @@
                                 <h3 class="text-xl font-bold">Recent Deployments</h3>
                                 <button class="text-indigo-400 hover:text-indigo-300 transition">View All</button>
                             </div>
-                            
-                            <div class="space-y-4">
-                                <!-- Deployment 1 -->
-                                <div class="deployment-card p-4 rounded-lg">
-                                    <div class="flex justify-between items-start mb-3">
-                                        <div>
-                                            <h4 class="font-bold">Portfolio Website</h4>
-                                            <p class="text-slate-400 text-sm">alex/portfolio</p>
-                                        </div>
-                                        <span class="status-badge status-success">Success</span>
-                                    </div>
-                                    <div class="flex justify-between items-center text-sm text-slate-400">
-                                        <span>2 hours ago</span>
-                                        <span>Branch: main</span>
-                                    </div>
-                                </div>
-                                
-                                <!-- Deployment 2 -->
-                                <div class="deployment-card p-4 rounded-lg">
-                                    <div class="flex justify-between items-start mb-3">
-                                        <div>
-                                            <h4 class="font-bold">E-commerce Platform</h4>
-                                            <p class="text-slate-400 text-sm">alex/ecommerce</p>
-                                        </div>
-                                        <span class="status-badge status-pending">Deploying</span>
-                                    </div>
-                                    <div class="flex justify-between items-center text-sm text-slate-400 mb-2">
-                                        <span>5 minutes ago</span>
-                                        <span>Branch: feature/payment</span>
-                                    </div>
-                                    <div class="progress-bar">
-                                        <div class="progress-fill" style="width: 65%;"></div>
-                                    </div>
-                                </div>
-                                
-                                <!-- Deployment 3 -->
-                                <div class="deployment-card p-4 rounded-lg">
-                                    <div class="flex justify-between items-start mb-3">
-                                        <div>
-                                            <h4 class="font-bold">Blog API</h4>
-                                            <p class="text-slate-400 text-sm">alex/blog-api</p>
-                                        </div>
-                                        <span class="status-badge status-error">Failed</span>
-                                    </div>
-                                    <div class="flex justify-between items-center text-sm text-slate-400">
-                                        <span>1 day ago</span>
-                                        <span>Branch: develop</span>
-                                    </div>
-                                </div>
-                                
-                                <!-- Deployment 4 -->
-                                <div class="deployment-card p-4 rounded-lg">
-                                    <div class="flex justify-between items-start mb-3">
-                                        <div>
-                                            <h4 class="font-bold">Task Manager</h4>
-                                            <p class="text-slate-400 text-sm">alex/task-manager</p>
-                                        </div>
-                                        <span class="status-badge status-success">Success</span>
-                                    </div>
-                                    <div class="flex justify-between items-center text-sm text-slate-400">
-                                        <span>2 days ago</span>
-                                        <span>Branch: main</span>
-                                    </div>
+
+                            <div class="space-y-4" id="recentDeployments">
+                                <!-- Deployments will be loaded here dynamically -->
+                                <div class="text-center py-8 text-slate-400">
+                                    <div class="loading mx-auto mb-2"></div>
+                                    <p>Loading deployments...</p>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    
-                    <!-- Create New Deployment -->
-                    <div>
-                        <div class="glass p-6 rounded-xl mb-6">
-                            <h3 class="text-xl font-bold mb-6">Create New Deployment</h3>
-                            
-                            <form>
-                                <div class="mb-4">
-                                    <label class="block text-slate-400 mb-2">Repository</label>
-                                    <select class="w-full glass-light p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                                        <option>Select a repository</option>
-                                        <option>alex/portfolio</option>
-                                        <option>alex/ecommerce</option>
-                                        <option>alex/blog-api</option>
-                                        <option>alex/task-manager</option>
-                                    </select>
+
+                    <!-- In the Create New Deployment section, replace the form with: -->
+                    <div class="glass p-6 rounded-xl mb-6">
+                        <h3 class="text-xl font-bold mb-6">Create New Deployment</h3>
+
+                        <form id="deploymentForm">
+                            <div class="mb-4">
+                                <label class="block text-slate-400 mb-2">Repository</label>
+                                <select
+                                    class="w-full glass-light p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                    id="repositorySelect" required>
+                                    <option value="">Select a repository</option>
+                                    <!-- GitHub repositories will be loaded here -->
+                                </select>
+                                <div id="repoLoading" class="text-slate-400 text-sm mt-1 hidden">
+                                    <div class="loading inline-block mr-2"></div>
+                                    Loading your GitHub repositories...
                                 </div>
-                                
-                                <div class="mb-4">
-                                    <label class="block text-slate-400 mb-2">Branch</label>
-                                    <select class="w-full glass-light p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                                        <option>main</option>
-                                        <option>develop</option>
-                                        <option>feature/new-ui</option>
-                                        <option>hotfix/security</option>
-                                    </select>
-                                </div>
-                                
-                                <div class="mb-6">
-                                    <label class="block text-slate-400 mb-2">Environment</label>
-                                    <div class="grid grid-cols-2 gap-3">
-                                        <label class="flex items-center glass-light p-3 rounded-lg cursor-pointer">
-                                            <input type="radio" name="environment" class="mr-2" checked>
-                                            <span>Production</span>
-                                        </label>
-                                        <label class="flex items-center glass-light p-3 rounded-lg cursor-pointer">
-                                            <input type="radio" name="environment" class="mr-2">
-                                            <span>Staging</span>
-                                        </label>
-                                    </div>
-                                </div>
-                                
-                                <button type="submit" class="btn-primary w-full text-white py-3 rounded-lg font-semibold">
-                                    Deploy Now
-                                </button>
-                            </form>
-                        </div>
-                        
-                        <!-- Quick Actions -->
-                        <div class="glass p-6 rounded-xl">
-                            <h3 class="text-xl font-bold mb-4">Quick Actions</h3>
-                            <div class="space-y-3">
-                                <button class="w-full text-left p-3 rounded-lg glass-light hover:bg-slate-800 transition flex items-center">
-                                    <i class="fas fa-sync-alt text-indigo-400 mr-3"></i>
-                                    <span>Redeploy Latest</span>
-                                </button>
-                                <button class="w-full text-left p-3 rounded-lg glass-light hover:bg-slate-800 transition flex items-center">
-                                    <i class="fas fa-history text-indigo-400 mr-3"></i>
-                                    <span>View Deployment History</span>
-                                </button>
-                                <button class="w-full text-left p-3 rounded-lg glass-light hover:bg-slate-800 transition flex items-center">
-                                    <i class="fas fa-cog text-indigo-400 mr-3"></i>
-                                    <span>Deployment Settings</span>
-                                </button>
+                                <div id="repoError" class="text-red-400 text-sm mt-1 hidden"></div>
                             </div>
+
+                            <div class="mb-4">
+                                <label class="block text-slate-400 mb-2">Branch</label>
+                                <select
+                                    class="w-full glass-light p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                    id="branchSelect" disabled>
+                                    <option value="main">main</option>
+                                    <!-- Only main branch is allowed -->
+                                </select>
+                                <p class="text-slate-400 text-xs mt-1">Only main branch is allowed for deployment</p>
+                            </div>
+
+                            <div class="mb-6">
+                                <label class="block text-slate-400 mb-2">Environment</label>
+                                <div class="grid grid-cols-2 gap-3">
+                                    <label class="flex items-center glass-light p-3 rounded-lg cursor-pointer">
+                                        <input type="radio" name="environment" value="production" class="mr-2" checked>
+                                        <span>Production</span>
+                                    </label>
+                                    <label class="flex items-center glass-light p-3 rounded-lg cursor-pointer">
+                                        <input type="radio" name="environment" value="staging" class="mr-2">
+                                        <span>Staging</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <button type="submit"
+                                class="btn-primary w-full text-white py-3 rounded-lg font-semibold flex items-center justify-center">
+                                <span id="deployButtonText">Deploy Now</span>
+                                <div class="loading ml-2 hidden" id="deployLoading"></div>
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="glass p-6 rounded-xl">
+                        <h3 class="text-xl font-bold mb-4">Quick Actions</h3>
+                        <div class="space-y-3">
+                            <button
+                                class="w-full text-left p-3 rounded-lg glass-light hover:bg-slate-800 transition flex items-center"
+                                onclick="redeployLatest()">
+                                <i class="fas fa-sync-alt text-indigo-400 mr-3"></i>
+                                <span>Redeploy Latest</span>
+                            </button>
+                            <button
+                                class="w-full text-left p-3 rounded-lg glass-light hover:bg-slate-800 transition flex items-center"
+                                onclick="viewDeploymentHistory()">
+                                <i class="fas fa-history text-indigo-400 mr-3"></i>
+                                <span>View Deployment History</span>
+                            </button>
+                            <button
+                                class="w-full text-left p-3 rounded-lg glass-light hover:bg-slate-800 transition flex items-center"
+                                onclick="openSettings()">
+                                <i class="fas fa-cog text-indigo-400 mr-3"></i>
+                                <span>Deployment Settings</span>
+                            </button>
                         </div>
                     </div>
                 </div>
-            </main>
         </div>
+        </main>
     </div>
-    
+    </div>
+
     <script>
-        // Simulate progress bar animation
-        document.addEventListener('DOMContentLoaded', function() {
-            const progressBars = document.querySelectorAll('.progress-fill');
-            progressBars.forEach(bar => {
-                const width = bar.style.width;
-                bar.style.width = '0';
+        // Global variables
+        let userRepositories = [];
+        let userData = {};
+
+        // Initialize dashboard when page loads
+        document.addEventListener('DOMContentLoaded', function () {
+            initializeDashboard();
+        });
+
+        // Main initialization function
+        async function initializeDashboard() {
+            try {
+                await loadUserData();
+                await fetchDeploymentStats();
+                await fetchRecentDeployments();
+                await fetchUserRepositories();
+
+                // Add animation classes after content loads
                 setTimeout(() => {
-                    bar.style.width = width;
-                }, 500);
-            });
-        });
-        
-        // Add animation to elements when they come into view
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.1
-        };
-        
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('animate-fadeIn');
-                    observer.unobserve(entry.target);
+                    document.querySelectorAll('.stat-card').forEach((card, index) => {
+                        card.style.animationDelay = `${index * 0.1}s`;
+                        card.classList.add('animate-fadeIn');
+                    });
+                }, 100);
+            } catch (error) {
+                console.error('Dashboard initialization error:', error);
+            }
+        }
+
+        // Load user data
+        async function loadUserData() {
+            try {
+                const response = await fetch('/api/user');
+                if (response.ok) {
+                    userData = await response.json();
+                    updateUserInterface();
+                } else {
+                    throw new Error('Failed to load user data');
                 }
+            } catch (error) {
+                console.error('Error loading user data:', error);
+                showError('Failed to load user information');
+            }
+        }
+
+        // Update UI with user data
+        function updateUserInterface() {
+            // Update user info in sidebar
+            const userInitial = document.getElementById('userInitial');
+            const userName = document.getElementById('userName');
+            const userRole = document.getElementById('userRole');
+            const welcomeMessage = document.getElementById('welcomeMessage');
+
+            if (userData.username) {
+                userInitial.textContent = userData.username.charAt(0).toUpperCase();
+                userName.textContent = userData.username;
+                userRole.textContent = userData.role || 'Developer';
+                welcomeMessage.textContent = `Welcome back, ${userData.username}!`;
+            }
+        }
+
+        // Fetch user repositories from GitHub
+        async function fetchUserRepositories() {
+            const repoLoading = document.getElementById('repoLoading');
+            const repoError = document.getElementById('repoError');
+            const repositorySelect = document.getElementById('repositorySelect');
+
+            repoLoading.classList.remove('hidden');
+            repoError.classList.add('hidden');
+
+            try {
+                const response = await fetch('/api/repositories');
+
+                if (response.ok) {
+                    userRepositories = await response.json();
+                    updateRepositorySelect();
+                } else if (response.status === 401) {
+                    throw new Error('GitHub authentication expired. Please log in again.');
+                } else {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || 'Failed to fetch repositories');
+                }
+            } catch (error) {
+                console.error('Error fetching repositories:', error);
+                repoError.textContent = `Error: ${error.message}`;
+                repoError.classList.remove('hidden');
+
+                // Show empty state
+                repositorySelect.innerHTML = '<option value="">Failed to load repositories</option>';
+            } finally {
+                repoLoading.classList.add('hidden');
+            }
+        }
+
+        // Update repository select dropdown with GitHub repos
+        function updateRepositorySelect() {
+            const select = document.getElementById('repositorySelect');
+            const branchSelect = document.getElementById('branchSelect');
+
+            // Clear existing options except the first one
+            while (select.options.length > 1) {
+                select.remove(1);
+            }
+
+            if (userRepositories.length === 0) {
+                const option = document.createElement('option');
+                option.value = "";
+                option.textContent = "No repositories found";
+                select.appendChild(option);
+                return;
+            }
+
+            // Sort repositories by name
+            userRepositories.sort((a, b) => a.name.localeCompare(b.name));
+
+            // Add repository options from GitHub
+            userRepositories.forEach(repo => {
+                const option = document.createElement('option');
+                option.value = repo.full_name;
+
+                // Create display text with icons for private repos
+                let displayText = repo.full_name;
+                if (repo.private) {
+                    displayText += ' 🔒';
+                }
+                if (repo.language) {
+                    displayText += ` (${repo.language})`;
+                }
+
+                option.textContent = displayText;
+                option.setAttribute('data-repo', JSON.stringify(repo));
+                select.appendChild(option);
             });
-        }, observerOptions);
-        
-        // Observe stat cards
-        const statCards = document.querySelectorAll('.stat-card');
-        statCards.forEach(card => {
-            observer.observe(card);
+
+            // Enable branch selection
+            branchSelect.disabled = false;
+
+            console.log(`Loaded ${userRepositories.length} repositories`);
+        }
+
+        // Fetch deployment statistics
+        async function fetchDeploymentStats() {
+            try {
+                const response = await fetch('/api/deployments/stats');
+                if (response.ok) {
+                    const stats = await response.json();
+                    updateStatsDisplay(stats);
+                }
+            } catch (error) {
+                console.error('Error fetching stats:', error);
+            }
+        }
+
+        // Update stats display
+        function updateStatsDisplay(stats) {
+            document.getElementById('totalDeployments').textContent = stats.totalDeployments;
+            document.getElementById('deploymentGrowth').textContent = stats.deploymentGrowth;
+            document.getElementById('successRate').textContent = stats.successRate;
+            document.getElementById('successGrowth').textContent = stats.successGrowth;
+            document.getElementById('avgDeployTime').textContent = stats.avgDeployTime;
+            document.getElementById('timeImprovement').textContent = stats.timeImprovement;
+            document.getElementById('activeProjects').textContent = stats.activeProjects;
+            document.getElementById('projectsAdded').textContent = stats.projectsAdded;
+        }
+
+        // Fetch recent deployments
+        async function fetchRecentDeployments() {
+            const container = document.getElementById('recentDeployments');
+
+            try {
+                const response = await fetch('/api/deployments/recent');
+                if (response.ok) {
+                    const deployments = await response.json();
+                    updateRecentDeploymentsDisplay(deployments);
+                }
+            } catch (error) {
+                console.error('Error fetching recent deployments:', error);
+                container.innerHTML = `
+                <div class="text-center py-8 text-red-400">
+                    <i class="fas fa-exclamation-triangle text-2xl mb-2"></i>
+                    <p>Failed to load deployments</p>
+                </div>
+            `;
+            }
+        }
+
+        // Update recent deployments display
+        function updateRecentDeploymentsDisplay(deployments) {
+            const container = document.getElementById('recentDeployments');
+
+            if (deployments.length === 0) {
+                container.innerHTML = `
+                <div class="text-center py-8 text-slate-400">
+                    <i class="fas fa-inbox text-2xl mb-2"></i>
+                    <p>No deployments yet</p>
+                </div>
+            `;
+                return;
+            }
+
+            container.innerHTML = deployments.map(deployment => `
+            <div class="deployment-card p-4 rounded-lg">
+                <div class="flex justify-between items-start mb-2">
+                    <div class="flex-1">
+                        <h4 class="font-semibold text-white">${deployment.project}</h4>
+                        <p class="text-slate-400 text-sm">${deployment.repository}</p>
+                    </div>
+                    <span class="status-badge status-${deployment.status}">
+                        ${deployment.status.charAt(0).toUpperCase() + deployment.status.slice(1)}
+                    </span>
+                </div>
+                <div class="flex justify-between items-center text-sm text-slate-400">
+                    <span>${deployment.timestamp}</span>
+                    <span>Branch: ${deployment.branch}</span>
+                </div>
+                ${deployment.progress ? `
+                <div class="mt-3">
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: ${deployment.progress}%"></div>
+                    </div>
+                    <div class="text-right text-xs text-slate-400 mt-1">${deployment.progress}%</div>
+                </div>
+                ` : ''}
+            </div>
+        `).join('');
+        }
+
+        // Handle deployment form submission
+        document.getElementById('deploymentForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const repository = document.getElementById('repositorySelect').value;
+            const branch = document.getElementById('branchSelect').value;
+            const environment = document.querySelector('input[name="environment"]:checked').value;
+
+            if (!repository) {
+                showError('Please select a repository');
+                return;
+            }
+
+            // Show loading state
+            const button = this.querySelector('button[type="submit"]');
+            const buttonText = document.getElementById('deployButtonText');
+            const loadingSpinner = document.getElementById('deployLoading');
+
+            buttonText.textContent = 'Deploying...';
+            loadingSpinner.classList.remove('hidden');
+            button.disabled = true;
+
+            try {
+                const response = await fetch('/api/deployments', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        repository,
+                        branch,
+                        environment
+                    })
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    showSuccess(result.message);
+                    // Refresh data
+                    await fetchRecentDeployments();
+                    await fetchDeploymentStats();
+                } else {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || 'Deployment failed');
+                }
+            } catch (error) {
+                console.error('Deployment error:', error);
+                showError(`Deployment failed: ${error.message}`);
+            } finally {
+                // Reset button state
+                buttonText.textContent = 'Deploy Now';
+                loadingSpinner.classList.add('hidden');
+                button.disabled = false;
+            }
         });
+
+        // Quick action functions
+        function redeployLatest() {
+            if (userRepositories.length > 0) {
+                const latestRepo = userRepositories[0].full_name;
+                document.getElementById('repositorySelect').value = latestRepo;
+                showInfo('Latest repository selected. Click "Deploy Now" to redeploy.');
+            } else {
+                showError('No repositories available');
+            }
+        }
+
+        function viewDeploymentHistory() {
+            window.location.href = '/logs';
+        }
+
+        function openSettings() {
+            window.location.href = '/settings';
+        }
+
+        // Utility functions for notifications
+        function showError(message) {
+            alert(`Error: ${message}`); // Replace with better notification system
+        }
+
+        function showSuccess(message) {
+            alert(`Success: ${message}`); // Replace with better notification system
+        }
+
+        function showInfo(message) {
+            alert(`Info: ${message}`); // Replace with better notification system
+        }
+
+        // Auto-refresh data every 30 seconds
+        setInterval(() => {
+            fetchDeploymentStats();
+            fetchRecentDeployments();
+        }, 30000);
+
+
+    // Update recent deployments display with real data
+function updateRecentDeploymentsDisplay(deployments) {
+    const container = document.getElementById('recentDeployments');
+    
+    if (deployments.length === 0) {
+        container.innerHTML = `
+            <div class="text-center py-8 text-slate-400">
+                <i class="fas fa-rocket text-2xl mb-2"></i>
+                <p class="font-semibold mb-2">No deployments yet</p>
+                <p class="text-sm">Create your first deployment to get started!</p>
+                <button onclick="document.getElementById('repositorySelect').focus()" 
+                        class="btn-primary mt-4 px-4 py-2 rounded-lg text-sm">
+                    Deploy Your First Project
+                </button>
+            </div>
+        `;
+        return;
+    }
+
+    container.innerHTML = deployments.map(deployment => {
+        // Get status badge class and icon
+        let statusClass = 'status-pending';
+        let statusIcon = 'fa-clock';
         
-        // Observe deployment cards
-        const deploymentCards = document.querySelectorAll('.deployment-card');
-        deploymentCards.forEach(card => {
-            observer.observe(card);
-        });
+        if (deployment.status === 'success') {
+            statusClass = 'status-success';
+            statusIcon = 'fa-check-circle';
+        } else if (deployment.status === 'error') {
+            statusClass = 'status-error';
+            statusIcon = 'fa-exclamation-triangle';
+        } else if (deployment.status === 'deploying') {
+            statusClass = 'status-pending';
+            statusIcon = 'fa-sync-alt fa-spin';
+        }
+
+        return `
+            <div class="deployment-card p-4 rounded-lg">
+                <div class="flex justify-between items-start mb-2">
+                    <div class="flex-1">
+                        <h4 class="font-semibold text-white">${deployment.project}</h4>
+                        <p class="text-slate-400 text-sm">${deployment.repository}</p>
+                    </div>
+                    <span class="status-badge ${statusClass}">
+                        <i class="fas ${statusIcon} mr-1"></i>
+                        ${deployment.status.charAt(0).toUpperCase() + deployment.status.slice(1)}
+                    </span>
+                </div>
+                <div class="flex justify-between items-center text-sm text-slate-400">
+                    <span><i class="far fa-clock mr-1"></i>${deployment.timestamp}</span>
+                    <span><i class="fas fa-code-branch mr-1"></i>${deployment.branch}</span>
+                    <span class="capitalize"><i class="fas fa-server mr-1"></i>${deployment.environment}</span>
+                </div>
+                ${deployment.progress !== null && deployment.progress !== undefined ? `
+                <div class="mt-3">
+                    <div class="flex justify-between text-xs text-slate-400 mb-1">
+                        <span>Deployment progress</span>
+                        <span>${deployment.progress}%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: ${deployment.progress}%"></div>
+                    </div>
+                </div>
+                ` : ''}
+            </div>
+        `;
+    }).join('');
+}
     </script>
 </body>
+
 </html>
