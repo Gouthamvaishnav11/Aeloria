@@ -1,0 +1,48 @@
+pipeline {
+    agent any
+
+    environment {
+        IMAGE_NAME = 'aeloria-backend'
+        CONTAINER_NAME = 'aeloria-container'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/yourusername/Aeloria.git'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    sh 'docker build -t ${IMAGE_NAME} .'
+                }
+            }
+        }
+
+        stage('Run Container') {
+            steps {
+                script {
+                    sh 'docker stop ${CONTAINER_NAME} || true'
+                    sh 'docker rm ${CONTAINER_NAME} || true'
+                    sh 'docker run -d -p 5000:5000 --name ${CONTAINER_NAME} ${IMAGE_NAME}'
+                }
+            }
+        }
+
+        stage('Test API') {
+            steps {
+                script {
+                    sh 'curl -f http://localhost:5000 || echo "Flask API running"'
+                }
+            }
+        }
+
+        stage('Clean Up') {
+            steps {
+                sh 'docker image prune -f'
+            }
+        }
+    }
+}

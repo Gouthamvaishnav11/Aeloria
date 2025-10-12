@@ -336,59 +336,6 @@ def github_authorize():
 # Settings API Routes
 # -------------------------
 
-@app.route('/api/settings/profile', methods=['GET', 'PUT'])
-def api_settings_profile():
-    if "user_id" not in session:
-        return jsonify({"error": "Not authenticated"}), 401
-    
-    user = User.query.get(session['user_id'])
-    if not user:
-        return jsonify({"error": "User not found"}), 404
-
-    if request.method == 'GET':
-        # Split username into first and last name for display
-        name_parts = user.username.split(' ', 1)
-        first_name = name_parts[0] if name_parts else "User"
-        last_name = name_parts[1] if len(name_parts) > 1 else "GitHub"
-        
-        return jsonify({
-            "first_name": first_name,
-            "last_name": last_name,
-            "email": user.email,
-            "phone": user.phoneNumber or "",
-            "github_username": session.get('github_username', user.username)
-        })
-    
-    elif request.method == 'PUT':
-        data = request.get_json()
-        
-        try:
-            if 'first_name' in data and 'last_name' in data:
-                user.username = f"{data['first_name']} {data['last_name']}"
-            if 'phone' in data:
-                user.phoneNumber = data['phone']
-            
-            db.session.commit()
-            
-            # Update session username if changed
-            if 'first_name' in data and 'last_name' in data:
-                session['username'] = user.username
-            
-            return jsonify({
-                "success": True,
-                "message": "Profile updated successfully",
-                "user": {
-                    "first_name": data.get('first_name'),
-                    "last_name": data.get('last_name'),
-                    "email": user.email,
-                    "phone": user.phoneNumber,
-                    "github_username": session.get('github_username', user.username)
-                }
-            })
-        
-        except Exception as e:
-            db.session.rollback()
-            return jsonify({"success": False, "message": str(e)}), 400
 
 @app.route('/api/settings/notifications', methods=['GET', 'PUT'])
 def api_settings_notifications():
@@ -874,7 +821,6 @@ def api_settings_profile():
         return jsonify({"error": "User not found"}), 404
 
     if request.method == 'GET':
-        # Split username into first and last name for display
         name_parts = user.username.split(' ', 1)
         first_name = name_parts[0] if name_parts else "User"
         last_name = name_parts[1] if len(name_parts) > 1 else "GitHub"
@@ -889,7 +835,6 @@ def api_settings_profile():
     
     elif request.method == 'PUT':
         data = request.get_json()
-        
         try:
             if 'first_name' in data and 'last_name' in data:
                 user.username = f"{data['first_name']} {data['last_name']}"
@@ -897,8 +842,7 @@ def api_settings_profile():
                 user.phoneNumber = data['phone']
             
             db.session.commit()
-            
-            # Update session username if changed
+
             if 'first_name' in data and 'last_name' in data:
                 session['username'] = user.username
             
@@ -913,7 +857,6 @@ def api_settings_profile():
                     "github_username": session.get('github_username', user.username)
                 }
             })
-        
         except Exception as e:
             db.session.rollback()
             return jsonify({"success": False, "message": str(e)}), 400
