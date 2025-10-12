@@ -9,14 +9,17 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/yourusername/Aeloria.git'
+                git branch: 'main', 
+                credentialsId: 'github-token',
+                url: 'https://github.com/Gouthamvaishnav11/Aeloria.git'
             }
         }
 
         stage('Build Docker Image') {
             steps {
                 script {
-                    sh 'docker build -t ${IMAGE_NAME} .'
+                    sh 'docker build -t ${IMAGE_NAME}:${BUILD_NUMBER} .'
+                    sh 'docker tag ${IMAGE_NAME}:${BUILD_NUMBER} ${IMAGE_NAME}:latest'
                 }
             }
         }
@@ -26,7 +29,7 @@ pipeline {
                 script {
                     sh 'docker stop ${CONTAINER_NAME} || true'
                     sh 'docker rm ${CONTAINER_NAME} || true'
-                    sh 'docker run -d -p 5000:5000 --name ${CONTAINER_NAME} ${IMAGE_NAME}'
+                    sh 'docker run -d -p 5000:5000 --name ${CONTAINER_NAME} ${IMAGE_NAME}:latest'
                 }
             }
         }
@@ -34,6 +37,7 @@ pipeline {
         stage('Test API') {
             steps {
                 script {
+                    sleep 10  // Wait for container to start
                     sh 'curl -f http://localhost:5000 || echo "Flask API running"'
                 }
             }
@@ -41,8 +45,23 @@ pipeline {
 
         stage('Clean Up') {
             steps {
-                sh 'docker image prune -f'
+                script {
+                    sh 'docker stop ${CONTAINER_NAME} || true'
+                    sh 'docker rm ${CONTAINER_NAME} || true'
+                    sh 'docker image prune -f'
+                }
             }
+        }
+    }
+
+    post {
+        always {
+            script {
+                // Final cleanup
+                sh 'docker stop ${CONTAINER_NAME} || true'
+                sh 'docker rm ${CONTAINER_NAME} || true'
+            }
+            cleanWs()  // Clean workspace
         }
     }
 }
