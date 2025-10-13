@@ -1,5 +1,4 @@
 from datetime import datetime, timedelta
-from dotenv import load_dotenv
 from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -10,23 +9,21 @@ import requests
 import os
 import random
 import time
-import uuid
 import json
 import secrets
 import threading
 
-load_dotenv()
-
 app = Flask(__name__)
 app.secret_key = "2c7bb737141b0934dd3c844a6084994e07f7225e6b0047dbe245eaaaf97211c6"
 
-# Database configuration
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///Cloud.db'
+# Database configuration - Use PostgreSQL for production
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///Cloud.db').replace('postgres://', 'postgresql://')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.permanent_session_lifetime = timedelta(days=7)
 
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
+
 
 # OAuth configuration
 oauth = OAuth(app)
@@ -253,18 +250,18 @@ def signup():
 
 @app.route('/login/github')
 def login_github():
-    redirect_uri = url_for("github_authorize", _external=True)
-    return github.authorize_redirect(redirect_uri)
+    redirect_uri = "https://aeloria.onrender.com/github/authorize"
+    return oauth.github.authorize_redirect(redirect_uri)
 
 @app.route('/signup/github')
 def signup_github():
-    redirect_uri = url_for("github_authorize", _external=True)
-    return github.authorize_redirect(redirect_uri)
+    redirect_uri = "https://aeloria.onrender.com/github/authorize"
+    return oauth.github.authorize_redirect(redirect_uri)
 
 @app.route('/github/authorize')
 def github_authorize():
     try:
-        token = github.authorize_access_token()
+        token = oauth.github.authorize_access_token()
         if not token or 'access_token' not in token:
             flash("GitHub authorization failed", "danger")
             return redirect(url_for('login'))
@@ -272,11 +269,11 @@ def github_authorize():
         access_token = token['access_token']
 
         # Fetch user info
-        resp = github.get('user', token=token)
+        resp = oauth.github.get('user', token=token)
         user_info = resp.json()
 
         # Fetch user emails
-        email_resp = github.get('user/emails', token=token)
+        email_resp = oauth.github.get('user/emails', token=token)
         emails = email_resp.json()
         primary_email = None
         for email in emails:
@@ -335,7 +332,6 @@ def github_authorize():
 # -------------------------
 # Settings API Routes
 # -------------------------
-
 
 @app.route('/api/settings/notifications', methods=['GET', 'PUT'])
 def api_settings_notifications():
@@ -734,6 +730,10 @@ def api_create_deployment():
     
     deployment_id = f"dep_{datetime.utcnow().strftime('%Y%m%d%H%M%S')}_{secrets.token_hex(4)}"
     
+    # Generate deployment URL
+    repo_name = repository.split('/')[-1].lower().replace('_', '-')
+    deployment_url = f"https://{repo_name}.aeloria.app"
+    
     new_deployment = Deployment(
         user_id=user.id,
         repository=repository,
@@ -742,7 +742,7 @@ def api_create_deployment():
         status='pending',
         progress=0,
         deployment_id=deployment_id,
-        deployment_url=f"https://{repository.split('/')[-1].lower().replace('_', '-')}.aeloria.app"
+        deployment_url=deployment_url
     )
     
     db.session.add(new_deployment)
@@ -762,7 +762,7 @@ def api_create_deployment():
         "branch": branch,
         "environment": environment,
         "status": "pending",
-        "deployment_url": new_deployment.deployment_url,
+        "deployment_url": deployment_url,
         "repo_name": repository.split('/')[-1]
     })
 
@@ -807,9 +807,6 @@ def settings():
                          username=session.get("username"),
                          email=session.get("email"),
                          github_username=session.get("github_username"))
-
-
-# ... (previous imports and models)
 
 @app.route('/api/settings/profile', methods=['GET', 'PUT'])
 def api_settings_profile():
@@ -861,7 +858,6 @@ def api_settings_profile():
             db.session.rollback()
             return jsonify({"success": False, "message": str(e)}), 400
 
-
 @app.route("/logout")
 def logout():
     session.clear()
@@ -886,14 +882,28 @@ def status():
 def error():
     return render_template('404.html')
 
+
+@app.route('/docs')
+def docs():
+    return render_template('docs.html')
+
 @app.route('/features')
-def about():
+def features():
     return render_template('features.html')
 
 @app.route('/contact')
 def contact():
     return render_template('contact.html')
 
-    
+# Health check endpoint
+@app.route('/health')
+def health():
+    return jsonify({"status": "healthy", "timestamp": datetime.utcnow().isoformat()})
+
+# Initialize database
+with app.app_context():
+    db.create_all()
+
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port, debug=False)

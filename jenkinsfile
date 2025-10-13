@@ -1,67 +1,63 @@
-pipeline {
+
+    pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = 'aeloria-backend'
-        CONTAINER_NAME = 'aeloria-container'
+        APP_NAME = "aeloria"
+        IMAGE_NAME = "aeloria-backend"
+        PORT = "5000"
     }
 
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', 
-                credentialsId: 'github-token',
-                url: 'https://github.com/Gouthamvaishnav11/Aeloria.git'
+                git branch: 'main',
+                    url: 'https://github.com/Gouthamvaishnav11/Aeloria.git'
+            }
+        }
+
+        stage('Install Backend Dependencies') {
+            steps {
+                sh '''
+                   pip3 install --upgrade pip
+                   pip3 install -r requirements.txt
+                '''
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                script {
-                    sh 'docker build -t ${IMAGE_NAME}:${BUILD_NUMBER} .'
-                    sh 'docker tag ${IMAGE_NAME}:${BUILD_NUMBER} ${IMAGE_NAME}:latest'
-                }
+                sh "docker build -t ${IMAGE_NAME} ."
+                sh "docker tag ${IMAGE_NAME}:latest ${IMAGE_NAME}:latest"
             }
         }
 
-        stage('Run Container') {
+        stage('Run Docker Container') {
             steps {
-                script {
-                    sh 'docker stop ${CONTAINER_NAME} || true'
-                    sh 'docker rm ${CONTAINER_NAME} || true'
-                    sh 'docker run -d -p 5000:5000 --name ${CONTAINER_NAME} ${IMAGE_NAME}:latest'
-                }
+               sh """
+                   docker stop ${APP_NAME}-container || true
+                   docker rm ${APP_NAME}-container || true
+                   docker run -d -p ${PORT}:${PORT} --name ${APP_NAME}-container ${IMAGE_NAME}:latest
+               """
             }
         }
 
         stage('Test API') {
             steps {
-                script {
-                    sleep 10  // Wait for container to start
-                    sh 'curl -f http://localhost:5000 || echo "Flask API running"'
-                }
-            }
-        }
-
-        stage('Clean Up') {
-            steps {
-                script {
-                    sh 'docker stop ${CONTAINER_NAME} || true'
-                    sh 'docker rm ${CONTAINER_NAME} || true'
-                    sh 'docker image prune -f'
-                }
+                sh """
+                   sleep 5
+                   curl -f http://localhost:${PORT} || echo 'API not responding'
+                """
             }
         }
     }
 
     post {
-        always {
-            script {
-                // Final cleanup
-                sh 'docker stop ${CONTAINER_NAME} || true'
-                sh 'docker rm ${CONTAINER_NAME} || true'
-            }
-            cleanWs()  // Clean workspace
+        success {
+            echo "✅ Deployment successful! Your Aeloria app is running on port ${PORT}."
+        }
+        failure {
+            echo "❌ Deployment failed. Check the logs above for errors."
         }
     }
 }
