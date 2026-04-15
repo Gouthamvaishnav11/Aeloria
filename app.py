@@ -37,6 +37,7 @@ github = oauth.register(
     authorize_url='https://github.com/login/oauth/authorize',
     api_base_url='https://api.github.com/',
     client_kwargs={'scope': 'user:email repo'},
+    
 )
 
 # --------------------- MODELS ---------------------
@@ -49,6 +50,7 @@ class User(db.Model):
     github_id = db.Column(db.String(100), unique=True, nullable=True)
     github_access_token = db.Column(db.String(500), nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
     
     # Relationships
     settings = db.relationship('UserSettings', backref='user', uselist=False, lazy=True)
@@ -100,6 +102,7 @@ class DeploymentLog(db.Model):
 # -------------------------
 # Helper Functions
 # -------------------------
+    # the router to anlaysis 
 
 def generate_api_key():
     return f"ael_sk_{secrets.token_urlsafe(32)}"
